@@ -34,6 +34,9 @@ end
 
 local widget = function (args)
     local path = '/sys/class/backlight/'..args.backlight_device
+    if not gears.filesystem.dir_readable(path) then
+        return nil
+    end
     local dev = gears.object {
         class = device_class,
         enable_auto_signals = true,
