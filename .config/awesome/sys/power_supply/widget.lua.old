@@ -1,0 +1,297 @@
+local string = string
+local lgi = require('lgi')
+local gears = require('gears')
+--local beautiful = require('beautiful')
+--local wibox = require('wibox')
+--local awful = require('awful')
+local naughty = require('naughty')
+
+local Gio = lgi.Gio
+local File = Gio.File
+
+-- file contents seems to come with extra white space that we dont want so we need a way to trim it
+string.trim = function (s)
+    return (s:gsub("^%s*(.-)%s*$", "%1"))
+end
+
+-- device class prototype
+
+local device_class = {
+    _monitors = {},
+    _files = {}
+}
+
+device_class.attach = function (self, dir)
+    local enum = dir:enumerate_children('', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS)
+    local info = enum:next_file()
+    while info do
+        if info:get_file_type() == 'REGULAR' then
+            local name = info:get_name()
+            -- store the file in the object
+            self._files[name] = enum:get_child(info)
+            -- store the monitor in the object
+            self._monitors[name] = self._files[name]:monitor(Gio.FileMonitorFlags.NONE)
+            -- get the current contents of the file
+            self[name] = self._files[name]:load_contents():trim()
+            -- update the property when the file contents changes
+            self._monitors[name].on_changed = function (file, other_file, event)
+                self[name] = file:load_contents():trim()
+            end
+        end
+    end
+end
+
+device_class.get_online = function (self)
+    if self.type == 'Mains' then
+        return self.online == 1 and true or false
+    end
+    return nil
+end
+
+--------------------------------------------------------------------------------
+
+-- power_supply class prototype
+
+local power_supply_class = {
+    Battery = {},
+    Mains = {}
+}
+
+
+power_supply_class.get_capacity = function (self)
+    local total_cap = 0
+    local total_full_cap = 0
+    for _,dev in pairs(self.Battery) do
+        total_full_cap = total_full_cap + dev.energy_full
+        total_cap = total_cap + dev.energy_now
+    end
+    return ((total_cap/total_full_cap)*100)
+end
+
+power_supply_class.get_energy_full = function (self)
+    local total_energy_full = 0
+    for _,dev in pairs(self.Battery) do
+        total_energy_full = total_energy_full + dev.energy_full
+    end
+    return total_energy_full
+end
+
+power_supply_class.get_energy_now = function (self)
+    local total_energy_now = 0
+    for _,dev in pairs(self.Battery) do
+        total_energy_now = total_energy_now + dev.energy_now
+    end
+    return total_energy_now
+end
+
+power_supply_class.get_power_now = function (self)
+    local total_power_now = 0
+    for _,dev in pairs(self.Battery) do
+        total_power_now = total_power_now + dev.power_now
+    end
+    return total_power_now
+end
+
+--------------------------------------------------------------------------------
+
+-- now we build the power supply data structure and tie all the devices together
+
+local power_supply = gears.object {
+    class = power_supply_class,
+    enable_auto_signals = true,
+    enable_properties = true
+}
+
+local power_supply_dir = File.new_for_path('/sys/class/power_supply')
+local power_supply_enum = power_supply_dir:enumerate_children('', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS)
+
+local info = power_supply_enum:next_file()
+while info do
+    if info:get_file_type() == 'REGULAR' then
+        local device = gears.object {
+            class = device_class,
+            enable_auto_signals = true,
+            enable_properties = true
+        }
+        local name = info:get_name()
+        local file = power_supply_enum:get_child(info)
+        device:attach(file)
+        power_supply[device.type][name] = device
+        device:connect_signal('property::energy_now', function (obj, val)
+            power_supply:emit_signal('property::energy_now', power_supply.energy_now)
+            power_supply:emit_signal('property::capacity', power_supply.capacity)
+        end)
+        device:connect_signal('property::online', function (obj, val)
+            naughty.notify {
+                text = 'something happended'
+            }
+            power_supply:emit_signal('property::online', val)
+        end)
+    end
+    info = power_supply_enum:next_file()
+end
+
+power_supply:connect_signal('property::online', function (obj, val)
+    naughty.notify {
+        title = 'sys/power_supply',
+        text = val and 'On Charge' or 'On Battery'
+    }
+end)
+
+power_supply:connect_signal('property::capacity', function (obj, val)
+    naughty.notify {
+        title = 'sys/power_supply',
+        text = val..'%',
+        timeout = 0
+    }
+end)
+
+--------------------------------------------------------------------------------
+--[[
+-- dir is the directory of a given power supply
+local make_device = function (dir)
+    local dev = gears.object {
+        enable_properties = true,
+        enable_auto_signals = true
+    }
+    dev.monitor = {}
+    local enum = dir:enumerate_children('', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS)
+    local info = enum:next_file()
+    while info do
+        if info:get_file_type() == 'REGULAR' then
+            local name = info:get_name()
+            local file = enum:get_child(info)
+            dev[name] = file:load_contents()
+            dev.monitor[name] = file:monitor(Gio.FileMonitorFlags.NONE)
+            dev.monitor[name].on_changed = function (file, other_file, event)
+                dev[name] = file:load_contents()
+            end
+        end
+        info = enum:next_file()
+    end
+    return dev
+end
+
+class = {
+    Battery = {},
+    Mains = {}
+}
+
+
+class.get_energy_full = function (self)
+    local total = 0
+    for _, bat in pairs(self.Battery) do
+        if bat.present then
+            total = total + bat.energy_full
+        end
+    end
+    return total
+end
+
+class.get_energy_now = function (self)
+    local total = 0
+    for _, bat in pairs(self.Battery) do
+        if bat.present then
+            total = total + bat.energy_now
+        end
+    end
+    return total
+end
+
+class.get_capacity = function (self)
+    return (self.energy_now / self.energy_full) * 100
+end
+
+class.get_capacity_level = function (self)
+    local group = {}
+    for _, bat in pairs(self.Battery) do
+        if bat.present then
+            if not group[bat.capacity_level] then
+                group[bat.capacity_level] = 1
+            else
+                group[bat.capacity_level] = group[bat.capacity_level] + 1
+            end
+        end
+    end
+    local king = 0
+    local level
+    for lvl,num in pairs(group) do
+        if num > king then
+            king = num
+            level = lvl
+        end
+    end
+    return level
+end
+
+-- if one of our possibly many batteries is discharging then our total state is discharging
+-- for simplicities sake and to be on the safer side
+class.get_status = function (self)
+    local group = {}
+    for _, bat in pairs(self.Battery) do
+        if bat.present then
+            if not group[bat.status] then
+                group[bat.status] = true
+            end
+        end
+    end
+    if group['Discharging'] then
+        return 'Discharging'
+    elseif group['Charging'] then
+        return 'Charging'
+    elseif group['Unknown'] then
+        return 'Unknown'
+    end
+end
+
+class.online = function (self)
+    for _, line_in in pairs(self.Mains) do
+        if line_in.online == 1 then
+            return true
+        end
+    end
+    return false
+end
+
+local power_supply = gears.object {
+    class = class,
+    enable_properties = true,
+    enable_auto_signals = true
+}
+
+
+local enum = File.new_for_path('/sys/class/power_supply'):enumerate_children('', Gio.FileQueryInfoFlags.NOFOLLOW_SYMLINKS)
+local info = enum:next_file()
+while info do
+    local file = enum:get_child(info)
+    local name = info:get_name()
+    power_supply[name] = make_device(file)
+    -- add the device to a table of devices for use when enuerating information
+    if power_supply[power_supply[name].type] then
+        power_supply[power_supply[name].type][name] = power_supply[name]
+    end
+    -- now this may seem over kill to connect on signals that will never exist
+    -- but its much better than a load of if/else statements
+    local props = {
+        'capacity_level',
+        'energy_full',
+        'energy_now',
+        'online',
+        'status'
+    }
+    for _, prop in pairs(props) do
+        power_supply[name]:connect_signal('property::'..prop, function (dev, val)
+            power_supply:emit_signal('property::'..prop, power_supply[prop])
+        end)
+    end
+    info = enum:next_file()
+end
+
+power_supply:connect_signal('property::status', function (ps, val)
+    naughty.notify {
+        text = 'something happend'
+    }
+end)
+--]]
+return power_supply
+
