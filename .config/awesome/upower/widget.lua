@@ -10,6 +10,9 @@ local Device = UPowerGlib.Device
 local widget = function (args)
     local Client = UPowerGlib.Client.new()
     local display_device = Client:get_display_device()
+    if display_device.kind ~= UPowerGlib.DeviceKind.Battery then
+        return nil
+    end
     local device = Client:get_devices()
     local wdg = wibox.widget(args.widget_template)
     for _, w in ipairs(wdg:get_children_by_id('display_device_percentage_textbox_role')) do
