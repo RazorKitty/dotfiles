@@ -674,7 +674,19 @@ awful.screen.connect_for_each_screen(function(s)
         },
         {
             layout = wibox.layout.fixed.horizontal,
-            --wibox.widget.systray(),
+            wibox.widget {
+                id = '_background',
+                layout = wibox.container.background,
+                bg = beautiful.bg_normal,
+                fg = beautiful.fg_normal,
+                {
+                    id = '_margin',
+                    layout = wibox.container.margin,
+                    left = 16,
+                    right = 16,
+                    wibox.widget.systray(),
+                }
+            },
             --memory_widget,
             --load_average_widget,
             --temperature_widget,
