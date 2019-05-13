@@ -37,14 +37,14 @@ if [ -z $(pgrep -x "pulseaudio") ]; then
 fi
 
 if [ -z $(pgrep -x "mpd") ]; then
-    mpd > /dev/null &
+    mpd  &
 fi
 
 if [ -z $(pgrep -x "xbanish") ]; then
-    xbanish > /dev/null &
+    xbanish  &
 fi
 
-if [ -z $(pgrep -x "ckb-next") ] && [ grep -q '[^[:space:]]]' < /dev/input/ckb0/connected ]; then
+if [ -z $(pgrep -x "ckb-next") ] && [ cat /dev/input/ckb0/connected |  grep -q '[^[:space:]]]' ]; then
     ckb-next --background &
 fi
 
