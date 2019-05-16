@@ -41,9 +41,15 @@ xq () {
     xbps-query -RS "$@" || xbps-query -Rs "$@"
 }
 
+urg () {
+    echo -e "\a"
+}
+
+
 alias night_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 50  && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 1"
 alias day_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 0 && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 50"
 
-alias mc=". /usr/libexec/mc/mc-wrapper.sh"
 alias sudo="sudo -E"
 alias alert="beep -l 100 -d 100 -r 2"
+alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+
