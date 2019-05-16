@@ -10,7 +10,7 @@ local Device = UPowerGlib.Device
 local widget = function (args)
     local Client = UPowerGlib.Client.new()
     local display_device = Client:get_display_device()
-    if display_device.kind ~= UPowerGlib.DeviceKind.Battery then
+    if display_device.kind ~= UPowerGlib.DeviceKind.BATTERY then
         return nil
     end
     local device = Client:get_devices()
