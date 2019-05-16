@@ -9,6 +9,9 @@ local pulseaudio = {}
 local get_sink_data = function (stdout)
     
 end
+
+awful.spawn('killall pactl')
+
 local mon = function ()
     awful.spawn.with_line_callback('pactl subscribe ', {
         stdout = function (line)
