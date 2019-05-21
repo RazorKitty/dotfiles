@@ -15,7 +15,7 @@ set foldmethod=syntax
 set nofoldenable
 set foldlevel=2
 "set t_Co=16
-set termguicolors
+"set termguicolors
 "set colorcolumn=160
 au TermOpen * setlocal nonumber norelativenumber
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
@@ -132,4 +132,4 @@ let g:deoplete#sources#clang#libclang_path = '/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/lib/clang/7.0.1/include'
 
 "color settings
-colorscheme void
+"colorscheme void
