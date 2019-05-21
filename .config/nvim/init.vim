@@ -20,6 +20,7 @@ set termguicolors
 au TermOpen * setlocal nonumber norelativenumber
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
 
+
 "netrw settings
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
