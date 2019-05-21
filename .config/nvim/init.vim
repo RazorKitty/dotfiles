@@ -129,7 +129,7 @@ let g:UltiSnipsListTrigger="<c-e>"
 
 let g:deoplete#sources#clang#libclang_path = '/lib/libclang.so'
 
-let g:deoplete#sources#clang#clang_header = '/lib/clang/7.0.1/include'
+let g:deoplete#sources#clang#clang_header = '/lib/clang/8.0.0/include'
 
 "color settings
 "colorscheme void
