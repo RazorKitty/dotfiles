@@ -20,7 +20,7 @@ zsh-update () {
 clear () {
     /usr/bin/clear
     if [ -x /usr/bin/neofetch ]; then
-        neofetch
+        neofetch --gtk2 off --gtk3 off
     fi
     if [ -x /usr/bin/task ]; then
         task next
