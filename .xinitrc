@@ -52,8 +52,4 @@ if [ -z $(pgrep -x "kdeconnectd") ]; then
     /usr/lib/libexec/kdeconnectd &
 fi
 
-if [ -z $(pgrep -x "xcompmgr") ]; then
-    xcompmgr -f &
-fi
-
 exec awesome
