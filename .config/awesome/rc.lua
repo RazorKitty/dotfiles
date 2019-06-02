@@ -28,8 +28,8 @@ local udisks = require('udisks')
 local networkmanager = require('networkmanager')
 local mpd = require('mpd')
 local sys = require('sys')
-local pulseaudio = require('pulseaudio')
-pulseaudio.mon()
+--local pulseaudio = require('pulseaudio')
+--pulseaudio.mon()
 --local vi = require('vi')
 
 local terminal = 'st'
@@ -721,12 +721,12 @@ globalkeys = gears.table.join(
     {description = 'Toggle Mute', group='Media'}),    
 
     awful.key({}, 'XF86AudioLowerVolume', function ()
-        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ -10%')
+        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ -1%')
     end,
     {description = 'Lower Volume', group='Media'}),    
 
     awful.key({}, 'XF86AudioRaiseVolume', function ()
-        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ +10%')
+        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ +1%')
     end,
     {description = 'Raise Volume', group='Media'}),
 

@@ -38,7 +38,7 @@ xi () {
 }
 
 xq () {
-    xbps-query -RS "$@" || xbps-query -Rs "$@"
+    xbps-query --regex -RS "$@" || xbps-query --regex -Rs "$@"
 }
 
 urg () {
