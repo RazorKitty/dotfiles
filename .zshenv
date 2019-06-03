@@ -41,10 +41,9 @@ xq () {
     xbps-query --regex -RS "$@" || xbps-query --regex -Rs "$@"
 }
 
-urg () {
-    echo -e "\a"
+lscp () {
+    scp "$@"; ehco -e "\a"
 }
-
 
 alias night_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 50  && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 1"
 alias day_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 0 && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 50"
