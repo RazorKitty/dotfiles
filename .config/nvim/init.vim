@@ -5,17 +5,18 @@ set expandtab
 set number
 set relativenumber
 set showcmd
-set cursorline
+"set cursorline
+"set cursorcolumn
 set wildmenu
 set showmatch
 set incsearch
 set hlsearch
-set scrolloff=32
+set scrolloff=10
 set foldmethod=syntax
 set nofoldenable
 set foldlevel=2
 "set t_Co=16
-"set termguicolors
+set termguicolors
 "set colorcolumn=160
 au TermOpen * setlocal nonumber norelativenumber
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
@@ -37,21 +38,6 @@ augroup netrw_close
     autocmd!
     autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
 augroup END
-
-function! GetLongestLine()
-    let maxlength = 0
-    let linenumber = 1
-    while linenumber <= line("$")
-        exe ":".linenumber
-        let linelength = virtcol("$")
-        if maxlength < linelength
-            let maxlength = linelength
-        endif
-        let linenumber = linenumber+1
-    endwhile
-    return maxlength
-endfunction
-
 
 
 call plug#begin()
@@ -78,7 +64,7 @@ let g:neoinclude#paths.cpp = '/usr/include'
 
 "neomake settings
 
-call neomake#configure#automake('w')
+call neomake#configure#automake('nrwi')
 let g:neomake_open_list = 2
 
 "delimitMate settings
@@ -132,4 +118,4 @@ let g:deoplete#sources#clang#libclang_path = '/lib/libclang.so'
 let g:deoplete#sources#clang#clang_header = '/lib/clang/8.0.0/include'
 
 "color settings
-"colorscheme void
+colorscheme void
