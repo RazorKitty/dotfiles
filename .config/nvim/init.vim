@@ -11,7 +11,7 @@ set wildmenu
 set showmatch
 set incsearch
 set hlsearch
-set scrolloff=10
+set scrolloff=32
 set foldmethod=syntax
 set nofoldenable
 set foldlevel=2
@@ -21,22 +21,28 @@ set termguicolors
 au TermOpen * setlocal nonumber norelativenumber
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
 
-
 "netrw settings
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
-let g:netrw_winsize = 25
+"let g:netrw_winsize = 25
 let g:netrw_preview = 1
 augroup netrw_open
     autocmd!
     autocmd VimEnter * :Vexplore
+    autocmd VimEnter * :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
 augroup END
+
+augroup netrw_move
+    autocmd!
+    autocmd WinLeave * if getbufvar(winbufnr(winnr()), "&filetype") == "netrw"| :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])")) |endif
+    autocmd WinEnter * if getbufvar(winbufnr(winnr()), "&filetype") == "netrw"| :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])")) |endif
+augroup end
 
 augroup netrw_close
     autocmd!
-    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
+    autocmd winenter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
 augroup END
 
 

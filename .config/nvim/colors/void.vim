@@ -63,7 +63,7 @@ hi StatusLineNC    guifg=#0f192e    guibg=#48737a   ctermfg=none    ctermbg=none
 hi WildMenu        guifg=#48737a    guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
 hi Question        guifg=#797724    guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
 hi Title           guifg=#b4c1c2    guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
-hi ModeMsg         guifg=#b4c1c2    guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
+hi ModeMsg         guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
 hi MoreMsg         guifg=#48737a    guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
 
 " --------------
