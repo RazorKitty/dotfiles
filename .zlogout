@@ -1,4 +1,4 @@
 if [ -r ~/.zprezto/runcoms/zlogout ]; then
-    source ./zprezto/runcoms/zlogout
+    source ~/.zprezto/runcoms/zlogout
 fi
 
