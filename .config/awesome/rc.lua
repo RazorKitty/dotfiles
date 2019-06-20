@@ -183,11 +183,29 @@ awful.layout.layouts = {
 }
 
 local awesome_menu = {
-    {'Hotkeys', function () hotkeys_popup.show_help(nil, awful.screen.focused()) end},
-    {'Manual', terminal..' -e man awesome'},
-    {'Edit Config', editor_cmd.. ' ' ..awesome.conffile},
-    {'Restart', awesome.restart},
-    {'Quit', function () awesome.quit() end}
+    {
+        'Hotkeys',
+        function()
+            hotkeys_popup.show_help(nil, awful.screen.focused())
+        end
+    },
+    {
+        'Manual',
+        terminal..' -e man awesome'
+    },
+    {
+        'Edit Config',
+        editor_cmd.. ' ' ..awesome.conffile
+    },
+    {
+        'Restart',
+        awesome.restart
+    },
+    {
+        'Quit',
+        function() awesome.quit()
+        end
+    }
 }
 
 local web_menu = {
@@ -264,46 +282,49 @@ local text_clock_widget = wibox.widget {
     }
 }
 
-local upower_widget = upower.widget {
-    widget_template = {
-        id = '_background',
-        layout = wibox.container.background,
-        fg = beautiful.fg_normal,
-        bg = beautiful.bg_normal,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 16,
-            right = 16,
+local upower_widget = upower.display_device_widget {
+    templates = {
+        battery = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
             {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 16,
+                right = 16,
                 {
-                    id = '_name',
-                    widget = wibox.widget.textbox,
-                    text = 'Battery:',
-                },
-                {
-                    id = '_background',
-                    layout = wibox.container.background,
-                    bg = beautiful.bg_focus,
-                    fg = beautiful.fg_focus,
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
                     {
-                        id = '_layout',
-                        layout = wibox.layout.fixed.horizontal,
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'percentage_container',
+                        layout = wibox.container.constraint,
+                        width = 64,
                         {
-                            id = 'display_device_percentage_textbox_role',
-                            widget = wibox.widget.textbox
-                        },
-                        {
-                            id = '_perc_symbol',
-                            widget = wibox.widget.textbox,
-                            text = '% '
-                        },
-                        {
-                            id = 'display_device_state_textbox_role',
-                            widget = wibox.widget.textbox
+                            id = 'percentage_role',
+                            widget = wibox.widget.progressbar,
+                            max_value = 100,
+                            color = beautiful.green,
+                            update_upower_widget = function (self, dev)
+                                self:set_value(dev.percentage)
+                            end
                         }
+                    },
+                    {
+                        id = 'state_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.state_to_string(dev.state))
+                        end
                     }
                 }
             }
