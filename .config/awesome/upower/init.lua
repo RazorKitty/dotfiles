@@ -72,9 +72,9 @@ upower.devices_widget = function (args)
     local container_widget = wibox.widget(args.container_template)
     for _,wdg in ipairs(container_widget:get_children_by_id('devices_container_role')) do
         wdg.Client = UPowerGlib.Client.new()
-        wdg.devices = container_widget.Client:get_devices()
+        wdg.devices = wdg.Client:get_devices()
         
-        for _,dev in ipairs(container_widget.devices) do
+        for _,dev in ipairs(wdg.devices) do
             if args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)] then
                 wdg:upower_device_added( 
                     make_device_widget {
