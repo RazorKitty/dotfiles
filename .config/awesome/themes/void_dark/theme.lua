@@ -106,16 +106,16 @@ theme.calendar_start_sunday = false
 theme.calendar_long_weekdays = false
 
 -- checkbox
--- theme.checkbox_border_width = nil
--- theme.checkbox_bg = nil
--- theme.checkbox_border_color = nil
--- theme.checkbox_check_border_color = nil
--- theme.checkbox_check_border_width = nil
--- theme.checkbox_check_color = nil
--- theme.checkbox_shape = nil
--- theme.checkbox_check_shape = nil
--- theme.checkbox_paddings = nil
--- theme.checkbox_color = nil
+theme.checkbox_border_width = 1
+theme.checkbox_bg = theme.bg_normal
+theme.checkbox_border_color = theme.fg_normal
+theme.checkbox_check_border_color = theme.fg_normal
+theme.checkbox_check_border_width = 1
+theme.checkbox_check_color = theme.fg_normal
+theme.checkbox_shape = gears.shape.square
+theme.checkbox_check_shape = gears.shape.square
+theme.checkbox_paddings = 0
+theme.checkbox_color = theme.fg_normal
 
 -- graph
 -- theme.graph_bg = nil

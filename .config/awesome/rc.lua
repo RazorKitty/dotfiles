@@ -319,6 +319,83 @@ local upower_widget = upower.display_device_widget {
                             end
                         }
                     },
+                    upower.devices_widget {
+                        device_templates = {
+                            ['line-power'] = {
+                                id = '_background',
+                                layout = wibox.container.background,
+                                fg = beautiful.fg_normal,
+                                bg = beautiful.bg_normal,
+                                {
+                                    id = 'online_container',
+                                    layout = wibox.container.margin,
+                                    top = 4,
+                                    bottom = 4,
+                                    {
+                                        id = 'online_role',
+                                        widget = wibox.widget.checkbox,
+                                        update_upower_widget = function (self, dev)
+                                            self.checked = dev.online
+                                        end
+
+                                    }
+                                }
+                            }
+                        },
+                        container_template = {
+                            id = 'devices_container_role',
+                            layout = wibox.layout.fixed.horizontal,
+                            upower_device_added = function (self, wdg)
+                                self:add(wdg)
+                            end,
+                            upower_device_removed = function (self, dev_path)
+                                for _,wdg in ipairs(self:get_children_by_id(dev_path)) do
+                                    self:remove_widgets(wdg)                                    
+                                end
+                            end
+                        }
+                    }
+                }
+            }
+        }
+    }
+} or upower.devices_widget {
+    device_templates = {
+        battery = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            {
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                {
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
+                    {
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'percentage_container',
+                        layout = wibox.container.constraint,
+                        width = 64,
+                        {
+                            id = 'percentage_role',
+                            widget = wibox.widget.progressbar,
+                            max_value = 100,
+                            color = beautiful.green,
+                            update_upower_widget = function (self, dev)
+                                self:set_value(dev.percentage)
+                            end
+                        }
+                    },
                     {
                         id = 'state_role',
                         widget = wibox.widget.textbox,
@@ -328,9 +405,120 @@ local upower_widget = upower.display_device_widget {
                     }
                 }
             }
+        },
+        ['line-power'] = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            {
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                {
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
+                    {
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'online_container',
+                        layout = wibox.container.margin,
+                        top = 4,
+                        bottom = 4,
+                        {
+                            id = 'online_role',
+                            widget = wibox.widget.checkbox,
+                            update_upower_widget = function (self, dev)
+                                self.checked = dev.online
+                            end
+
+                        }
+                    }
+                }
+            }
+        },
+        mouse = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            {
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                {
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
+                    {
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'percentage_container',
+                        layout = wibox.container.constraint,
+                        width = 64,
+                        {
+                            id = 'percentage_role',
+                            widget = wibox.widget.progressbar,
+                            max_value = 100,
+                            color = beautiful.green,
+                            update_upower_widget = function (self, dev)
+                                self:set_value(dev.percentage)
+                            end
+                        }
+                    },
+                    {
+                        id = 'state_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self:set_text(dev.state_to_string(dev.state))
+                        end
+                    }
+                
+                }
+            }
+        }
+    },
+    container_template = {
+        id = '_backround',
+        layout = wibox.container.background,
+        fg = beautiful.fg_normal,
+        bg = beautiful.bg_normal,
+        {
+            id = '_margin',
+            layout = wibox.container.margin,
+            left = 4,
+            right = 4,
+            {
+                id = 'devices_container_role',
+                layout = wibox.layout.fixed.vertical,
+                spacing = 4,
+                upower_device_added = function (self, wdg)
+                    self:add(wdg)
+                end,
+                upower_device_removed = function (self, dev_path)
+                    for _,wdg in ipairs(self:get_children_by_id(dev_path)) do
+                        self:remove_widgets(wdg)                        
+                    end
+                end
+            }
         }
     }
+
 }
+
 
 local backlight_widget = sys.backlight.widget {
     backlight_device = 'intel_backlight',
@@ -638,100 +826,99 @@ awful.screen.connect_for_each_screen(function(s)
     s.prompt_widget = awful.widget.prompt()
     s.panel = awful.wibar {
         position = 'top',
-        screen = s
-    }
-    s.panel:setup {
-        layout = wibox.layout.align.horizontal,
-        {
-            layout = wibox.layout.fixed.horizontal,
-            awful.widget.taglist {
-                screen = s,
-                filter = awful.widget.taglist.filter.noempty,
-                buttons = taglist_buttons,
-                layout = {
-                    layout = wibox.layout.fixed.horizontal
-                },
-                template_widget = {
-                    {
-                        id = 'background_role',
-                        widget = wibox.container.background,
+        screen = s,
+        widget = wibox.widget {
+            layout = wibox.layout.align.horizontal,
+            {
+                layout = wibox.layout.fixed.horizontal,
+                awful.widget.taglist {
+                    screen = s,
+                    filter = awful.widget.taglist.filter.noempty,
+                    buttons = taglist_buttons,
+                    layout = {
+                        layout = wibox.layout.fixed.horizontal
+                    },
+                    template_widget = {
                         {
-                            id = 'text_margin_role',
-                            widget = wibox.container.margin,
+                            id = 'background_role',
+                            widget = wibox.container.background,
                             {
-                                'text_role',
-                                widget = wibox.widget.textbox
+                                id = 'text_margin_role',
+                                widget = wibox.container.margin,
+                                {
+                                    'text_role',
+                                    widget = wibox.widget.textbox
+                                }
                             }
                         }
                     }
-                }
-            },
-            awful.widget.tasklist {
-                screen = s,
-                filter = awful.widget.tasklist.filter.currenttags,
-                buttons = tasklist_buttons,
-                layout = {
-                    layout = wibox.layout.fixed.horizontal
                 },
-                template_widget = {
-                    {
-                        id = 'background_role',
-                        widget = wibox.container.background,
+                awful.widget.tasklist {
+                    screen = s,
+                    filter = awful.widget.tasklist.filter.currenttags,
+                    buttons = tasklist_buttons,
+                    layout = {
+                        layout = wibox.layout.fixed.horizontal
+                    },
+                    template_widget = {
                         {
-                            id = 'taxt_margin_role',
-                            widget = wibox.container.margin,
+                            id = 'background_role',
+                            widget = wibox.container.background,
                             {
-                                id = 'text_role',
-                                widget = wibox.widget.textbox
+                                id = 'taxt_margin_role',
+                                widget = wibox.container.margin,
+                                {
+                                    id = 'text_role',
+                                    widget = wibox.widget.textbox
+                                }
                             }
                         }
                     }
-                }
+                },
+                s.prompt_widget
             },
-            s.prompt_widget
-        },
-        {
-            layout = wibox.layout.fixed.horizontal
-        },
-        {
-            layout = wibox.layout.fixed.horizontal,
-            wibox.widget {
-                id = '_background',
-                layout = wibox.container.background,
-                bg = beautiful.bg_normal,
-                fg = beautiful.fg_normal,
-                {
-                    id = '_margin',
-                    layout = wibox.container.margin,
-                    left = 16,
-                    right = 16,
-                    wibox.widget.systray(),
-                }
+            {
+                layout = wibox.layout.fixed.horizontal
             },
-            --memory_widget,
-            --load_average_widget,
-            --temperature_widget,
-            mpd_widget,
-            backlight_widget,
-            upower_widget,
-            text_clock_widget,
-            text_date_widget,
-            wibox.widget {
-                id = '_background',
-                layout = wibox.container.background,
-                bg = beautiful.bg_normal,
-                fg = beautiful.fg_normal,
-                {
-                    id = '_margin',
-                    layout = wibox.container.margin,
-                    left = 16,
-                    right = 0,
-                    awful.widget.layoutbox(s)
+            {
+                layout = wibox.layout.fixed.horizontal,
+                wibox.widget {
+                    id = '_background',
+                    layout = wibox.container.background,
+                    bg = beautiful.bg_normal,
+                    fg = beautiful.fg_normal,
+                    {
+                        id = '_margin',
+                        layout = wibox.container.margin,
+                        left = 16,
+                        right = 16,
+                        wibox.widget.systray(),
+                    }
+                },
+                --memory_widget,
+                --load_average_widget,
+                --temperature_widget,
+                s == screen.primary and mpd_widget,
+                s == screen.primary and backlight_widget,
+                s == screen.primary and upower_widget,
+                s == screen.primary and text_clock_widget,
+                s == screen.primary and text_date_widget,
+                wibox.widget {
+                    id = '_background',
+                    layout = wibox.container.background,
+                    bg = beautiful.bg_normal,
+                    fg = beautiful.fg_normal,
+                    {
+                        id = '_margin',
+                        layout = wibox.container.margin,
+                        left = 16,
+                        right = 0,
+                        awful.widget.layoutbox(s)
+                    }
                 }
             }
         }
     }
-
 
 end)
 ---------------------------------------------------------------- Key bindings --
