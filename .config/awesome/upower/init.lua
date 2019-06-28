@@ -73,38 +73,32 @@ upower.devices_widget = function (args)
     for _,wdg in ipairs(container_widget:get_children_by_id('devices_container_role')) do
         wdg.Client = UPowerGlib.Client.new()
         wdg.devices = wdg.Client:get_devices()
-        
+        wdg.device_templates = args.device_templates
         for _,dev in ipairs(wdg.devices) do
-            if args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)] then
+            if wdg.device_templates[dev.kind_to_string(dev.kind)] then
                 wdg:upower_device_added( 
                     make_device_widget {
-                        -- wrap the templatte for easy identifcation later
-                        template = {
-                            id = dev.native_path,
-                            layout = wibox.container.background,
-                            args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)],
-                        },
+                        template = wdg.device_templates[dev.kind_to_string(dev.kind)],
                         device = dev
-                    })
+                    },
+                    dev:get_object_path()
+                )
             end
         end
         
-        wdg.Client.on_notify.device_added = function (client, dev)
-            if args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)] then
+        wdg.Client.on_device_added = function (self, dev)
+            if wdg.device_templates[dev.kind_to_string(dev.kind)] then
                 wdg:upower_device_added(
                     make_device_widget { 
-                        template = {
-                            id = dev.native_path,
-                            layout = wibox.container.background,
-                            args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)],
-                        },
+                        template = wdg.device_templates[dev.kind_to_string(dev.kind)],
                         device = dev
-                    }
+                    },
+                    dev:get_object_path()
                 )
             end
         end
 
-        wdg.Client.on_notify.device_removed = function (client, dev_path)
+        wdg.Client.on_device_removed = function (self, dev_path)
             wdg:upower_device_removed(dev_path)
         end
     end

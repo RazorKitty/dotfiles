@@ -503,15 +503,15 @@ local upower_widget = upower.display_device_widget {
             right = 4,
             {
                 id = 'devices_container_role',
-                layout = wibox.layout.fixed.vertical,
+                layout = wibox.layout.fixed.horizontal,
                 spacing = 4,
-                upower_device_added = function (self, wdg)
+                upower_device_added = function (self, wdg, dev_path)
+                    self[dev_path] = wdg
                     self:add(wdg)
                 end,
                 upower_device_removed = function (self, dev_path)
-                    for _,wdg in ipairs(self:get_children_by_id(dev_path)) do
-                        self:remove_widgets(wdg)                        
-                    end
+                    self:remove_widgets(self[dev_path])
+                    self.dev_path = nil
                 end
             }
         }
