@@ -28,15 +28,11 @@ local udisks = require('udisks')
 local networkmanager = require('networkmanager')
 local mpd = require('mpd')
 local sys = require('sys')
---local pulseaudio = require('pulseaudio')
---pulseaudio.mon()
---local vi = require('vi')
 
 local terminal = 'st'
 local editor = 'nvim'
 local editor_cmd = terminal..' -e '..editor
 local modkey = 'Mod4'
---------------------------------------------------------------------------------
 
 -------------------------------------------------------------- Error handling --
 -- Check if awesome encountered an error during startup and fell back to
@@ -63,9 +59,9 @@ do
         in_error = false
     end)
 end
---------------------------------------------------------------------------------
 
--- handle theme
+----------------------------------------------------------------------- Theme --
+
 beautiful.init('~/.config/awesome/themes/void_dark/theme.lua')
 
 local function set_wallpaper(s)
@@ -156,11 +152,6 @@ local taglist_buttons = gears.table.join(
     end)
 )
 
------------------------------------------------------------------ keygrabbers --
-
-
---------------------------------------------------------------------------------
-
 ---------------------------------------------------------------------- Config --
 
 awful.layout.layouts = {
@@ -203,23 +194,45 @@ local awesome_menu = {
     },
     {
         'Quit',
-        function() awesome.quit()
+        function()
+            awesome.quit()
         end
     }
 }
 
 local web_menu = {
-    {'New Window', 'qutebrowser'},
-    {'Private', 'qutebrowser ":open -p duckduckgo.com"'}
+    {
+        'New Window',
+        'qutebrowser'
+    },
+    {
+        'Private',
+        'qutebrowser ":open -p duckduckgo.com"'
+    }
 }
 
 local main_menu = awful.menu {
     items = {
-        {'Awesome', awesome_menu, beautiful.awesome_icon},
-        {'Web', web_menu},
-        {'Editor', editor_cmd},
-        {'Steam', 'steam'},
-        {'Terminal', terminal}
+        {
+            'Awesome',
+            awesome_menu, beautiful.awesome_icon
+        },
+        {
+            'Web',
+            web_menu
+        },
+        {
+            'Editor',
+            editor_cmd
+        },
+        {
+            'Steam',
+            'steam'
+        },
+        {
+            'Terminal',
+            terminal
+        }
     }
 }
 
@@ -231,8 +244,8 @@ local text_date_widget = wibox.widget {
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 16,
-        right = 16,
+        left = 4,
+        right = 4,
         {
             id = '_layout',
             layout = wibox.layout.fixed.horizontal,
@@ -261,8 +274,8 @@ local text_clock_widget = wibox.widget {
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 16,
-        right = 16,
+        left = 4,
+        right = 4,
         {
             id = '_layout',
             layout = wibox.layout.fixed.horizontal,
@@ -292,8 +305,8 @@ local upower_widget = upower.display_device_widget {
             {
                 id = '_margin',
                 layout = wibox.container.margin,
-                left = 16,
-                right = 16,
+                left = 4,
+                right = 4,
                 {
                     id = '_layout',
                     layout = wibox.layout.fixed.horizontal,
@@ -530,8 +543,8 @@ local backlight_widget = sys.backlight.widget {
         {
             id = '_margin',
             layout = wibox.container.margin,
-            left = 16,
-            right = 16,
+            left = 4,
+            right = 4,
             {
                 id = '_layout',
                 layout = wibox.layout.fixed.horizontal,
@@ -564,255 +577,6 @@ local backlight_widget = sys.backlight.widget {
     }
 }
 
-local mpd_widget = mpd.widget {
-    currentsong_hook = function (currentsong)
-    end,
-    status_hook = function (status)
-       if status.state == 'stop' then
-           mpd_widget.visible = false
-       else
-           mpd_widget.visible = true
-       end
-    end,
-    cache = true,
-    host = nil,
-    port = nil,
-    password = nil,
-    widget_template = {
-        id = '_background',
-        layout = wibox.container.background,
-        bg = beautiful.bg_normal,
-        fg = beautiful.fg_normal,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 8,
-            right = 8,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                {
-                    id = '_title',
-                    widget = wibox.widget.textbox,
-                    text = 'MPD:'
-                },
-                {
-                    id = '_background',
-                    layout = wibox.container.background,
-                    bg = beautiful.bg_focus,
-                    fg = beautiful.fg_focus,
-                    {
-                        id = 'currentsong_title_role',
-                        widget = wibox.widget.textbox,
-
-                    },
-                }
-            }
-        }   
-    }
-}
-
-
-
---mpd_popup = awful.popup {
---    bg = beautiful.bg_normal,
---    fg = beautiful.fg_normal,
---    border_color = beautiful.border_normal,
---    border_width = beautiful.border_width,
---    ontop = true,
---    visible = false,
---    screen = awful.screen.primary,
---    type = 'normal',
---    offset = 8,
---    preferred_positions = 'bottom',
---    preferred_anchors = 'middle',
---    widget = mpd.widget {
---        currentsong_hook = function (currentsong)
---            mpd_popup.visible = true
---            local t = gears.timer {
---                timeout = 5,
---                autostart = true,
---                call_now = false,
---                callback = function ()
---                    mpd_popup.visible = false
---                end,
---                single_shot = true
---            }
---        end,
---        status_hook = function (status)
---        end,
---        host = nil,
---        port = nil,
---        password = nil,
---        cache = true,
---        widget_template = {
---            id = '_outer_margin',
---            layout = wibox.container.margin,
---            margins = 4,
---            {
---                id = '_background',
---                layout = wibox.container.background,
---                bg = beautiful.bg_normal,
---                fg = beautiful.fg_normal,
---                {
---                    id = '_innner_margin',
---                    layout = wibox.container.margin,
---                    margins = 4,
---                    {
---                        id = '_outer_layout',
---                        layout = wibox.layout.fixed.vertical,
---                        {
---                            id = '_song_info_layout',
---                            layout = wibox.layout.fixed.horizontal,
---                            spacing = 16,
---                            {
---                                id = '_constraint',
---                                layout = wibox.container.constraint,
---                                hieght = 96,
---                                width = 96,
---                                {
---                                    id = 'album_image_role',
---                                    widget = wibox.widget.imagebox,
---                                    image = beautiful.awesome_icon,
---                                    resize = true
---                                }
---                            },
---                            {
---                                id = '_song_info_inner_layout',
---                                layout = wibox.layout.fixed.vertical,
---                                spacing = 2,
---                                {
---                                    id = 'currentsong_title_role',
---                                    widget = wibox.widget.textbox,
---                                    align = 'center'
---                                },
---                                {
---                                    id = '_song_info_extra_layout',
---                                    layout = wibox.layout.fixed.horizontal,
---                                    spacing = 32,
---                                    spacing_widget = {
---                                        id = '_seperator',
---                                        widget = wibox.widget.separator,
---                                        orientation = 'horizontal',
---                                        span_ratio = 0.5,
---                                        thickness = 1
---                                    },
---                                    {
---                                        id = 'currentsong_artist_role',
---                                        widget = wibox.widget.textbox,
---                                    },
---                                    {
---                                        id = 'currentsong_album_role',
---                                        widget = wibox.widget.textbox,
---                                    }
---                                }
---                            }
---                        }
---                    }
---                }
---            }
---        }
---    }
---}
---mpd_popup:bind_to_widget(mpd_widget)
-
---local load_average_widget = wibox.widget {
---    id = '_backgroud',
---    layout = wibox.container.background,
---    bg = beautiful.bg_normal,
---    fg = beautiful.fg_normal,
---    {
---        id = '_margin',
---        layout = wibox.container.margin,
---        left = 16,
---        right = 16,
---        {
---            id = '_layout',
---            layout = wibox.layout.fixed.horizontal,
---            {
---                id = '_title',
---                widget = wibox.widget.textbox,
---                text = 'Load:'
---            },
---            {
---                id = '_background',
---                layout = wibox.container.background,
---                bg = beautiful.bg_focus,
---                fg = beautiful.fg_focus,
---                {
---                    widget = awful.widget.watch('bash -c "cat /proc/loadavg | awk \'//{print$1}\' " ', 1),
---                }
---            }
---        }
---    }
---}
---
---local memory_widget = wibox.widget {
---    id = '_backgroud',
---    layout = wibox.container.background,
---    bg = beautiful.bg_normal,
---    fg = beautiful.fg_normal,
---    {
---        id = '_margin',
---        layout = wibox.container.margin,
---        left = 16,
---        right = 16,
---        {
---            id = '_layout',
---            layout = wibox.layout.fixed.horizontal,
---            {
---                id = '_title',
---                widget = wibox.widget.textbox,
---                text = 'Ram:'
---            },
---            {
---                id = '_background',
---                layout = wibox.container.background,
---                bg = beautiful.bg_focus,
---                fg = beautiful.fg_focus,
---                {
---                    widget = awful.widget.watch('bash -c "free -h | awk \'/^Mem:/{print$3}\' " ', 2),
---                }
---            }
---        }
---    }
---}
---
---local temperature_widget = wibox.widget {
---    id = '_backgroud',
---    layout = wibox.container.background,
---    bg = beautiful.bg_normal,
---    fg = beautiful.fg_normal,
---    {
---        id = '_margin',
---        layout = wibox.container.margin,
---        left = 16,
---        right = 16,
---        {
---            id = '_layout',
---            layout = wibox.layout.fixed.horizontal,
---            {
---                id = '_title',
---                widget = wibox.widget.textbox,
---                text = 'Temp:'
---            },
---            {
---                id = '_background',
---                layout = wibox.container.background,
---                bg = beautiful.bg_focus,
---                fg = beautiful.fg_focus,
---                {
---                    widget = awful.widget.watch('bash -c "sensors | awk \'/^Package /{len=length($4); temp=substr($4,2); print temp}\'"', 8),
---                }
---            }
---        }
---    }
---}
-
-
-
--- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
-
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
     set_wallpaper(s)
@@ -821,7 +585,8 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag(
         {'1', '2', '3', '4', '5', '6', '7', '8', '9'},
         s,
-        awful.layout.layouts[1]
+        -- different starting layouts for portrait and lanscape screens
+        s.geometry.height < s.geometry.width and awful.layout.layouts[1] or awful.layout.layouts[3]
     )
     s.prompt_widget = awful.widget.prompt()
     s.panel = awful.wibar {
@@ -881,47 +646,28 @@ awful.screen.connect_for_each_screen(function(s)
                 layout = wibox.layout.fixed.horizontal
             },
             {
-                layout = wibox.layout.fixed.horizontal,
-                wibox.widget {
-                    id = '_background',
-                    layout = wibox.container.background,
-                    bg = beautiful.bg_normal,
-                    fg = beautiful.fg_normal,
-                    {
-                        id = '_margin',
-                        layout = wibox.container.margin,
-                        left = 16,
-                        right = 16,
-                        wibox.widget.systray(),
-                    }
-                },
-                --memory_widget,
-                --load_average_widget,
-                --temperature_widget,
-                s == screen.primary and mpd_widget,
-                s == screen.primary and backlight_widget,
-                s == screen.primary and upower_widget,
-                s == screen.primary and text_clock_widget,
-                s == screen.primary and text_date_widget,
-                wibox.widget {
-                    id = '_background',
-                    layout = wibox.container.background,
-                    bg = beautiful.bg_normal,
-                    fg = beautiful.fg_normal,
-                    {
-                        id = '_margin',
-                        layout = wibox.container.margin,
-                        left = 16,
-                        right = 0,
-                        awful.widget.layoutbox(s)
-                    }
+                layout = wibox.container.background,
+                fg = beautiful.fg_normal,
+                bg = beautiful.bg_normal,
+                {
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 16,
+                    -- only display widgets on the primary screen
+                    s == screen.Primary and wibox.widget.systray(),
+                    s == screen.primary and backlight_widget,
+                    s == screen.primary and upower_widget,
+                    s == screen.primary and text_clock_widget,
+                    s == screen.primary and text_date_widget,
+                    awful.widget.layoutbox(s)
                 }
             }
         }
     }
 
 end)
+
 ---------------------------------------------------------------- Key bindings --
+
 globalkeys = gears.table.join(
     awful.key({}, 'XF86AudioMute', function ()
         awful.spawn.with_shell('pactl set-sink-mute @DEFAULT_SINK@ toggle')
@@ -1110,16 +856,15 @@ end
 
 root.keys(globalkeys)
 
---------------------------------------------------------------------------------
-
 -------------------------------------------------------------- Mouse bindings --
+
 root.buttons(gears.table.join(
     awful.button({}, 3, function () main_menu:toggle() end),
     awful.button({}, 4, awful.tag.viewnext),
     awful.button({}, 5, awful.tag.viewprev)
 ))
---------------------------------------------------------------------------------
 
+--------------------------------------------------------------------------------
 
 clientkeys = gears.table.join(
     awful.key({ modkey }, 'f',
@@ -1160,7 +905,6 @@ clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
     awful.button({ modkey }, 1, awful.mouse.client.move),
     awful.button({ modkey }, 3, awful.mouse.client.resize))
-
 
 ----------------------------------------------------------------------- Rules --
 
@@ -1282,4 +1026,3 @@ client.connect_signal('property::maximized', function (c)
     end
 end)
 
---------------------------------------------------------------------------------

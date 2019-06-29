@@ -20,14 +20,14 @@ local m = mpc.new(host, port, password, error,
 
     end
     )
-GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, function()
-	-- Test command submission
-	m:send("status", function(_, s) print(s.state) end,
-		"currentsong", function(_, s) print(s.title) end)
-	m:send("status", function(_, s) print(s.state) end)
-	-- Force a reconnect
-	GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10000, function()
-		m:send("ping")
-	end)
-end)
+--GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, function()
+--	-- Test command submission
+--	m:send("status", function(_, s) print(s.state) end,
+--		"currentsong", function(_, s) print(s.title) end)
+--	m:send("status", function(_, s) print(s.state) end)
+--	-- Force a reconnect
+--	GLib.timeout_add(GLib.PRIORITY_DEFAULT, 10000, function()
+--		m:send("ping")
+--	end)
+--end)
 GLib.MainLoop():run()
