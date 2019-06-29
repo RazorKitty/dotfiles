@@ -543,8 +543,8 @@ local backlight_widget = sys.backlight.widget {
         {
             id = '_margin',
             layout = wibox.container.margin,
-            left = 4,
-            right = 4,
+            left = 8,
+            right = 8,
             {
                 id = '_layout',
                 layout = wibox.layout.fixed.horizontal,
