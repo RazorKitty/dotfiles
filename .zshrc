@@ -13,3 +13,6 @@ fi
 #if [[ -x /bin/task ]]; then
 #    task list
 #fi
+if [[ -f "/tmp/${USER}/lock.sh.lock" ]]; then
+    lock
+fi
