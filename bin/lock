@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# stolen from https://github.com/acornejo/bashlock.git
+
+
 RETRIES=0
 MAXRETRIES=5
 RETRYSLEEP=4
@@ -51,14 +54,7 @@ authenticate() {
         else
             RETRIES=$((RETRIES+1))
             RETRY=$((RETRY+1))
-            echo "authentication failed!"
-            echo ""
-            if [ "${RETRY}" -ge "${MAXRETRIES}" ]; then
-                RETRY=0
-                echo "sleeping for ${RETRYSLEEP}"
-                sleep ${RETRYSLEEP}
-                header
-            fi
+            header
         fi
     done
 }
