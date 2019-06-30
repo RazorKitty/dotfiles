@@ -9,7 +9,7 @@ local xresources = require('beautiful.xresources')
 local dpi = xresources.apply_dpi
 
 local get_xresources_theme = function()
-    local keys = { 'background', 'foreground', 'cursorColor' }
+    local keys = { 'background', 'foreground', 'cursorColor', 'font' }
     for i=0,23 do table.insert(keys, 'color'..i) end
     local xresources = {}
     for _, key in ipairs(keys) do
@@ -36,7 +36,6 @@ local theme_dir = os.getenv('HOME')..'/.config/awesome/themes/void_dark/'
 local theme = {}
 
 theme.font  = 'terminus 8'
-
 -- Default variables
 
 theme.foreground = xrdb.foreground
@@ -261,18 +260,20 @@ theme.separator_span_ratio = 0.66
 theme.separator_color = theme.fg_normal
 --theme.separator_shape = nil
 -- slider
--- theme.slider_bar_border_width = nil
--- theme.slider_bar_border_color = nil
--- theme.slider_handle_border_color = nil
--- theme.slider_handle_border_width = nil
--- theme.slider_handle_width = nil
--- theme.slider_handle_color = nil
+theme.slider_bar_border_width = 4
+theme.slider_bar_border_color = theme.bg_normal
+theme.slider_handle_border_color = theme.bg_normal
+theme.slider_handle_border_width = 2
+theme.slider_handle_width = 4
+theme.slider_handle_color = theme.fg_normal
 -- theme.slider_handle_shape = nil
 -- theme.slider_bar_shape = nil
--- theme.slider_bar_height = nil
--- theme.slider_bar_margins = nil
--- theme.slider_handle_margins = nil
--- theme.slider_bar_color = nil
+theme.slider_bar_height = 18
+theme.slider_handle_margins = {
+    top = 2,
+    bottom = 2,
+}
+theme.slider_bar_color = theme.fg_normal
 
 -- snap
 -- theme.snap_bg = nil
@@ -476,7 +477,7 @@ theme.wibar_ontop = false
 -- theme.wibar_opacity = nil
 -- theme.wibar_type = nil
 -- theme.wibar_width = nil
-theme.wibar_height = dpi(16)
+--theme.wibar_height = dpi(16)
 theme.wibar_bg = theme.shade[1]
 -- theme.wibar_bgimage = nil
 theme.wibar_fg = theme.shade[8]

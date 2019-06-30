@@ -532,72 +532,6 @@ local upower_widget = upower.display_device_widget {
 
 }
 
-local mpd_widget = mpd.widget {
-    template = {
-        id = 'status_state_role',
-        layout = wibox.container.background,
-        fg = beautiful.fg_normal,
-        bg = beautiful.bg_normal,
-        update_mpd_widget = function (self, v)
-            if v == 'stop' then
-                self.visible = false
-            else
-                if v == 'pause' then
-                    self.fg = beautiful.fg_normal
-                    self.bg = beautiful.bg_normal
-                else
-                    self.fg = beautiful.fg_focus
-                    self.bg = beautiful.bg_focus
-                end
-                self.visible = true
-            end
-        end,
-        {
-            id = '_margin',
-            layout = wibox.layout.margin,
-            left = 8,
-            right = 8,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                spacing = 4,
-                {
-                    id = 'currentsong_artist_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v
-                    end
-                },
-                {
-                    id = '_colon',
-                    widget = wibox.widget.textbox,
-                    text = ':'
-                },
-                {
-                    id = 'currentsong_title_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v
-                    end
-                },
-                {
-                    id = '_hiphen',
-                    widget = wibox.widget.textbox,
-                    text = '-'
-                },
-                {
-                    id = 'currentsong_album_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v
-                    end
-                }
-            }
-        }
-    }
-}
-
-
 local backlight_widget = sys.backlight.widget {
     backlight_device = 'intel_backlight',
     widget_template = {
@@ -636,6 +570,66 @@ local backlight_widget = sys.backlight.widget {
                             text = '%'
                         }
                     }
+                }
+            }
+        }
+    }
+}
+
+local mpd_widget = mpd.widget {
+    template = {
+        id = 'status_state_role',
+        layout = wibox.container.background,
+        fg = beautiful.fg_normal,
+        bg = beautiful.bg_normal,
+        update_mpd_widget = function (self, v)
+            if v == 'stop' then
+                self.visible = false
+            else
+                if v == 'pause' then
+                    self.fg = beautiful.fg_normal
+                    self.bg = beautiful.bg_normal
+                else
+                    self.fg = beautiful.fg_focus
+                    self.bg = beautiful.bg_focus
+                end
+                self.visible = true
+            end
+        end,
+        {
+            id = '_margin',
+            layout = wibox.layout.margin,
+            left = 8,
+            right = 8,
+            {
+                id = '_layout',
+                layout = wibox.layout.fixed.horizontal,
+                spacing = 4,
+                {
+                    id = 'currentsong_artist_role',
+                    widget = wibox.widget.textbox,
+                    update_mpd_widget = function (self, v)
+                        self.text = v..':'
+                    end
+                },
+                {
+                    id = 'currentsong_title_role',
+                    widget = wibox.widget.textbox,
+                    update_mpd_widget = function (self, v)
+                        self.text = v
+                    end
+                },
+                {
+                    id = '_hiphen',
+                    widget = wibox.widget.textbox,
+                    text = '-'
+                },
+                {
+                    id = 'currentsong_album_role',
+                    widget = wibox.widget.textbox,
+                    update_mpd_widget = function (self, v)
+                        self.text = v
+                    end
                 }
             }
         }

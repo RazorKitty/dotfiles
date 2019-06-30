@@ -17,7 +17,6 @@ local m = mpc.new(host, port, password, error,
             print(k,v)
         end
         print('currentsong\n')
-
     end
     )
 --GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, function()
