@@ -47,7 +47,7 @@ let g:terminal_color_15 = '#48737a'
 
 "netrw settings
 let g:netrw_banner = 0
-let g:netrw_liststyle = 3
+"let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 "let g:netrw_winsize = 25
@@ -60,7 +60,7 @@ augroup END
 
 augroup netrw_close
     autocmd!
-    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|qa!|endif
+    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
 augroup END
 
 augroup netrw_change_focus
