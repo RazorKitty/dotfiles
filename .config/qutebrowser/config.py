@@ -1302,8 +1302,7 @@ c.url.default_page = 'http://8bitdash.com'
 ## used by prepending the search engine name to the search term, e.g.
 ## `:open google qutebrowser`.
 ## Type: Dict
-# c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}'}
-c.url.searchengines = {'DEFAULT' : 'https://www.google.com/search?hl=en&q={}'}
+c.url.searchengines = {'DEFAULT': 'https://duckduckgo.com/?q={}'}
 
 ## The page(s) to open at the start.
 ## Type: List of FuzzyUrl, or FuzzyUrl
@@ -1417,7 +1416,7 @@ c.url.searchengines = {'DEFAULT' : 'https://www.google.com/search?hl=en&q={}'}
 # config.bind('K', 'tab-prev')
 # config.bind('L', 'forward')
 # config.bind('M', 'bookmark-add')
-config.bind('M', 'hint --rapid links spawn umpv {hint-url}')
+config.bind('M', 'hint --rapid links spawn mpv {hint-url}')
 # config.bind('N', 'search-prev')
 # config.bind('O', 'set-cmd-text -s :open -t')
 # config.bind('PP', 'open -t -- {primary}')
@@ -1463,7 +1462,7 @@ config.bind('M', 'hint --rapid links spawn umpv {hint-url}')
 # config.bind('k', 'scroll up')
 # config.bind('l', 'scroll right')
 # config.bind('m', 'quickmark-save')
-config.bind('m', 'spawn umpv {url}')
+config.bind('m', 'spawn mpv {url}')
 # config.bind('n', 'search-next')
 # config.bind('o', 'set-cmd-text -s :open')
 # config.bind('pP', 'open -- {primary}')
