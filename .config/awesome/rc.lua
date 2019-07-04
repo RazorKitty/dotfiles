@@ -295,7 +295,7 @@ local text_clock_widget = wibox.widget {
     }
 }
 
-local upower_widget = upower.display_device_widget {
+local upower_display_widget = upower.display_device_widget {
     templates = {
         battery = {
             id = '_background',
@@ -322,6 +322,7 @@ local upower_widget = upower.display_device_widget {
                         id = 'percentage_container',
                         layout = wibox.container.constraint,
                         width = 64,
+                        hieght = 18,
                         {
                             id = 'percentage_role',
                             widget = wibox.widget.progressbar,
@@ -332,47 +333,19 @@ local upower_widget = upower.display_device_widget {
                             end
                         }
                     },
-                    upower.devices_widget {
-                        device_templates = {
-                            ['line-power'] = {
-                                id = '_background',
-                                layout = wibox.container.background,
-                                fg = beautiful.fg_normal,
-                                bg = beautiful.bg_normal,
-                                {
-                                    id = 'online_container',
-                                    layout = wibox.container.margin,
-                                    top = 4,
-                                    bottom = 4,
-                                    {
-                                        id = 'online_role',
-                                        widget = wibox.widget.checkbox,
-                                        update_upower_widget = function (self, dev)
-                                            self.checked = dev.online
-                                        end
-
-                                    }
-                                }
-                            }
-                        },
-                        container_template = {
-                            id = 'devices_container_role',
-                            layout = wibox.layout.fixed.horizontal,
-                            upower_device_added = function (self, wdg)
-                                self:add(wdg)
-                            end,
-                            upower_device_removed = function (self, dev_path)
-                                for _,wdg in ipairs(self:get_children_by_id(dev_path)) do
-                                    self:remove_widgets(wdg)                                    
-                                end
-                            end
-                        }
+                    {
+                        id = 'state_role',
+                        widget = wibox.widget.textbox,
+                        update_upower_widget = function (self, dev)
+                            self.text = dev.state_to_string(dev.state)
+                        end
                     }
                 }
             }
         }
     }
-} or upower.devices_widget {
+}
+local upower_devices_widget = upower.devices_widget {
     device_templates = {
         battery = {
             id = '_background',
@@ -399,6 +372,7 @@ local upower_widget = upower.display_device_widget {
                         id = 'percentage_container',
                         layout = wibox.container.constraint,
                         width = 64,
+                        height = 18,
                         {
                             id = 'percentage_role',
                             widget = wibox.widget.progressbar,
@@ -441,17 +415,23 @@ local upower_widget = upower.display_device_widget {
                         end
                     },
                     {
-                        id = 'online_container',
-                        layout = wibox.container.margin,
-                        top = 4,
-                        bottom = 4,
+                        id = 'online_constraint',
+                        layout = wibox.container.constraint,
+                        width = 18,
+                        height = 18,
                         {
-                            id = 'online_role',
-                            widget = wibox.widget.checkbox,
-                            update_upower_widget = function (self, dev)
-                                self.checked = dev.online
-                            end
+                            id = 'online_container',
+                            layout = wibox.container.margin,
+                            top = 4,
+                            bottom = 4,
+                            {
+                                id = 'online_role',
+                                widget = wibox.widget.checkbox,
+                                update_upower_widget = function (self, dev)
+                                    self.checked = dev.online
+                                end
 
+                            }
                         }
                     }
                 }
@@ -482,6 +462,7 @@ local upower_widget = upower.display_device_widget {
                         id = 'percentage_container',
                         layout = wibox.container.constraint,
                         width = 64,
+                        height = 18,
                         {
                             id = 'percentage_role',
                             widget = wibox.widget.progressbar,
@@ -512,11 +493,11 @@ local upower_widget = upower.display_device_widget {
         {
             id = '_margin',
             layout = wibox.container.margin,
-            left = 4,
-            right = 4,
+            left = 0,
+            right = 0,
             {
                 id = 'devices_container_role',
-                layout = wibox.layout.fixed.horizontal,
+                layout = (upower_display_widget and wibox.layout.fixed.vertical) or wibox.layout.fixed.horizontal,
                 spacing = 4,
                 upower_device_added = function (self, wdg, dev_path)
                     self[dev_path] = wdg
@@ -529,8 +510,8 @@ local upower_widget = upower.display_device_widget {
             }
         }
     }
-
 }
+
 
 local backlight_widget = sys.backlight.widget {
     backlight_device = 'intel_backlight',
@@ -715,7 +696,7 @@ awful.screen.connect_for_each_screen(function(s)
                     s == screen.Primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
                     s == screen.primary and backlight_widget,
-                    s == screen.primary and upower_widget,
+                    s == screen.primary and (upower_display_widget or upower_devices_widget),
                     s == screen.primary and text_clock_widget,
                     s == screen.primary and text_date_widget,
                     awful.widget.layoutbox(s)
@@ -726,6 +707,17 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 
+local upower_devices_popup
+if upower_display_widget then
+    upower_devices_popup = awful.popup {
+        widget = upower_devices_widget,
+        visible = false,
+        preferred_positions = 'bottom',
+        hide_on_right_click = true,
+        ontop = true
+    }
+    upower_devices_popup:bind_to_widget(upower_display_widget,1)
+end
 ---------------------------------------------------------------- Key bindings --
 
 globalkeys = gears.table.join(
