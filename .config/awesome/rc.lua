@@ -24,10 +24,8 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 -- extras
 local lgi = require('lgi')
 local upower = require('upower')
-local udisks = require('udisks')
-local networkmanager = require('networkmanager')
 local mpd = require('mpd')
-local sys = require('sys')
+--local sys = require('sys')
 
 local terminal = 'st'
 local editor = 'nvim'
@@ -513,49 +511,49 @@ local upower_devices_widget = upower.devices_widget {
 }
 
 
-local backlight_widget = sys.backlight.widget {
-    backlight_device = 'intel_backlight',
-    widget_template = {
-        id = '_background',
-        layout = wibox.container.background,
-        bg = beautiful.bg_normal,
-        fg = beautiful.fg_normal,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 8,
-            right = 8,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                {
-                    id = '_name',
-                    widget = wibox.widget.textbox,
-                    text = 'Backlight:'
-                },
-                {
-                    id = '_background',
-                    layout = wibox.container.background,
-                    bg = beautiful.bg_focus,
-                    fg = beautiful.fg_focus,
-                    {
-                        id = '_layout',
-                        layout = wibox.layout.fixed.horizontal,
-                        {
-                            id = 'backlight_text_role',
-                            widget = wibox.widget.textbox
-                        },
-                        {
-                            id = '_percentage_symbol',
-                            widget = wibox.widget.textbox,
-                            text = '%'
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
+--local backlight_widget = sys.backlight.widget {
+--    backlight_device = 'intel_backlight',
+--    widget_template = {
+--        id = '_background',
+--        layout = wibox.container.background,
+--        bg = beautiful.bg_normal,
+--        fg = beautiful.fg_normal,
+--        {
+--            id = '_margin',
+--            layout = wibox.container.margin,
+--            left = 8,
+--            right = 8,
+--            {
+--                id = '_layout',
+--                layout = wibox.layout.fixed.horizontal,
+--                {
+--                    id = '_name',
+--                    widget = wibox.widget.textbox,
+--                    text = 'Backlight:'
+--                },
+--                {
+--                    id = '_background',
+--                    layout = wibox.container.background,
+--                    bg = beautiful.bg_focus,
+--                    fg = beautiful.fg_focus,
+--                    {
+--                        id = '_layout',
+--                        layout = wibox.layout.fixed.horizontal,
+--                        {
+--                            id = 'backlight_text_role',
+--                            widget = wibox.widget.textbox
+--                        },
+--                        {
+--                            id = '_percentage_symbol',
+--                            widget = wibox.widget.textbox,
+--                            text = '%'
+--                        }
+--                    }
+--                }
+--            }
+--        }
+--    }
+--}
 
 local mpd_widget = mpd.widget {
     template = {
@@ -580,8 +578,8 @@ local mpd_widget = mpd.widget {
         {
             id = '_margin',
             layout = wibox.layout.margin,
-            left = 8,
-            right = 8,
+            left = 4,
+            right = 4,
             {
                 id = '_layout',
                 layout = wibox.layout.fixed.horizontal,
@@ -693,9 +691,9 @@ awful.screen.connect_for_each_screen(function(s)
                     layout = wibox.layout.fixed.horizontal,
                     spacing = 16,
                     -- only display widgets on the primary screen
-                    s == screen.Primary and wibox.widget.systray(),
+                    --s == screen.Primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
-                    s == screen.primary and backlight_widget,
+                    --s == screen.primary and backlight_widget,
                     s == screen.primary and (upower_display_widget or upower_devices_widget),
                     s == screen.primary and text_clock_widget,
                     s == screen.primary and text_date_widget,
