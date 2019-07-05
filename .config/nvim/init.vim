@@ -63,10 +63,10 @@ augroup netrw_close
     autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
 augroup END
 
-augroup netrw_change_focus
-    autocmd!
-    autocmd WinEnter * if getbufvar(winbufnr(winnr()), "&filetype") == "netrw" | :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])")) | endif
-augroup END
+"augroup netrw_change_focus
+"    autocmd!
+"    autocmd WinEnter * if getbufvar(winbufnr(winnr()), "&filetype") == "netrw" | :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])")) | endif
+"augroup END
 
 call plug#begin()
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion framework
@@ -76,7 +76,6 @@ Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
 Plug 'zchee/deoplete-clang' "c family completion
-Plug 'critiqjo/lldb.nvim' "debugging for c and cpp
 call plug#end()
 
 "deoplete settings
