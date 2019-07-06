@@ -15,27 +15,27 @@ Xft.hintstyle: hintslight
 
 ! red
 *.color1:       #ac1e33
-*.color9:       #ac1e33
+*.color9:       #de263e
 
 ! green
 *.color2:       #247345
-*.color10:      #247345
+*.color10:      #33a667
 
 ! yellow
 *.color3:       #797724
-*.color11:      #797724
+*.color11:      #abab30
 
 ! blue
 *.color4:       #174b58
-*.color12:      #174b58
+*.color12:      #20778c
 
 ! magenta
 *.color5:       #4d3a58
-*.color13:      #4d3a58
+*.color13:      #77578c
 
 ! cyan
 *.color6:       #376e57
-*.color14:      #376e57
+*.color14:      #50a178
 
 ! white
 *.color7:       #48737a
@@ -90,39 +90,39 @@ st.borderpx:    2
 
 
 
-st.foreground:   #48737a
+st.foreground:   #b4c1c2
 st.background:   #0d0015
 st.cursorColor:  #b4c1c2
-
-! black
+                        
+!  black
 st.color0:       #0d0015
 st.color8:       #153043
-                       
-! red
+                        
+!  red
 st.color1:       #ac1e33
-st.color9:       #ac1e33
-
-! green
+st.color9:       #de263e
+                        
+!  green
 st.color2:       #247345
-st.color10:      #247345
-                       
-! yellow
+st.color10:      #33a667
+                        
+!  yellow
 st.color3:       #797724
-st.color11:      #797724
-                       
-! blue
+st.color11:      #abab30
+                        
+!  blue
 st.color4:       #174b58
-st.color12:      #174b58
-                       
-! magenta
+st.color12:      #20778c
+                        
+!  magenta
 st.color5:       #4d3a58
-st.color13:      #4d3a58
-                       
-! cyan
+st.color13:      #77578c
+                        
+!  cyan
 st.color6:       #376e57
-st.color14:      #376e57
-                       
-! white
+st.color14:      #50a178
+                        
+!  white
 st.color7:       #48737a
 st.color15:      #b4c1c2
                        
