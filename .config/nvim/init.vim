@@ -18,7 +18,7 @@ set nofoldenable
 set foldlevel=2
 "set t_Co=16
 "color settings
-set termguicolors
+"set termguicolors
 colorscheme void
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
 "set colorcolumn=160
