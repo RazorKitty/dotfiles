@@ -759,8 +759,8 @@ awful.screen.connect_for_each_screen(function(s)
                     s == screen.primary and mpd_widget,
                     --s == screen.primary and backlight_widget,
                     s == screen.primary and (upower_display_widget or upower_devices_widget),
-                    s == screen.primary and text_clock_widget,
-                    s == screen.primary and text_date_widget,
+                    text_clock_widget,
+                    text_date_widget,
                     awful.widget.layoutbox(s)
                 }
             }
