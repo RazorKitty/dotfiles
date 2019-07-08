@@ -150,6 +150,17 @@ local taglist_buttons = gears.table.join(
     end)
 )
 
+local format_time = function(seconds)
+    if seconds <= 0 then
+	    return "00:00:00";
+	else
+		hours = string.format("%02.f", math.floor(seconds/3600));
+		mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)));
+		secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins *60));
+		return hours..":"..mins..":"..secs
+	end
+end
+
 ---------------------------------------------------------------------- Config --
 
 awful.layout.layouts = {
@@ -332,12 +343,32 @@ local upower_display_widget = upower.display_device_widget {
                         }
                     },
                     {
-                        id = 'state_role',
-                        widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
-                            self.text = dev.state_to_string(dev.state)
-                        end
-                    }
+                        id = '_time_container',
+                        layout = wibox.layout.fixed.horizontal,
+                        {
+                            id = 'time-to-empty_role',
+                            widget = wibox.widget.textbox,
+                            update_upower_widget = function (self, dev)
+                                self.visible = dev.time_to_empty > 0
+                                self.text = format_time(dev.time_to_empty) ..' remaining'
+                            end
+                        },
+                        {
+                            id = 'time-to-full_role',
+                            widget = wibox.widget.textbox,
+                            update_upower_widget = function (self, dev)
+                                self.visible = dev.time_to_full > 0
+                                self.text = format_time(dev.time_to_full) ..' until full'
+                            end
+                        }
+                    },
+                    --{
+                    --    id = 'state_role',
+                    --    widget = wibox.widget.textbox,
+                    --    update_upower_widget = function (self, dev)
+                    --        self.text = dev.state_to_string(dev.state)
+                    --    end
+                    --}
                 }
             }
         }
@@ -382,6 +413,26 @@ local upower_devices_widget = upower.devices_widget {
                         }
                     },
                     {
+                        id = '_time_container',
+                        layout = wibox.layout.fixed.horizontal,
+                        {
+                            id = 'time-to-empty_role',
+                            widget = wibox.widget.textbox,
+                            update_upower_widget = function (self, dev)
+                                self.visible = dev.time_to_empty > 0
+                                self.text = format_time(dev.time_to_empty)
+                            end
+                        },
+                        {
+                            id = 'time-to-full_role',
+                            widget = wibox.widget.textbox,
+                            update_upower_widget = function (self, dev)
+                                self.visible = dev.time_to_full > 0
+                                self.text = format_time(dev.time_to_full)
+                            end
+                        }
+                    },
+                    {
                         id = 'state_role',
                         widget = wibox.widget.textbox,
                         update_upower_widget = function (self, dev)
@@ -403,7 +454,7 @@ local upower_devices_widget = upower.devices_widget {
                 right = 4,
                 {
                     id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
+                    layout = wibox.layout.align.horizontal,
                     spacing = 4,
                     {
                         id = 'kind_role',
@@ -411,6 +462,10 @@ local upower_devices_widget = upower.devices_widget {
                         update_upower_widget = function (self, dev)
                             self:set_text(dev.kind_to_string(dev.kind))
                         end
+                    },
+                    {
+                        id = '_place_holder',
+                        layout = wibox.layout.fixed.horizontal
                     },
                     {
                         id = 'online_constraint',

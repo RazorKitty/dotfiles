@@ -6,35 +6,35 @@ local naughty = require('naughty')
 UPowerGlib = lgi.UPowerGlib
 
 local properties = {
-    'battery_level',
+    'battery-level',
     'capacity',
     'energy',
     'energy_empty',
-    'energy_full',
-    'energy_full_design',
-    'energy_rate',
+    'energy-full',
+    'energy-full-design',
+    'energy-rate',
     'has_history',
     'has_statistics',
     'icon_name',
-    'is_present',
-    'is_rechargeable',
+    'is-present',
+    'is-rechargeable',
     'kind',
     'luminosity',
     'model',
-    'native_path',
+    'native-path',
     'online',
     'percentage',
-    'power_supply',
+    'power-supply',
     'serial',
     'state',
     'technology',
     'temperature',
-    'time_to_empty',
-    'time_to_full',
-    'update_time',
+    'time-to-empty',
+    'time-to-full',
+    'update-time',
     'vendor',
     'voltage',
-    'warning_level'
+    'warning-level'
 }
 
 local make_device_widget = function (args)
