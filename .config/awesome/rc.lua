@@ -338,7 +338,7 @@ local upower_display_widget = upower.display_device_widget {
                             max_value = 100,
                             color = beautiful.green,
                             update_upower_widget = function (self, dev)
-                                self.color = dev.percentage > 10 and beautiful.green or dev.percentage > 25 and beautiful.yellow or beautiful.red
+                                self.color = (dev.percentage < 10 and beautiful.red) or (dev.percentage < 25 and beautiful.yellow) or beautiful.green
                                 self:set_value(dev.percentage)
                             end
                         }
@@ -347,12 +347,19 @@ local upower_display_widget = upower.display_device_widget {
                         id = '_time_container',
                         layout = wibox.layout.fixed.horizontal,
                         {
-                            id = 'time-to-empty_role',
-                            widget = wibox.widget.textbox,
-                            update_upower_widget = function (self, dev)
-                                self.visible = dev.time_to_empty > 0
-                                self.text = format_time(dev.time_to_empty) ..' remaining'
-                            end
+                            id = '_time_remaining_background',
+                            layout = wibox.container.background,
+                            fg = beautiful.fg_focus,
+                            bg = beautiful.bg_focus,
+                            {
+                                id = 'time-to-empty_role',
+                                widget = wibox.widget.textbox,
+                                update_upower_widget = function (self, dev)
+                                    self.visible = dev.time_to_empty > 0
+                                    self.text = format_time(dev.time_to_empty) ..' remaining'
+                                end
+                            }
+
                         },
                         {
                             id = 'time-to-full_role',
@@ -409,7 +416,7 @@ local upower_devices_widget = upower.devices_widget {
                             max_value = 100,
                             color = beautiful.green,
                             update_upower_widget = function (self, dev)
-                                self.color = dev.percentage > 10 and beautiful.green or dev.percentage > 25 and beautiful.yellow or beautiful.red
+                                self.color = dev.percentage < 10 and beautiful.red or dev.percentage < 25 and beautiful.yellow or beautiful.green
                                 self:set_value(dev.percentage)
                             end
                         }
