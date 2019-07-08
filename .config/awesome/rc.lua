@@ -253,8 +253,8 @@ local text_date_widget = wibox.widget {
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 8,
-        right = 8,
+        left = 4,
+        right = 4,
         {
             id = '_layout',
             layout = wibox.layout.fixed.horizontal,
@@ -283,8 +283,8 @@ local text_clock_widget = wibox.widget {
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 8,
-        right = 8,
+        left = 4,
+        right = 4,
         {
             id = '_layout',
             layout = wibox.layout.fixed.horizontal,
@@ -338,6 +338,7 @@ local upower_display_widget = upower.display_device_widget {
                             max_value = 100,
                             color = beautiful.green,
                             update_upower_widget = function (self, dev)
+                                self.color = dev.percentage > 10 and beautiful.green or dev.percentage > 25 and beautiful.yellow or beautiful.red
                                 self:set_value(dev.percentage)
                             end
                         }
@@ -408,6 +409,7 @@ local upower_devices_widget = upower.devices_widget {
                             max_value = 100,
                             color = beautiful.green,
                             update_upower_widget = function (self, dev)
+                                self.color = dev.percentage > 10 and beautiful.green or dev.percentage > 25 and beautiful.yellow or beautiful.red
                                 self:set_value(dev.percentage)
                             end
                         }
