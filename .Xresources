@@ -1,8 +1,8 @@
-Xft.dpi:                    96
-Xft.antialias:              true
-Xft.rgba:                   rgb
-Xft.hinting:                true
-Xft.hintstyle: hintslight
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
 
 ! special
 *.foreground:   #b4c1c2
@@ -11,7 +11,7 @@ Xft.hintstyle: hintslight
 
 ! black
 *.color0:       #0d0015
-*.color8:       #153043
+*.color8:       #0f192e
 
 ! red
 *.color1:       #ac1e33
@@ -51,9 +51,8 @@ Xft.hintstyle: hintslight
 *.color22:      #9db0b1
 *.color23:      #b4c1c2
 
-!*.font: terminus:size=8:antialias=true:autohint=true;
-*.font: xft:terminus:size=8
-*.boldfont: xft:terminus:size=8:style=bold
+*.font:         xft:terminus:size=8
+*.boldfont:     xft:terminus:size=8:style=bold
 
 
 ! URxvt settings
@@ -71,12 +70,6 @@ URxvt*scrollWithBuffer: true
 
 ! scroll back to the bottom on keypress
 URxvt*scrollTtyKeypress: true
-!URxvt.perl-ext-common: keyboard-select
-!URxvt.keysym.M-Escape: perl:keyboard-select:activate
-!URxvt.keyboard-select.clipboard: true
-
-
-
 
 st.font:			-*-terminus-*-*-*-*-10-*-*-*-*-*-*-1
 !st.font:    xtf:terminus:size8
@@ -86,52 +79,5 @@ st.shell:		/bin/zsh
 st.bellvolume:	100
 st.tabspaces:   4
 st.chscale:		1.0
-st.borderpx:    2
+st.borderpx:    4
 
-
-
-st.foreground:   #b4c1c2
-st.background:   #0d0015
-st.cursorColor:  #b4c1c2
-                        
-!  black
-st.color0:       #0d0015
-st.color8:       #153043
-                        
-!  red
-st.color1:       #ac1e33
-st.color9:       #de263e
-                        
-!  green
-st.color2:       #247345
-st.color10:      #33a667
-                        
-!  yellow
-st.color3:       #797724
-st.color11:      #abab30
-                        
-!  blue
-st.color4:       #174b58
-st.color12:      #20778c
-                        
-!  magenta
-st.color5:       #4d3a58
-st.color13:      #77578c
-                        
-!  cyan
-st.color6:       #376e57
-st.color14:      #50a178
-                        
-!  white
-st.color7:       #48737a
-st.color15:      #b4c1c2
-                       
-! grey scale
-st.color16:      #0d0015
-st.color17:      #0f192e
-st.color18:      #153043
-st.color19:      #174b58
-st.color20:      #2f6065
-st.color21:      #48737a
-st.color22:      #9db0b1
-st.color23:      #b4c1c2

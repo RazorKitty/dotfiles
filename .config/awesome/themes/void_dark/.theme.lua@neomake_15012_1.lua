@@ -18,6 +18,11 @@ local get_xresources_theme = function()
             if color:find('rgb:') then
                 color = '#'..color:gsub('[a]?rgb:', ''):gsub('/', '')
             end
+        else
+            gears_debug.print_warning(
+                "beautiful: can't get colorscheme from xrdb for value '"..key.."' (using fallback)."
+            )
+            color = fallback[key]
         end
         xresources[key] = color
     end
@@ -54,17 +59,27 @@ theme.light_magenta = xrdb.color13
 theme.light_cyan = xrdb.color14
 theme.light_white = xrdb.color15
 
+theme.shade = {
+    xrdb.color16,
+    xrdb.color17,
+    xrdb.color18,
+    xrdb.color19,
+    xrdb.color20,
+    xrdb.color21,
+    xrdb.color22,
+    xrdb.color23,
+}
 
 theme.useless_gap = dpi(8)
-theme.bg_normal = theme.light_black
+theme.bg_normal = theme.shade[2]
 theme.fg_normal = theme.white
-theme.bg_focus = theme.light_black
+theme.bg_focus = theme.shade[2]
 theme.fg_focus = theme.foreground
 theme.bg_urgent = theme.red
-theme.fg_urgent = theme.black
+theme.fg_urgent = theme.shade[1]
 theme.bg_minimize = theme.bg_normal
-theme.fg_minimize = theme.light_blue
-theme.bg_systray = theme.light_black
+theme.fg_minimize = theme.shade[3]
+theme.bg_systray = theme.shade[1]
 theme.border_width = dpi(2)
 theme.border_normal = theme.bg_normal
 theme.border_focus = theme.fg_focus
@@ -113,9 +128,9 @@ theme.hotkeys_fg = theme.fg_normal
 theme.hotkeys_border_width = dpi(2)
 theme.hotkeys_border_color = theme.border_normal
 -- theme.hotkeys_shape = nil
-theme.hotkeys_modifiers_fg = theme.light_white
-theme.hotkeys_label_bg = theme.bg_normal
-theme.hotkeys_label_fg = theme.fg_normal
+theme.hotkeys_modifiers_fg = theme.shade[8]
+theme.hotkeys_label_bg = theme.shade[2]
+theme.hotkeys_label_fg = theme.shade[1]
 theme.hotkeys_font = theme.font
 theme.hotkeys_description_font = theme.font
 -- theme.hotkeys_group_margin = nil
@@ -141,7 +156,7 @@ theme.layout_spiral = theme_dir..'layouts/spiral.png'
 theme.layout_dwindle = theme_dir..'layouts/dwindle.png'
 theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 
-theme = theme_assets.recolor_layout(theme, theme.light_white)
+theme = theme_assets.recolor_layout(theme, theme.shade[8])
 
 -- master
 -- theme.master_width_factor = 0.43
@@ -210,7 +225,7 @@ theme.notification_margin = dpi(32)
 
 -- progressbar
 theme.progressbar_bg = theme.black
-theme.progressbar_fg = theme.light_white
+theme.progressbar_fg = theme.shade[4]
 -- theme.progressbar_shape = nil
 theme.progressbar_border_color = theme.black
 theme.progressbar_border_width = dpi(1)
@@ -445,7 +460,7 @@ theme = theme_assets.recolor_titlebar(theme, theme.bg_focus, 'focus', 'press')
 -- tooltip
 theme.tooltip_border_color = theme.border_normal
 theme.tooltip_bg = theme.bg_normal
-theme.tooltip_fg = theme.light_white
+theme.tooltip_fg = theme.shade[8]
 -- theme.tooltip_font = nil
 theme.tooltip_border_width = dpi(1)
 -- theme.tooltip_opacity = nil
@@ -462,9 +477,9 @@ theme.wibar_ontop = false
 -- theme.wibar_type = nil
 -- theme.wibar_width = nil
 theme.wibar_height = dpi(16)
-theme.wibar_bg = theme.black
+theme.wibar_bg = theme.shade[1]
 -- theme.wibar_bgimage = nil
-theme.wibar_fg = theme.light_white
+theme.wibar_fg = theme.shade[8]
 -- theme.wibar_shape = nil
 
 
