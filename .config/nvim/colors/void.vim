@@ -28,7 +28,7 @@ let g:colors_name="void"
 hi Normal          guifg=#48737a    guibg=#0d0015   ctermfg=7       ctermbg=0       cterm=none
 hi Cursor          guifg=#0d0015    guibg=#b4c1c2   ctermfg=0       ctermbg=15      cterm=none
 hi CursorLine      guifg=none       guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
-hi LineNr          guifg=#48737a    guibg=#0f192e   ctermfg=8       ctermbg=none    cterm=none
+hi LineNr          guifg=#48737a    guibg=#0f192e   ctermfg=4       ctermbg=none    cterm=none
 hi CursorLineNR    guifg=#b4c1c2    guibg=#0f192e   ctermfg=15      ctermbg=none    cterm=none
 
 " -----------------
@@ -85,35 +85,35 @@ hi SpecialKey      guifg=#0d0015    guibg=#797724   ctermfg=none    ctermbg=none
 " --------------------------------
 " Variable types
 " --------------------------------
-hi Constant        guifg=#174b58    guibg=none      ctermfg=15     ctermbg=none    cterm=none
-hi String          guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
-hi StringDelimiter guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
-hi Character       guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
-hi Number          guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
-hi Boolean         guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
-hi Float           guifg=#174b58    guibg=none      ctermfg=2      ctermbg=none    cterm=none
+hi Constant        guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi String          guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi StringDelimiter guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi Character       guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi Number          guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi Boolean         guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
+hi Float           guifg=#174b58    guibg=none      ctermfg=2     ctermbg=none    cterm=none
 
-hi Identifier      guifg=#b4c1c2    guibg=none      ctermfg=7      ctermbg=none    cterm=none
-hi Function        guifg=#b4c1c2    guibg=none      ctermfg=4      ctermbg=none    cterm=none
+hi Identifier      guifg=#b4c1c2    guibg=none      ctermfg=15      ctermbg=none    cterm=none
+hi Function        guifg=#b4c1c2    guibg=none      ctermfg=2      ctermbg=none    cterm=none
 
 " --------------------------------
 " Language constructs
 " --------------------------------
-hi Statement       guifg=#247345    guibg=none      ctermfg=6       ctermbg=none    cterm=none
-hi Conditional     guifg=#247345    guibg=none      ctermfg=6       ctermbg=none    cterm=none
-hi Repeat          guifg=#247345    guibg=none      ctermfg=6       ctermbg=none    cterm=none
-hi Label           guifg=#247345    guibg=none      ctermfg=15      ctermbg=none    cterm=none
-hi Operator        guifg=#247345    guibg=none      ctermfg=6       ctermbg=none    cterm=none
-hi Keyword         guifg=#247345    guibg=none      ctermfg=4       ctermbg=none    cterm=none
-hi Exception       guifg=#247345    guibg=none      ctermfg=4       ctermbg=none    cterm=none
-hi Comment         guifg=#153043    guibg=none      ctermfg=8       ctermbg=none    cterm=none
+hi Statement       guifg=#247345    guibg=none      ctermfg=12       ctermbg=none    cterm=none
+hi Conditional     guifg=#247345    guibg=none      ctermfg=3       ctermbg=none    cterm=none
+hi Repeat          guifg=#247345    guibg=none      ctermfg=12       ctermbg=none    cterm=none
+hi Label           guifg=#247345    guibg=none      ctermfg=12      ctermbg=none    cterm=none
+hi Operator        guifg=#247345    guibg=none      ctermfg=3       ctermbg=none    cterm=none
+hi Keyword         guifg=#247345    guibg=none      ctermfg=10       ctermbg=none    cterm=none
+hi Exception       guifg=#247345    guibg=none      ctermfg=1       ctermbg=none    cterm=none
+hi Comment         guifg=#153043    guibg=none      ctermfg=4       ctermbg=none    cterm=none
 
-hi Special         guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
+hi Special         guifg=#b4c1c2    guibg=none      ctermfg=15    ctermbg=none    cterm=none
 hi SpecialChar     guifg=#b4c1c2    guibg=none      ctermfg=15      ctermbg=none    cterm=none
-hi Tag             guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
-hi Delimiter       guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
-hi SpecialComment  guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
-hi Debug           guifg=#b4c1c2    guibg=none      ctermfg=none    ctermbg=none    cterm=none
+hi Tag             guifg=#b4c1c2    guibg=none      ctermfg=15    ctermbg=none    cterm=none
+hi Delimiter       guifg=#b4c1c2    guibg=none      ctermfg=15    ctermbg=none    cterm=none
+hi SpecialComment  guifg=#b4c1c2    guibg=none      ctermfg=15    ctermbg=none    cterm=none
+hi Debug           guifg=#b4c1c2    guibg=none      ctermfg=15    ctermbg=none    cterm=none
                    
 " ----------       
 " - C like -
@@ -124,8 +124,8 @@ hi Define          guifg=#b4c1c2    guibg=none      ctermfg=15     ctermbg=none 
 hi Macro           guifg=#b4c1c2    guibg=none      ctermfg=15     ctermbg=none    cterm=none
 hi PreCondit       guifg=#b4c1c2    guibg=none      ctermfg=15     ctermbg=none    cterm=none
 
-hi Type            guifg=#375e57    guibg=none      ctermfg=2       ctermbg=none    cterm=none
-hi StorageClass    guifg=#375e57    guibg=none      ctermfg=6       ctermbg=none    cterm=none
+hi Type            guifg=#375e57    guibg=none      ctermfg=10       ctermbg=none    cterm=none
+hi StorageClass    guifg=#375e57    guibg=none      ctermfg=14       ctermbg=none    cterm=none
 hi Structure       guifg=#375e57    guibg=none      ctermfg=2       ctermbg=none    cterm=none
 hi Typedef         guifg=#375e57    guibg=none      ctermfg=2       ctermbg=none    cterm=none  
 " --------------------------------
