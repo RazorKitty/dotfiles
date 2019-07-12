@@ -820,14 +820,6 @@ globalkeys = gears.table.join(
               {description = 'go back', group = 'tag'}),
 
     -- Layout manipulation
-    awful.key({ modkey, 'Shift' }, 'j', function ()
-            awful.client.swap.byidx(  1)
-        end,
-        {description = 'swap with next client by index', group = 'client'}),
-    awful.key({ modkey, 'Shift' }, 'k', function ()
-            awful.client.swap.byidx( -1)
-        end,
-          {description = 'swap with previous client by index', group = 'client'}),
 
     awful.key({ modkey, 'Control' }, 'j', function ()
             awful.screen.focus_relative( 1)
@@ -874,16 +866,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey, 'Shift'   }, 'q', awesome.quit,
         {description = 'quit awesome', group = 'awesome'}),
     
-    awful.key({ modkey, 'Shift' }, 'h', function () 
-            awful.tag.incnmaster( 1, nil, true) 
-        end,
-        {description = 'increase the number of master clients', group = 'layout'}),
-
-    awful.key({ modkey, 'Shift' }, 'l', function ()
-            awful.tag.incnmaster(-1, nil, true)
-        end,
-        {description = 'decrease the number of master clients', group = 'layout'}),
-
     awful.key({ modkey, 'Control' }, 'h', function ()
             awful.tag.incncol( 1, nil, true)
         end,
@@ -1001,10 +983,25 @@ clientkeys = gears.table.join(
         end,
         {description = 'move to master', group = 'client'}),
 
-    awful.key({ modkey }, 'o', function (c)
-            c:move_to_screen()
+    awful.key({ modkey, 'Shift' }, 'j', function (c)
+            c:move_to_screen(c.screen:get_next_in_direction('down'))
         end,
-        {description = 'move to screen', group = 'client'}),
+        {description = 'move client down a screen', group = 'client'}),
+
+    awful.key({ modkey, 'Shift' }, 'k', function (c)
+            c:move_to_screen(c.screen:get_next_in_direction('up')) 
+        end,
+        {description = 'move client up a screen',  group = 'client'}),
+        
+    awful.key({ modkey, 'Shift' }, 'h', function (c)
+            c:move_to_screen(c.screen:get_next_in_direction('left')) 
+        end,
+        {description = 'move client left a screen',  group = 'client'}),
+
+    awful.key({ modkey, 'Shift' }, 'l', function (c)
+            c:move_to_screen(c.screen:get_next_in_direction('right')) 
+        end,
+        {description = 'move client right a screen',  group = 'client'}),
 
     awful.key({ modkey }, 'm', function (c)
                 -- The client currently has the input focus, so it cannot be
