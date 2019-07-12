@@ -126,8 +126,8 @@ hi PreCondit       guifg=#b4c1c2    guibg=none      ctermfg=15     ctermbg=none 
 
 hi Type            guifg=#375e57    guibg=none      ctermfg=10       ctermbg=none    cterm=none
 hi StorageClass    guifg=#375e57    guibg=none      ctermfg=14       ctermbg=none    cterm=none
-hi Structure       guifg=#375e57    guibg=none      ctermfg=2       ctermbg=none    cterm=none
-hi Typedef         guifg=#375e57    guibg=none      ctermfg=2       ctermbg=none    cterm=none  
+hi Structure       guifg=#375e57    guibg=none      ctermfg=10      ctermbg=none    cterm=none
+hi Typedef         guifg=#375e57    guibg=none      ctermfg=10      ctermbg=none    cterm=none  
 " --------------------------------
 " Diff
 " --------------------------------
