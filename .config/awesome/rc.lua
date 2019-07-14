@@ -756,7 +756,7 @@ awful.screen.connect_for_each_screen(function(s)
                     layout = wibox.layout.fixed.horizontal,
                     spacing = 16,
                     -- only display widgets on the primary screen
-                    --s == screen.Primary and wibox.widget.systray(),
+                    wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
                     --s == screen.primary and backlight_widget,
                     s == screen.primary and (upower_display_widget or upower_devices_widget),
