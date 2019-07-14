@@ -26,7 +26,7 @@ end
 
 local xrdb = get_xresources_theme()
 
-local theme_dir = os.getenv('HOME')..'/.config/awesome/themes/void_dark/'
+local theme_dir = os.getenv('HOME')..'/.config/awesome/theme/'
 
 local theme = {}
 

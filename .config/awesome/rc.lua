@@ -2,6 +2,7 @@
 ----------------------- AwesomeWM 4.2 void linux config ------------------------
 -----------------------     by RazorKitty@null.net      ------------------------
 --------------------------------------------------------------------------------
+--
 -- make the globals local
 local awesome = awesome
 local root = root
@@ -60,7 +61,7 @@ end
 
 ----------------------------------------------------------------------- Theme --
 
-beautiful.init('~/.config/awesome/themes/void_dark/theme.lua')
+beautiful.init('~/.config/awesome/theme/theme.lua')
 
 local function set_wallpaper(s)
     -- Wallpaper
@@ -78,7 +79,7 @@ screen.connect_signal('property::geometry', set_wallpaper)
 
 ------------------------------------------------------------ useful functions --
 
-local function client_menu_toggle_fn()
+local client_menu_toggle_fn = function()
     local instance = nil
 
     return function ()
@@ -852,7 +853,25 @@ globalkeys = gears.table.join(
         {description = 'Move client focus right', group = 'client'}),
 
     awful.key({ modkey }, 'u', awful.client.urgent.jumpto,
-              {description = 'jump to urgent client', group = 'client'}),
+        {description = 'jump to urgent client', group = 'client'}),
+
+    awful.key({ modkey, 'Shift' }, '=', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = t.gap + beautiful.useless_gap or 1
+        end,
+        {description = 'increase useless gap', group = 'tag'}),
+
+    awful.key({ modkey }, '-', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = t.gap - beautiful.useless_gap or 1
+        end,
+        {description = 'decrease useless gap', group = 'tag'}),
+
+    awful.key({ modkey }, '=', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = beautiful.useless_gap
+        end,
+        {description = 'reset useless gap', group = 'tag'}),
 
     -- Standard program
     awful.key({ modkey }, 'Return', function ()
@@ -963,8 +982,7 @@ root.buttons(gears.table.join(
 --------------------------------------------------------------------------------
 
 clientkeys = gears.table.join(
-    awful.key({ modkey }, 'f',
-        function (c)
+    awful.key({ modkey }, 'f', function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
         end,
