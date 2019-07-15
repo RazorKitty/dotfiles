@@ -36,7 +36,7 @@ start-pulseaudio-x11 &
 
 
 if [ -z $(pgrep -x "mpd") ]; then
-    mpd  &
+    mpd --no-daemon &
 fi
 
 if [ -z $(pgrep -x "xbanish") ]; then
