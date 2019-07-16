@@ -1062,6 +1062,15 @@ awful.rules.rules = {
         }
     },
     {
+        rule = {
+            class = 'csgo_linux64'
+        },
+        properties = {
+            border_width = 0,
+            fullscreen = true
+        }
+    },
+    {
         rule_any = {
             type = {
                 'normal',
