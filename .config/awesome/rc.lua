@@ -47,16 +47,19 @@ end
 -- Handle runtime errors after startup
 do
     local in_error = false
-    awesome.connect_signal('debug::error', function (err)
-        -- Make sure we don't go into an endless error loop
-        if in_error then return end
-        in_error = true
+    awesome.connect_signal('debug::error',
+        function (err)
+            -- Make sure we don't go into an endless error loop
+            if in_error then return end
+            in_error = true
 
-        naughty.notify({ preset = naughty.config.presets.critical,
-                         title = 'Oops, an error happened!',
-                         text = tostring(err) })
-        in_error = false
-    end)
+            naughty.notify({
+                preset = naughty.config.presets.critical,
+                title = 'Oops, an error happened!',
+                text = tostring(err) 
+            })
+            in_error = false
+        end)
 end
 
 ----------------------------------------------------------------------- Theme --
@@ -120,7 +123,6 @@ local tasklist_buttons = gears.table.join(
         awful.client.focus.byidx(-1)
     end)
 )
-
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -273,6 +275,7 @@ local text_date_widget = wibox.widget {
         }
     }
 }
+
 local calendar_popup = awful.widget.calendar_popup.month()
 calendar_popup:attach(text_date_widget, 'tr', {on_hover = false})
 
@@ -756,7 +759,7 @@ awful.screen.connect_for_each_screen(function(s)
                     layout = wibox.layout.fixed.horizontal,
                     spacing = 16,
                     -- only display widgets on the primary screen
-                    wibox.widget.systray(),
+                    s == screen.primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
                     --s == screen.primary and backlight_widget,
                     s == screen.primary and (upower_display_widget or upower_devices_widget),
