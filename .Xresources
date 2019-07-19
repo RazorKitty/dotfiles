@@ -4,6 +4,7 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
+!
 ! special
 *.foreground:   #b4c1c2
 *.background:   #0d0015
