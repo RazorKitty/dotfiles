@@ -2,7 +2,8 @@ if [ -r ~/.zprezto/runcoms/zenv ]; then
     source ./zprezto/runcoms/zenv
 fi
 #set sonme enviroment vars
-export SUDO_ASKPASS=~/.scripts/sudo_ask_pass.zsh
+export PATH=$HOME/bin:$PATH
+
 export HOSTNAME=$(</etc/hostname)
 
 zsh-update () {
