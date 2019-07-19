@@ -4,10 +4,6 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
-! this is a test
-! this is also a test
-!
-!
 ! special
 *.foreground:   #b4c1c2
 *.background:   #0d0015
