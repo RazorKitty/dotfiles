@@ -58,13 +58,21 @@ theme.light_white = xrdb.color15
 theme.useless_gap = dpi(8)
 theme.bg_normal = theme.light_black
 theme.fg_normal = theme.white
+
 theme.bg_focus = theme.light_black
-theme.fg_focus = theme.foreground
+theme.fg_focus = theme.light_white
+
+theme.bg_important = theme.light_white
+theme.fg_important = theme.black
+
 theme.bg_urgent = theme.red
 theme.fg_urgent = theme.black
+
 theme.bg_minimize = theme.bg_normal
 theme.fg_minimize = theme.light_blue
+
 theme.bg_systray = theme.light_black
+
 theme.border_width = dpi(2)
 theme.border_normal = theme.bg_normal
 theme.border_focus = theme.fg_focus
