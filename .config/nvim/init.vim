@@ -26,25 +26,6 @@ set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servernam
 " terminal settings
 au TermOpen * setlocal nonumber norelativenumber
 
-let g:terminal_color_0 = '#0b0015'
-let g:terminal_color_8 = '#153043'
-let g:terminal_color_1 = '#ac1e33'
-let g:terminal_color_9 = '#ac1e33'
-let g:terminal_color_2 = '#247345'
-let g:terminal_color_10 = '#247345'
-let g:terminal_color_3 = '#797724'
-let g:terminal_color_11 = '#797724'
-let g:terminal_color_4 = '#174b58'
-let g:terminal_color_12 = '#174b58'
-let g:terminal_color_5 = '#4d3a58'
-let g:terminal_color_13 = '#4d3a58'
-let g:terminal_color_6 = '#376e57'
-let g:terminal_color_14 = '#376e57'
-let g:terminal_color_7 = '#48737a'
-let g:terminal_color_15 = '#48737a'
-
-
-
 "netrw settings
 let g:netrw_banner = 0
 "let g:netrw_liststyle = 3
@@ -52,21 +33,18 @@ let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 "let g:netrw_winsize = 25
 let g:netrw_preview = 1
-augroup netrw_open
-    autocmd!
-    autocmd VimEnter * :Vexplore
-    autocmd VimEnter * :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-augroup END
+
+"augroup netrw_open
+"    autocmd!
+"    autocmd VimEnter * :Vexplore
+"    autocmd VimEnter * :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
+"augroup END
 
 augroup netrw_close
     autocmd!
     autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
 augroup END
 
-"augroup netrw_change_focus
-"    autocmd!
-"    autocmd WinEnter * if getbufvar(winbufnr(winnr()), "&filetype") == "netrw" | :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])")) | endif
-"augroup END
 
 call plug#begin()
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion framework
