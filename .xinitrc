@@ -51,4 +51,4 @@ if [ -z $(pgrep -x "kdeconnectd") ]; then
     /usr/lib/libexec/kdeconnectd &
 fi
 
-exec awesome
+exec awesome $@
