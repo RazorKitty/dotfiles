@@ -42,11 +42,6 @@ if [ -z $(pgrep -x "ckb-next") ] && [ cat /dev/input/ckb0/connected | grep -q '[
     ckb-next --background &
 fi
 
-if [[ -z $(pgrep -x "entr") ]]; then
-    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME ls-tree -r master --name-only | entr -p $HOME/bin/autocommit.sh /_ &
-fi
-
-
 if [ -z $(pgrep -x "kdeconnectd") ]; then
     /usr/lib/libexec/kdeconnectd &
 fi

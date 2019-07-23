@@ -426,26 +426,6 @@ local upower_devices_widget = upower.devices_widget {
                         }
                     },
                     {
-                        id = '_time_container',
-                        layout = wibox.layout.fixed.horizontal,
-                        {
-                            id = 'time-to-empty_role',
-                            widget = wibox.widget.textbox,
-                            update_upower_widget = function (self, dev)
-                                self.visible = dev.time_to_empty > 0
-                                self.text = format_time(dev.time_to_empty)
-                            end
-                        },
-                        {
-                            id = 'time-to-full_role',
-                            widget = wibox.widget.textbox,
-                            update_upower_widget = function (self, dev)
-                                self.visible = dev.time_to_full > 0
-                                self.text = format_time(dev.time_to_full)
-                            end
-                        }
-                    },
-                    {
                         id = 'state_role',
                         widget = wibox.widget.textbox,
                         update_upower_widget = function (self, dev)
@@ -645,7 +625,7 @@ local mpd_widget = mpd.widget {
         end,
         {
             id = '_margin',
-            layout = wibox.layout.margin,
+            layout = wibox.container.margin,
             left = 4,
             right = 4,
             {
@@ -804,6 +784,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 's',  hotkeys_popup.show_help,
               {description='show help', group='awesome'}),
+
     awful.key({ modkey }, 'w', function ()
         main_menu:show();
     end,

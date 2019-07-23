@@ -2,9 +2,6 @@ if [ -r ~/.zprezto/runcoms/zenv ]; then
     source ./zprezto/runcoms/zenv
 fi
 #set sonme enviroment vars
-export PATH=$HOME/bin:$PATH
-
-export HOSTNAME=$(</etc/hostname)
 
 zsh-update () {
     if [[ -d "${ZDOTDIR:-$HOME}/.zprezto" ]]; then
