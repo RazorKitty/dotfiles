@@ -3,8 +3,10 @@ if [ -r ~/.zprezto/runcoms/zenv ]; then
 fi
 #set sonme enviroment vars
 
-export PATH=$HOME/bin:$PATH
 export HOSTNAME=$(</etc/hostname)
+export PATH=$HOME/bin:$PATH
+export EDITOR=nvim
+
 
 zsh-update () {
     if [[ -d "${ZDOTDIR:-$HOME}/.zprezto" ]]; then
