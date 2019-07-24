@@ -3,6 +3,9 @@ if [ -r ~/.zprezto/runcoms/zenv ]; then
 fi
 #set sonme enviroment vars
 
+export PATH=$HOME/bin:$PATH
+export HOSTNAME=$(</etc/hostname)
+
 zsh-update () {
     if [[ -d "${ZDOTDIR:-$HOME}/.zprezto" ]]; then
         echo "Updating zprezto..."
@@ -40,7 +43,23 @@ xq () {
 }
 
 lscp () {
-    scp "$@"; ehco -e "\a"
+    scp "$@"; /bin/echo -e "\a"
+}
+
+zzz () {
+    /bin/sudo zzz "$@"
+}
+
+ZZZ () {
+    /bin/sudo ZZZ "$@"
+}
+
+reboot () {
+    /bin/sudo reboot "$@"
+}
+
+poweroff () {
+    /bin/sudo poweroff "$@"
 }
 
 alias night_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 50  && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 1"
