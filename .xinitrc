@@ -26,9 +26,9 @@ fi
 # start some nice programs
 
 #start pulseaudio
-/usr/bin/pactl load-module module-x11-publish "display=$DISPLAY" > /dev/null
-/usr/bin/pactl load-module module-x11-cork-request "display=$DISPLAY" > /dev/null
-
+if [ -z $(pgrep -x "pulseaudio") ]; then
+    start-pulseaudio-x11 &
+fi
 
 if [ -z $(pgrep -x "mpd") ]; then
     mpd --no-daemon &
