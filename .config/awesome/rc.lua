@@ -26,6 +26,7 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 local lgi = require('lgi')
 local upower = require('upower')
 local mpd = require('mpd')
+local terrible = require('terrible')
 --local sys = require('sys')
 
 local terminal = 'st'
@@ -307,6 +308,86 @@ local text_clock_widget = wibox.widget {
         }
     }
 }
+
+local terrible_upower_widget = terrible.upower.display_device_widget {
+    templates = {
+        battery = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            {
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                {
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
+                    {
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'percentage_container',
+                        layout = wibox.container.constraint,
+                        width = 64,
+                        hieght = 18,
+                        {
+                            id = 'percentage_role',
+                            widget = wibox.widget.progressbar,
+                            max_value = 100,
+                            color = beautiful.green,
+                            update_widget = function (self, dev)
+                                self.color = (dev.percentage < 10 and beautiful.red) or (dev.percentage < 25 and beautiful.yellow) or beautiful.green
+                                self:set_value(dev.percentage)
+                            end
+                        }
+                    },
+                    {
+                        id = '_time_container',
+                        layout = wibox.layout.fixed.horizontal,
+                        {
+                            id = '_time_remaining_background',
+                            layout = wibox.container.background,
+                            fg = beautiful.fg_focus,
+                            bg = beautiful.bg_focus,
+                            {
+                                id = 'time-to-empty_role',
+                                widget = wibox.widget.textbox,
+                                update_widget = function (self, dev)
+                                    self.visible = dev.time_to_empty > 0
+                                    self.text = format_time(dev.time_to_empty) ..' remaining'
+                                end
+                            }
+
+                        },
+                        {
+                            id = 'time-to-full_role',
+                            widget = wibox.widget.textbox,
+                            update_widget = function (self, dev)
+                                self.visible = dev.time_to_full > 0
+                                self.text = format_time(dev.time_to_full) ..' until full'
+                            end
+                        }
+                    },
+                    --{
+                    --    id = 'state_role',
+                    --    widget = wibox.widget.textbox,
+                    --    update_upower_widget = function (self, dev)
+                    --        self.text = dev.state_to_string(dev.state)
+                    --    end
+                    --}
+                }
+            }
+        }
+    }
+}
+
 
 local upower_display_widget = upower.display_device_widget {
     templates = {

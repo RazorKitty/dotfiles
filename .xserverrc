@@ -5,4 +5,4 @@
 #  exec /usr/bin/X -nolisten tcp "$@" -crt "$TTY"
 #fi
 
-exec /usr/bin/Xorg -nolisten tcp "$@" vt1
+exec /usr/bin/Xorg -nolisten tcp "$@"
