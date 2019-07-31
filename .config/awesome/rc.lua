@@ -804,6 +804,24 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, 'Escape', awful.tag.history.restore,
               {description = 'go back', group = 'tag'}),
 
+    awful.key({ modkey, 'Shift' }, '=', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = t.gap + beautiful.useless_gap or 1
+        end,
+        {description = 'increase useless gap', group = 'tag'}),
+
+    awful.key({ modkey }, '-', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = t.gap - beautiful.useless_gap or 1
+        end,
+        {description = 'decrease useless gap', group = 'tag'}),
+
+    awful.key({ modkey }, '=', function ()
+            local t = awful.screen.focused().selected_tag
+            t.gap = beautiful.useless_gap
+        end,
+        {description = 'reset useless gap', group = 'tag'}),
+
     -- Layout manipulation
 
     awful.key({ modkey, 'Control' }, 'j', function ()
@@ -838,24 +856,6 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey }, 'u', awful.client.urgent.jumpto,
         {description = 'jump to urgent client', group = 'client'}),
-
-    awful.key({ modkey, 'Shift' }, '=', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = t.gap + beautiful.useless_gap or 1
-        end,
-        {description = 'increase useless gap', group = 'tag'}),
-
-    awful.key({ modkey }, '-', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = t.gap - beautiful.useless_gap or 1
-        end,
-        {description = 'decrease useless gap', group = 'tag'}),
-
-    awful.key({ modkey }, '=', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = beautiful.useless_gap
-        end,
-        {description = 'reset useless gap', group = 'tag'}),
 
     -- Standard program
     awful.key({ modkey }, 'Return', function ()
@@ -1010,7 +1010,17 @@ clientkeys = gears.table.join(
                 -- minimized, since minimized clients can't have the focus.
                 c.minimized = true
         end,
-        {description = 'minimize', group = 'client'})
+        {description = 'minimize', group = 'client'}),
+
+    awful.key({ modkey, 'Shift' }, 'n', function (c)
+        c:move_to_tag(c.screen.tags[c.first_tag.index +1] or c.screen.tags[1])
+    end,
+    {description = 'move client to next tag', group='client'}),
+
+    awful.key({ modkey, 'Shift' }, 'p', function (c)
+        c:move_to_tag(c.screen.tags[c.first_tag.index -1] or c.screen.tags[#c.screen.tags])
+    end,
+    {description = 'move client to previous tag', group='client'})
 
 )
 
