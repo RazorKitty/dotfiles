@@ -375,99 +375,13 @@ local terrible_upower_widget = terrible.upower.display_device_widget {
                             end
                         }
                     },
-                    --{
-                    --    id = 'state_role',
-                    --    widget = wibox.widget.textbox,
-                    --    update_upower_widget = function (self, dev)
-                    --        self.text = dev.state_to_string(dev.state)
-                    --    end
-                    --}
                 }
             }
         }
     }
 }
 
-
-local upower_display_widget = upower.display_device_widget {
-    templates = {
-        battery = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = 'percentage_container',
-                        layout = wibox.container.constraint,
-                        width = 64,
-                        hieght = 18,
-                        {
-                            id = 'percentage_role',
-                            widget = wibox.widget.progressbar,
-                            max_value = 100,
-                            color = beautiful.green,
-                            update_upower_widget = function (self, dev)
-                                self.color = (dev.percentage < 10 and beautiful.red) or (dev.percentage < 25 and beautiful.yellow) or beautiful.green
-                                self:set_value(dev.percentage)
-                            end
-                        }
-                    },
-                    {
-                        id = '_time_container',
-                        layout = wibox.layout.fixed.horizontal,
-                        {
-                            id = '_time_remaining_background',
-                            layout = wibox.container.background,
-                            fg = beautiful.fg_focus,
-                            bg = beautiful.bg_focus,
-                            {
-                                id = 'time-to-empty_role',
-                                widget = wibox.widget.textbox,
-                                update_upower_widget = function (self, dev)
-                                    self.visible = dev.time_to_empty > 0
-                                    self.text = format_time(dev.time_to_empty) ..' remaining'
-                                end
-                            }
-
-                        },
-                        {
-                            id = 'time-to-full_role',
-                            widget = wibox.widget.textbox,
-                            update_upower_widget = function (self, dev)
-                                self.visible = dev.time_to_full > 0
-                                self.text = format_time(dev.time_to_full) ..' until full'
-                            end
-                        }
-                    },
-                    --{
-                    --    id = 'state_role',
-                    --    widget = wibox.widget.textbox,
-                    --    update_upower_widget = function (self, dev)
-                    --        self.text = dev.state_to_string(dev.state)
-                    --    end
-                    --}
-                }
-            }
-        }
-    }
-}
-local upower_devices_widget = upower.devices_widget {
+local terrible_upower_devices_widget = terrible.upower.devices_widget {
     device_templates = {
         battery = {
             id = '_background',
@@ -486,7 +400,7 @@ local upower_devices_widget = upower.devices_widget {
                     {
                         id = 'kind_role',
                         widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
+                        update_widget = function (self, dev)
                             self:set_text(dev.kind_to_string(dev.kind))
                         end
                     },
@@ -500,7 +414,7 @@ local upower_devices_widget = upower.devices_widget {
                             widget = wibox.widget.progressbar,
                             max_value = 100,
                             color = beautiful.green,
-                            update_upower_widget = function (self, dev)
+                            update_widget = function (self, dev)
                                 self.color = dev.percentage < 10 and beautiful.red or dev.percentage < 25 and beautiful.yellow or beautiful.green
                                 self:set_value(dev.percentage)
                             end
@@ -509,7 +423,7 @@ local upower_devices_widget = upower.devices_widget {
                     {
                         id = 'state_role',
                         widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
+                        update_widget = function (self, dev)
                             self:set_text(dev.state_to_string(dev.state))
                         end
                     }
@@ -533,7 +447,7 @@ local upower_devices_widget = upower.devices_widget {
                     {
                         id = 'kind_role',
                         widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
+                        update_widget = function (self, dev)
                             self:set_text(dev.kind_to_string(dev.kind))
                         end
                     },
@@ -554,7 +468,7 @@ local upower_devices_widget = upower.devices_widget {
                             {
                                 id = 'online_role',
                                 widget = wibox.widget.checkbox,
-                                update_upower_widget = function (self, dev)
+                                update_widget = function (self, dev)
                                     self.checked = dev.online
                                 end
 
@@ -581,7 +495,7 @@ local upower_devices_widget = upower.devices_widget {
                     {
                         id = 'kind_role',
                         widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
+                        update_widget = function (self, dev)
                             self:set_text(dev.kind_to_string(dev.kind))
                         end
                     },
@@ -595,7 +509,7 @@ local upower_devices_widget = upower.devices_widget {
                             widget = wibox.widget.progressbar,
                             max_value = 100,
                             color = beautiful.green,
-                            update_upower_widget = function (self, dev)
+                            update_widget = function (self, dev)
                                 self:set_value(dev.percentage)
                             end
                         }
@@ -603,7 +517,7 @@ local upower_devices_widget = upower.devices_widget {
                     {
                         id = 'state_role',
                         widget = wibox.widget.textbox,
-                        update_upower_widget = function (self, dev)
+                        update_widget = function (self, dev)
                             self:set_text(dev.state_to_string(dev.state))
                         end
                     }
@@ -624,13 +538,13 @@ local upower_devices_widget = upower.devices_widget {
             right = 0,
             {
                 id = 'devices_container_role',
-                layout = (upower_display_widget and wibox.layout.fixed.vertical) or wibox.layout.fixed.horizontal,
+                layout = (terrible_upower_widget and wibox.layout.fixed.vertical) or wibox.layout.fixed.horizontal,
                 spacing = 4,
-                upower_device_added = function (self, wdg, dev_path)
+                device_added = function (self, dev_path, wdg)
                     self[dev_path] = wdg
                     self:add(wdg)
                 end,
-                upower_device_removed = function (self, dev_path)
+                device_removed = function (self, dev_path)
                     self:remove_widgets(self[dev_path])
                     self.dev_path = nil
                 end
@@ -822,8 +736,7 @@ awful.screen.connect_for_each_screen(function(s)
                     -- only display widgets on the primary screen
                     s == screen.primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
-                    --s == screen.primary and backlight_widget,
-                    s == screen.primary and (upower_display_widget or upower_devices_widget),
+                    s == screen.primary and (terrible_upower_widget or terrible_upower_devices_widget),
                     text_clock_widget,
                     text_date_widget,
                     awful.widget.layoutbox(s)
@@ -835,15 +748,15 @@ awful.screen.connect_for_each_screen(function(s)
 end)
 
 local upower_devices_popup
-if upower_display_widget then
+if terrible_upower_widget then
     upower_devices_popup = awful.popup {
-        widget = upower_devices_widget,
+        widget = terrible_upower_devices_widget,
         visible = false,
         preferred_positions = 'bottom',
         hide_on_right_click = true,
         ontop = true
     }
-    upower_devices_popup:bind_to_widget(upower_display_widget,1)
+    upower_devices_popup:bind_to_widget(terrible_upower_widget,1)
 end
 ---------------------------------------------------------------- Key bindings --
 
@@ -1114,7 +1027,7 @@ clientbuttons = gears.table.join(
 
 local spread_layout = function (obj, args)
     args.margins = 32
-    local l = awful.placement.no_overlap+awful.no_offscreen
+    local l = awful.placement.no_overlap
     return l(obj, args)
 end
 
@@ -1142,7 +1055,12 @@ awful.rules.rules = {
         },
         properties = {
             border_width = 0,
-            fullscreen = true
+            fullscreen = true,
+            new_tag = {
+                name = 'CS:GO',
+                layout = awful.layout.suit.max,
+                volatiles = true
+            }
         }
     },
     {
