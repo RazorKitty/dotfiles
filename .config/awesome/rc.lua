@@ -24,7 +24,7 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
                       require('awful.hotkeys_popup.keys')
 -- extras
 local lgi = require('lgi')
-local upower = require('upower')
+--local upower = require('upower')
 local mpd = require('mpd')
 local terrible = require('terrible')
 --local sys = require('sys')
@@ -1059,7 +1059,21 @@ awful.rules.rules = {
             new_tag = {
                 name = 'CS:GO',
                 layout = awful.layout.suit.max,
-                volatiles = true
+                volatile = true
+            }
+        }
+    },
+    {
+        rule = {
+            class = 'Oblivion.exe'
+        },
+        properties = {
+            border_width = 0,
+            fullscreen = true,
+            new_tag = {
+                name = 'Oblivion',
+                layout = awful.layout.suit.max,
+                volatile = true
             }
         }
     },
