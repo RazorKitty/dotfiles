@@ -1065,7 +1065,7 @@ awful.rules.rules = {
     },
     {
         rule = {
-            class = 'Oblivion.exe'
+            class = 'oblivion.exe'
         },
         properties = {
             border_width = 0,
