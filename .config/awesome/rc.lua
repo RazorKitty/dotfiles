@@ -24,7 +24,6 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
                       require('awful.hotkeys_popup.keys')
 -- extras
 local lgi = require('lgi')
-local upower = require('upower')
 local mpd = require('mpd')
 local terrible = require('terrible')
 --local sys = require('sys')
@@ -537,11 +536,15 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
             left = 0,
             right = 0,
             {
-                id = 'devices_container_role',
-                layout = (terrible_upower_widget and wibox.layout.fixed.vertical) or wibox.layout.fixed.horizontal,
+                id = 'container_role',
+                layout = wibox.layout.fixed.horizontal,
                 spacing = 4,
-                device_added = function (self, dev_path, wdg)
-                    self[dev_path] = wdg
+                device_added = function (self, dev, wdg)
+                    naughty.notify {
+                        title = 'device_added',
+                        text = dev.kind_to_string(dev.kind)
+                    }
+                    self[dev:get_object_path()] = wdg
                     self:add(wdg)
                 end,
                 device_removed = function (self, dev_path)
@@ -736,7 +739,8 @@ awful.screen.connect_for_each_screen(function(s)
                     -- only display widgets on the primary screen
                     s == screen.primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
-                    s == screen.primary and (terrible_upower_widget or terrible_upower_devices_widget),
+                    s == screen.primary and terrible_upower_widget,
+                    s == screen.primary and terrible_upower_devices_widget,
                     text_clock_widget,
                     text_date_widget,
                     awful.widget.layoutbox(s)
@@ -747,17 +751,17 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 
-local upower_devices_popup
-if terrible_upower_widget then
-    upower_devices_popup = awful.popup {
-        widget = terrible_upower_devices_widget,
-        visible = false,
-        preferred_positions = 'bottom',
-        hide_on_right_click = true,
-        ontop = true
-    }
-    upower_devices_popup:bind_to_widget(terrible_upower_widget,1)
-end
+--local upower_devices_popup
+--if terrible_upower_widget then
+--    upower_devices_popup = awful.popup {
+--        widget = terrible_upower_devices_widget,
+--        visible = false,
+--        preferred_positions = 'bottom',
+--        hide_on_right_click = true,
+--        ontop = true
+--    }
+--    upower_devices_popup:bind_to_widget(terrible_upower_widget,1)
+--end
 ---------------------------------------------------------------- Key bindings --
 
 globalkeys = gears.table.join(

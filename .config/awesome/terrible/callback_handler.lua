@@ -4,7 +4,7 @@ local callback_handler = {}
 callback_handler.__index = callback_handler
 
 callback_handler.__call = function (self, ...)
-    for _,func in pairs(self) do
+    for _,func in ipairs(self) do
         func(...)
     end
 end
