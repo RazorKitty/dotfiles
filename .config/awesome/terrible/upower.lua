@@ -1,6 +1,7 @@
 local table = table
 local callback_handler = require('terrible.callback_handler')
 local wibox = require('wibox')
+local naughty = require('naughty')
 local lgi = require('lgi')
 local UPowerGlib = lgi.UPowerGlib
 
@@ -43,14 +44,12 @@ local device_properties = {
     'warning-level'
 }
 
-
 local property_callbacks = setmetatable({}, {__mode = 'k'})
-
-
--- we need an external refference to these functions
--- as we cannot get them back from the 'on_' accessors
+local devices_lookup = {}
 local devices
-local client_singals = {
+-- we need an external reference to these functions
+-- as we cannot get them back from the 'on_' accessors
+local client_signals = {
     on_device_added = callback_handler:new {
         function (self, device)
             table.insert(devices, device)
@@ -58,22 +57,33 @@ local client_singals = {
             device.on_notify = property_callbacks[device]
         end
     },
-    on_device_removed = callback_handler:new()
+    on_device_removed = callback_handler:new {
+        function (self, dev_path)
+            naughty.notify {
+                title = 'client_callback',
+                text = dev_path
+            }
+            devices[devices_lookup[dev_path]] = nil
+            devices_lookup[dev_path] = nil
+        end
+    }
 }
-
-local Client = UPowerGlib.Client(client_singals)
+local Client = UPowerGlib.Client.new()
+Client.on_device_added = client_signals.on_device_added
+Client.on_device_removed = client_signals.on_device_removed
 property_callbacks[Client] = callback_handler:new()
 
 local display_device = Client:get_display_device()
-
 property_callbacks[display_device] = callback_handler:new()
 display_device.on_notify = property_callbacks[display_device]
 
-devices = setmetatable(Client:get_devices(), {__mode = 'v'})
-
+devices = Client:get_devices()
 for _,device in ipairs(devices) do
     property_callbacks[device] = callback_handler:new()
     device.on_notify = property_callbacks[device]
+end
+for idx,device in ipairs(devices) do
+    devices_lookup[device:get_object_path()] = idx
 end
 
 Client.on_notify = property_callbacks[Client]
@@ -124,13 +134,17 @@ local devices_widget = function (args)
                 wdg:device_added(dev, make_device_widget(dev, kind))
             end
         end
-        client_singals.on_device_added:add( function (self, dev)
+        client_signals.on_device_added:add( function (self, dev)
             local kind = args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)]
             if kind then
                 wdg:device_added(dev, make_device_widget(dev, kind))
             end
         end )
-        client_singals.on_device_removed:add( function (self, dev_path)
+        client_signals.on_device_removed:add( function (self, dev_path)
+            naughty.notify {
+                title = 'widget_callback',
+                text = dev_path
+            }
             wdg:device_removed(dev_path)
         end )
     end
@@ -139,7 +153,8 @@ end
 
 local upower_mt = {
     devices = devices,
-    client_singals = client_singals,
+    devices_lookup = devices_lookup,
+    client_signals = client_signals,
     property_callbacks = property_callbacks,
 }
 
@@ -155,7 +170,7 @@ return setmetatable({
         end )
     end,
     add_client_signal_callback = function (signal, func)
-        client_singals[signal]:add(func)
+        client_signals[signal]:add(func)
     end,
     add_display_device_callback = function (prop, func)
         property_callbacks[display_device]:add( function (self, pspec)
@@ -165,11 +180,3 @@ return setmetatable({
         end )
     end
 }, upower_mt)
-
-
-
-
-
-
-
-

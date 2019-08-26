@@ -24,6 +24,7 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
                       require('awful.hotkeys_popup.keys')
 -- extras
 local lgi = require('lgi')
+--local upower = require('upower')
 local mpd = require('mpd')
 local terrible = require('terrible')
 --local sys = require('sys')
@@ -523,6 +524,53 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
                 
                 }
             }
+        },
+        keyboard = {
+            id = '_background',
+            layout = wibox.container.background,
+            fg = beautiful.fg_normal,
+            bg = beautiful.bg_normal,
+            {
+                id = '_margin',
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                {
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 4,
+                    {
+                        id = 'kind_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self:set_text(dev.kind_to_string(dev.kind))
+                        end
+                    },
+                    {
+                        id = 'percentage_container',
+                        layout = wibox.container.constraint,
+                        width = 64,
+                        height = 18,
+                        {
+                            id = 'percentage_role',
+                            widget = wibox.widget.progressbar,
+                            max_value = 100,
+                            color = beautiful.green,
+                            update_widget = function (self, dev)
+                                self:set_value(dev.percentage)
+                            end
+                        }
+                    },
+                    {
+                        id = 'state_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self:set_text(dev.state_to_string(dev.state))
+                        end
+                    }
+                
+                }
+            }
         }
     },
     container_template = {
@@ -540,16 +588,12 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
                 layout = wibox.layout.fixed.horizontal,
                 spacing = 4,
                 device_added = function (self, dev, wdg)
-                    naughty.notify {
-                        title = 'device_added',
-                        text = dev.kind_to_string(dev.kind)
-                    }
                     self[dev:get_object_path()] = wdg
                     self:add(wdg)
                 end,
                 device_removed = function (self, dev_path)
                     self:remove_widgets(self[dev_path])
-                    self.dev_path = nil
+                    self[dev_path] = nil
                 end
             }
         }
@@ -1060,10 +1104,26 @@ awful.rules.rules = {
         properties = {
             border_width = 0,
             fullscreen = true,
+            focus = true,
             new_tag = {
                 name = 'CS:GO',
                 layout = awful.layout.suit.max,
-                volatiles = true
+                volatile = true
+            }
+        }
+    },
+    {
+        rule = {
+            class = 'oblivion.exe'
+        },
+        properties = {
+            border_width = 0,
+            fullscreen = true,
+            focus = true,
+            new_tag = {
+                name = 'Oblivion',
+                layout = awful.layout.suit.max,
+                volatile = true
             }
         }
     },

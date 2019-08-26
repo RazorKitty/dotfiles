@@ -14,7 +14,11 @@ callback_handler.add = function (self, func)
 end
 
 callback_handler.remove = function (self, func)
-    self[func] = nil
+    for idx,val in ipairs(self) do
+        if val == func then
+            self[idx] = nil
+        end
+    end
 end
 
 function callback_handler.new(self, obj)
