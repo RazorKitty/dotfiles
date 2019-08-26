@@ -1,16 +1,8 @@
 local table = table
 local callback_handler = require('terrible.callback_handler')
 local wibox = require('wibox')
-local naughty = require('naughty')
 local lgi = require('lgi')
 local UPowerGlib = lgi.UPowerGlib
-
-local client_properties = {
-    'daemon-version',
-    'lid-is-closed',
-    'lid-is-present',
-    'on-battery'
-}
 
 local device_properties = {
     'battery-level',
@@ -53,16 +45,13 @@ local client_signals = {
     on_device_added = callback_handler:new {
         function (self, device)
             table.insert(devices, device)
+            devices_lookup[device:get_object_path()] = device
             property_callbacks[device] = callback_handler:new()
             device.on_notify = property_callbacks[device]
         end
     },
     on_device_removed = callback_handler:new {
         function (self, dev_path)
-            naughty.notify {
-                title = 'client_callback',
-                text = dev_path
-            }
             devices[devices_lookup[dev_path]] = nil
             devices_lookup[dev_path] = nil
         end
@@ -134,20 +123,20 @@ local devices_widget = function (args)
                 wdg:device_added(dev, make_device_widget(dev, kind))
             end
         end
-        client_signals.on_device_added:add( function (self, dev)
+    end
+    client_signals.on_device_added:add( function (self, dev)
+        for _,wdg in ipairs(container_widget:get_children_by_id('container_role')) do
             local kind = args.device_templates[UPowerGlib.Device.kind_to_string(dev.kind)]
             if kind then
                 wdg:device_added(dev, make_device_widget(dev, kind))
             end
-        end )
-        client_signals.on_device_removed:add( function (self, dev_path)
-            naughty.notify {
-                title = 'widget_callback',
-                text = dev_path
-            }
+        end
+    end )
+    client_signals.on_device_removed:add( function (self, dev_path)
+        for _,wdg in ipairs(container_widget:get_children_by_id('container_role')) do
             wdg:device_removed(dev_path)
-        end )
-    end
+        end
+    end )
     return container_widget
 end
 
