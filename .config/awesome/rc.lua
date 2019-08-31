@@ -27,6 +27,9 @@ local lgi = require('lgi')
 --local upower = require('upower')
 local mpd = require('mpd')
 local terrible = require('terrible')
+terrible.upower.add_client_property_callback('lid-is-closed', function (client)
+    awful.spawn('xlock -mode blank')
+end)
 --local sys = require('sys')
 
 local terminal = 'st'
