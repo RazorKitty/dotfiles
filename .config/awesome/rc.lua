@@ -23,19 +23,12 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 -- when client with a matching name is opened:
                       require('awful.hotkeys_popup.keys')
 -- extras
-local lgi = require('lgi')
---local upower = require('upower')
 local mpd = require('mpd')
 local terrible = require('terrible')
 terrible.upower.add_client_property_callback('lid-is-closed', function (client)
     awful.spawn('xlock -mode blank')
 end)
---local sys = require('sys')
-
-local terminal = 'st'
-local editor = 'nvim'
-local editor_cmd = terminal..' -e '..editor
-local modkey = 'Mod4'
+local settings = require('settings')
 
 -------------------------------------------------------------- Error handling --
 -- Check if awesome encountered an error during startup and fell back to
@@ -70,6 +63,8 @@ end
 
 beautiful.init('~/.config/awesome/theme/theme.lua')
 
+------------------------------------------------------------ Useful Functions --
+
 local function set_wallpaper(s)
     -- Wallpaper
     if beautiful.wallpaper then
@@ -83,8 +78,6 @@ local function set_wallpaper(s)
 end
 
 screen.connect_signal('property::geometry', set_wallpaper)
-
------------------------------------------------------------- useful functions --
 
 local client_menu_toggle_fn = function()
     local instance = nil
@@ -168,7 +161,7 @@ local format_time = function(seconds)
 	end
 end
 
----------------------------------------------------------------------- Config --
+--------------------------------------------------------------------- Widgets --
 
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -198,11 +191,11 @@ local awesome_menu = {
     },
     {
         'Manual',
-        terminal..' -e man awesome'
+        settings.terminal..' -e man awesome'
     },
     {
         'Edit Config',
-        editor_cmd.. ' ' ..awesome.conffile
+        settings.editor_cmd.. ' ' ..awesome.conffile
     },
     {
         'Restart',
@@ -239,7 +232,7 @@ local main_menu = awful.menu {
         },
         {
             'Editor',
-            editor_cmd
+            settings.editor_cmd
         },
         {
             'Steam',
@@ -247,7 +240,7 @@ local main_menu = awful.menu {
         },
         {
             'Terminal',
-            terminal
+            settings.terminal
         }
     }
 }
@@ -255,70 +248,24 @@ local main_menu = awful.menu {
 local text_date_widget = wibox.widget {
     id = '_background',
     layout = wibox.container.background,
-    bg = beautiful.bg_normal,
-    fg = beautiful.fg_normal,
+    bg = beautiful.widget_bg,
+    fg = beautiful.widget_fg,
     {
         id = '_margin',
         layout = wibox.container.margin,
         left = 4,
         right = 4,
-        {
-            id = '_layout',
-            layout = wibox.layout.fixed.horizontal,
-            {
-                id = '_date_title',
-                widget = wibox.widget.textbox,
-                text = 'Date:'
-            },
-            {
-                layout = wibox.container.background,
-                bg = beautiful.bg_focus,
-                fg = beautiful.fg_focus,
-                wibox.widget.textclock('%d/%m/%y', 60, 'Europe/London')
-            }
-        }
+        wibox.widget.textclock('%H:%M %A %d/%m/%y', 60, 'Europe/London')
     }
 }
 
-local calendar_popup = awful.widget.calendar_popup.month()
-calendar_popup:attach(text_date_widget, 'tr', {on_hover = false})
-
-local text_clock_widget = wibox.widget {
-    id = '_background',
-    layout = wibox.container.background,
-    bg = beautiful.bg_normal,
-    fg = beautiful.fg_normal,
-    {
-        id = '_margin',
-        layout = wibox.container.margin,
-        left = 4,
-        right = 4,
-        {
-            id = '_layout',
-            layout = wibox.layout.fixed.horizontal,
-            {
-                id = '_clock_title',
-                widget = wibox.widget.textbox,
-                text = 'Time:'
-            },
-            {
-                id = '_clock',
-                layout = wibox.container.background,
-                bg = beautiful.bg_focus,
-                fg = beautiful.fg_focus,
-                wibox.widget.textclock('%H:%M', 60, 'Europe/London')
-            }
-        }
-    }
-}
-
-local terrible_upower_widget = terrible.upower.display_device_widget {
+local upower_widget = terrible.upower.display_device_widget {
     templates = {
         battery = {
             id = '_background',
             layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
+            fg = beautiful.widget_fg,
+            bg = beautiful.widget_bg,
             {
                 id = '_margin',
                 layout = wibox.container.margin,
@@ -352,45 +299,25 @@ local terrible_upower_widget = terrible.upower.display_device_widget {
                         }
                     },
                     {
-                        id = '_time_container',
-                        layout = wibox.layout.fixed.horizontal,
-                        {
-                            id = '_time_remaining_background',
-                            layout = wibox.container.background,
-                            fg = beautiful.fg_focus,
-                            bg = beautiful.bg_focus,
-                            {
-                                id = 'time-to-empty_role',
-                                widget = wibox.widget.textbox,
-                                update_widget = function (self, dev)
-                                    self.visible = dev.time_to_empty > 0
-                                    self.text = format_time(dev.time_to_empty) ..' remaining'
-                                end
-                            }
-
-                        },
-                        {
-                            id = 'time-to-full_role',
-                            widget = wibox.widget.textbox,
-                            update_widget = function (self, dev)
-                                self.visible = dev.time_to_full > 0
-                                self.text = format_time(dev.time_to_full) ..' until full'
-                            end
-                        }
-                    },
+                        id = 'time-to-empty_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self.text = format_time(dev.time_to_empty)
+                        end
+                    }
                 }
             }
         }
     }
 }
 
-local terrible_upower_devices_widget = terrible.upower.devices_widget {
+local upower_devices_widget = terrible.upower.devices_widget {
     device_templates = {
         battery = {
             id = '_background',
             layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
+            fg = beautiful.widget_fg,
+            bg = beautiful.widget_bg,
             {
                 id = '_margin',
                 layout = wibox.container.margin,
@@ -436,8 +363,8 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
         ['line-power'] = {
             id = '_background',
             layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
+            fg = beautiful.widget_fg,
+            bg = beautiful.widget_bg,
             {
                 id = '_margin',
                 layout = wibox.container.margin,
@@ -484,8 +411,8 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
         mouse = {
             id = '_background',
             layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
+            fg = beautiful.widget_fg,
+            bg = beautiful.widget_bg,
             {
                 id = '_margin',
                 layout = wibox.container.margin,
@@ -531,8 +458,8 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
         keyboard = {
             id = '_background',
             layout = wibox.container.background,
-            fg = beautiful.fg_normal,
-            bg = beautiful.bg_normal,
+            fg = beautiful.widget_fg,
+            bg = beautiful.widget_bg,
             {
                 id = '_margin',
                 layout = wibox.container.margin,
@@ -558,7 +485,7 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
                             id = 'percentage_role',
                             widget = wibox.widget.progressbar,
                             max_value = 100,
-                            color = beautiful.green,
+                            color = beautiful.cyan,
                             update_widget = function (self, dev)
                                 self:set_value(dev.percentage)
                             end
@@ -579,8 +506,8 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
     container_template = {
         id = '_backround',
         layout = wibox.container.background,
-        fg = beautiful.fg_normal,
-        bg = beautiful.bg_normal,
+        fg = beautiful.widget_fg,
+        bg = beautiful.widget_bg,
         {
             id = '_margin',
             layout = wibox.container.margin,
@@ -603,64 +530,50 @@ local terrible_upower_devices_widget = terrible.upower.devices_widget {
     }
 }
 
-
---local backlight_widget = sys.backlight.widget {
---    backlight_device = 'intel_backlight',
---    widget_template = {
---        id = '_background',
---        layout = wibox.container.background,
---        bg = beautiful.bg_normal,
---        fg = beautiful.fg_normal,
---        {
---            id = '_margin',
---            layout = wibox.container.margin,
---            left = 8,
---            right = 8,
---            {
---                id = '_layout',
---                layout = wibox.layout.fixed.horizontal,
---                {
---                    id = '_name',
---                    widget = wibox.widget.textbox,
---                    text = 'Backlight:'
---                },
---                {
---                    id = '_background',
---                    layout = wibox.container.background,
---                    bg = beautiful.bg_focus,
---                    fg = beautiful.fg_focus,
---                    {
---                        id = '_layout',
---                        layout = wibox.layout.fixed.horizontal,
---                        {
---                            id = 'backlight_text_role',
---                            widget = wibox.widget.textbox
---                        },
---                        {
---                            id = '_percentage_symbol',
---                            widget = wibox.widget.textbox,
---                            text = '%'
---                        }
---                    }
---                }
---            }
---        }
---    }
---}
+local upower_client_widget = terrible.upower.client_widget {
+    template = {
+        id = '_background',
+        layout = wibox.container.background,
+        fg = beautiful.widget_fg,
+        bg = beautiful.widget_bg,
+        {
+            id = '_margin',
+            layout = wibox.container.margin,
+            left = 0,
+            right = 0,
+            {
+                id = '_layout',
+                layout = wibox.layout.fixed.horizontal,
+                {
+                    id = 'on-battery_role',
+                    layout = wibox.layout.fixed.horizontal,
+                    upower_widget,
+                    update_widget = function (self, dev)
+                        if dev.on_battery == true then
+                            self.visible = true
+                            else
+                            self.visible = false
+                        end
+                    end
+                }
+            }
+        }
+    }
+}
 
 local mpd_widget = mpd.widget {
     template = {
         id = 'status_state_role',
         layout = wibox.container.background,
-        fg = beautiful.fg_normal,
-        bg = beautiful.bg_normal,
+        fg = beautiful.widget_fg,
+        bg = beautiful.widget_bg,
         update_mpd_widget = function (self, v)
             if v == 'stop' then
                 self.visible = false
             else
                 if v == 'pause' then
-                    self.fg = beautiful.fg_normal
-                    self.bg = beautiful.bg_normal
+                    self.fg = beautiful.widget_fg
+                    self.bg = beautiful.widget_bg
                 else
                     self.fg = beautiful.fg_focus
                     self.bg = beautiful.bg_focus
@@ -786,9 +699,7 @@ awful.screen.connect_for_each_screen(function(s)
                     -- only display widgets on the primary screen
                     s == screen.primary and wibox.widget.systray(),
                     s == screen.primary and mpd_widget,
-                    s == screen.primary and terrible_upower_widget,
-                    s == screen.primary and terrible_upower_devices_widget,
-                    text_clock_widget,
+                    s == screen.primary and upower_client_widget,
                     text_date_widget,
                     awful.widget.layoutbox(s)
                 }
@@ -798,17 +709,7 @@ awful.screen.connect_for_each_screen(function(s)
 
 end)
 
---local upower_devices_popup
---if terrible_upower_widget then
---    upower_devices_popup = awful.popup {
---        widget = terrible_upower_devices_widget,
---        visible = false,
---        preferred_positions = 'bottom',
---        hide_on_right_click = true,
---        ontop = true
---    }
---    upower_devices_popup:bind_to_widget(terrible_upower_widget,1)
---end
+
 ---------------------------------------------------------------- Key bindings --
 
 globalkeys = gears.table.join(
@@ -827,41 +728,41 @@ globalkeys = gears.table.join(
     end,
     {description = 'Raise Volume', group='Media'}),
 
-    awful.key({ modkey }, 's',  hotkeys_popup.show_help,
+    awful.key({ settings.modkey }, 's',  hotkeys_popup.show_help,
               {description='show help', group='awesome'}),
 
-    awful.key({ modkey }, 'w', function ()
+    awful.key({ settings.modkey }, 'w', function ()
         main_menu:show();
     end,
     {description = 'display menu', group = 'awesome'}),
 
-    awful.key({ modkey }, 'r', function ()
+    awful.key({ settings.modkey }, 'r', function ()
         awful.screen.focused().prompt_widget:run()
     end,
     {description = 'run prompt', group = 'awesome'}),
 
-    awful.key({ modkey }, 'p', awful.tag.viewprev,
+    awful.key({ settings.modkey }, 'p', awful.tag.viewprev,
               {description = 'view previous', group = 'tag'}),
 
-    awful.key({ modkey }, 'n', awful.tag.viewnext,
+    awful.key({ settings.modkey }, 'n', awful.tag.viewnext,
               {description = 'view next', group = 'tag'}),
 
-    awful.key({ modkey }, 'Escape', awful.tag.history.restore,
+    awful.key({ settings.modkey }, 'Escape', awful.tag.history.restore,
               {description = 'go back', group = 'tag'}),
 
-    awful.key({ modkey, 'Shift' }, '=', function ()
+    awful.key({ settings.modkey, 'Shift' }, '=', function ()
             local t = awful.screen.focused().selected_tag
             t.gap = t.gap + beautiful.useless_gap or 1
         end,
         {description = 'increase useless gap', group = 'tag'}),
 
-    awful.key({ modkey }, '-', function ()
+    awful.key({ settings.modkey }, '-', function ()
             local t = awful.screen.focused().selected_tag
             t.gap = t.gap - beautiful.useless_gap or 1
         end,
         {description = 'decrease useless gap', group = 'tag'}),
 
-    awful.key({ modkey }, '=', function ()
+    awful.key({ settings.modkey }, '=', function ()
             local t = awful.screen.focused().selected_tag
             t.gap = beautiful.useless_gap
         end,
@@ -869,72 +770,72 @@ globalkeys = gears.table.join(
 
     -- Layout manipulation
 
-    awful.key({ modkey, 'Control' }, 'j', function ()
+    awful.key({ settings.modkey, 'Control' }, 'j', function ()
             awful.screen.focus_relative( 1)
         end,
        {description = 'focus the next screen', group = 'screen'}),
 
-    awful.key({ modkey, 'Control' }, 'k', function ()
+    awful.key({ settings.modkey, 'Control' }, 'k', function ()
             awful.screen.focus_relative(-1)
         end,
         {description = 'focus the previous screen', group = 'screen'}),
 
-    awful.key({ modkey }, 'h', function ()
+    awful.key({ settings.modkey }, 'h', function ()
             awful.client.focus.global_bydirection('left')
         end,
         {description = 'Move client focus left', group = 'client'}),
 
-    awful.key({ modkey }, 'j', function ()
+    awful.key({ settings.modkey }, 'j', function ()
             awful.client.focus.global_bydirection('down')
         end,
         {description = 'Move client focus down', group = 'client'}),
 
-    awful.key({ modkey }, 'k', function ()
+    awful.key({ settings.modkey }, 'k', function ()
             awful.client.focus.global_bydirection('up')
         end,
         {description = 'Move client focus up', group = 'client'}),
 
-    awful.key({ modkey }, 'l', function ()
+    awful.key({ settings.modkey }, 'l', function ()
             awful.client.focus.global_bydirection('right')
         end,
         {description = 'Move client focus right', group = 'client'}),
 
-    awful.key({ modkey }, 'u', awful.client.urgent.jumpto,
+    awful.key({ settings.modkey }, 'u', awful.client.urgent.jumpto,
         {description = 'jump to urgent client', group = 'client'}),
 
     -- Standard program
-    awful.key({ modkey }, 'Return', function ()
-            awful.spawn(terminal)
+    awful.key({ settings.modkey }, 'Return', function ()
+            awful.spawn(settings.terminal)
         end,
         {description = 'open a terminal', group = 'launcher'}),
 
-    awful.key({ modkey, 'Control' }, 'r', awesome.restart,
+    awful.key({ settings.modkey, 'Control' }, 'r', awesome.restart,
         {description = 'reload awesome', group = 'awesome'}),
 
-    awful.key({ modkey, 'Shift'   }, 'q', awesome.quit,
+    awful.key({ settings.modkey, 'Shift'   }, 'q', awesome.quit,
         {description = 'quit awesome', group = 'awesome'}),
     
-    awful.key({ modkey, 'Control' }, 'h', function ()
+    awful.key({ settings.modkey, 'Control' }, 'h', function ()
             awful.tag.incncol( 1, nil, true)
         end,
         {description = 'increase the number of columns', group = 'layout'}),
 
-    awful.key({ modkey, 'Control' }, 'l', function () 
+    awful.key({ settings.modkey, 'Control' }, 'l', function () 
             awful.tag.incncol(-1, nil, true) 
         end,
         {description = 'decrease the number of columns', group = 'layout'}),
 
-    awful.key({ modkey }, 'space', function () 
+    awful.key({ settings.modkey }, 'space', function () 
             awful.layout.inc( 1) 
         end,
         {description = 'select next', group = 'layout'}),
 
-    awful.key({ modkey, 'Shift' }, 'space', function () 
+    awful.key({ settings.modkey, 'Shift' }, 'space', function () 
             awful.layout.inc(-1) 
         end,
         {description = 'select previous', group = 'layout'}),
 
-    awful.key({ modkey, 'Control' }, 'm',
+    awful.key({ settings.modkey, 'Control' }, 'm',
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -953,7 +854,7 @@ globalkeys = gears.table.join(
 for i = 1, 9 do
     globalkeys = gears.table.join(globalkeys,
         -- View tag only.
-        awful.key({ modkey }, '#' .. i + 9,
+        awful.key({ settings.modkey }, '#' .. i + 9,
             function ()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -963,7 +864,7 @@ for i = 1, 9 do
             end,
             {description = 'view tag #'..i, group = 'tag'}),
         -- Toggle tag display.
-        awful.key({ modkey, 'Control' }, '#' .. i + 9,
+        awful.key({ settings.modkey, 'Control' }, '#' .. i + 9,
             function ()
                 local screen = awful.screen.focused()
                 local tag = screen.tags[i]
@@ -973,7 +874,7 @@ for i = 1, 9 do
             end,
             {description = 'toggle tag #' .. i, group = 'tag'}),
         -- Move client to tag.
-        awful.key({ modkey, 'Shift' }, '#' .. i + 9,
+        awful.key({ settings.modkey, 'Shift' }, '#' .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -984,7 +885,7 @@ for i = 1, 9 do
             end,
             {description = 'move focused client to tag #'..i, group = 'tag'}),
         -- Toggle tag on focused client.
-        awful.key({ modkey, 'Control', 'Shift' }, '#' .. i + 9,
+        awful.key({ settings.modkey, 'Control', 'Shift' }, '#' .. i + 9,
             function ()
                 if client.focus then
                     local tag = client.focus.screen.tags[i]
@@ -1011,58 +912,58 @@ root.buttons(gears.table.join(
 --------------------------------------------------------------------------------
 
 clientkeys = gears.table.join(
-    awful.key({ modkey }, 'f', function (c)
+    awful.key({ settings.modkey }, 'f', function (c)
             c.fullscreen = not c.fullscreen
             c:raise()
         end,
         {description = 'toggle fullscreen', group = 'client'}),
 
-    awful.key({ modkey, 'Shift' }, 'c', function (c) 
+    awful.key({ settings.modkey, 'Shift' }, 'c', function (c) 
             c:kill()
         end,
         {description = 'close', group = 'client'}),
 
-    awful.key({ modkey, 'Control' }, 'space', awful.client.floating.toggle,
+    awful.key({ settings.modkey, 'Control' }, 'space', awful.client.floating.toggle,
               {description = 'toggle floating', group = 'client'}),
 
-    awful.key({ modkey, 'Control' }, 'Return', function (c)
+    awful.key({ settings.modkey, 'Control' }, 'Return', function (c)
             c:swap(awful.client.getmaster())
         end,
         {description = 'move to master', group = 'client'}),
 
-    awful.key({ modkey, 'Shift' }, 'j', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'j', function (c)
             c:move_to_screen(c.screen:get_next_in_direction('down'))
         end,
         {description = 'move client down a screen', group = 'client'}),
 
-    awful.key({ modkey, 'Shift' }, 'k', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'k', function (c)
             c:move_to_screen(c.screen:get_next_in_direction('up')) 
         end,
         {description = 'move client up a screen',  group = 'client'}),
         
-    awful.key({ modkey, 'Shift' }, 'h', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'h', function (c)
             c:move_to_screen(c.screen:get_next_in_direction('left')) 
         end,
         {description = 'move client left a screen',  group = 'client'}),
 
-    awful.key({ modkey, 'Shift' }, 'l', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'l', function (c)
             c:move_to_screen(c.screen:get_next_in_direction('right')) 
         end,
         {description = 'move client right a screen',  group = 'client'}),
 
-    awful.key({ modkey }, 'm', function (c)
+    awful.key({ settings.modkey }, 'm', function (c)
                 -- The client currently has the input focus, so it cannot be
                 -- minimized, since minimized clients can't have the focus.
                 c.minimized = true
         end,
         {description = 'minimize', group = 'client'}),
 
-    awful.key({ modkey, 'Shift' }, 'n', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'n', function (c)
         c:move_to_tag(c.screen.tags[c.first_tag.index +1] or c.screen.tags[1])
     end,
     {description = 'move client to next tag', group='client'}),
 
-    awful.key({ modkey, 'Shift' }, 'p', function (c)
+    awful.key({ settings.modkey, 'Shift' }, 'p', function (c)
         c:move_to_tag(c.screen.tags[c.first_tag.index -1] or c.screen.tags[#c.screen.tags])
     end,
     {description = 'move client to previous tag', group='client'})
@@ -1071,8 +972,8 @@ clientkeys = gears.table.join(
 
 clientbuttons = gears.table.join(
     awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-    awful.button({ modkey }, 1, awful.mouse.client.move),
-    awful.button({ modkey }, 3, awful.mouse.client.resize))
+    awful.button({ settings.modkey }, 1, awful.mouse.client.move),
+    awful.button({ settings.modkey }, 3, awful.mouse.client.resize))
 
 ----------------------------------------------------------------------- Rules --
 

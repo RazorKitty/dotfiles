@@ -55,12 +55,12 @@ theme.light_cyan = xrdb.color14
 theme.light_white = xrdb.color15
 
 
-theme.useless_gap = dpi(8)
+theme.useless_gap = dpi(4)
 theme.bg_normal = theme.light_black
 theme.fg_normal = theme.white
 
-theme.bg_focus = theme.light_black
-theme.fg_focus = theme.light_white
+theme.bg_focus = theme.blue
+theme.fg_focus = theme.black
 
 theme.bg_important = theme.light_white
 theme.fg_important = theme.black
@@ -73,9 +73,9 @@ theme.fg_minimize = theme.light_blue
 
 theme.bg_systray = theme.light_black
 
-theme.border_width = dpi(2)
-theme.border_normal = theme.bg_normal
-theme.border_focus = theme.fg_focus
+theme.border_width = dpi(1)
+theme.border_normal = theme.light_black
+theme.border_focus = theme.blue
 theme.border_marked = theme.green
 theme.wallpaper = theme_dir..'wallpaper.png'
 
@@ -87,8 +87,11 @@ theme.wallpaper = theme_dir..'wallpaper.png'
 -- theme.arcchart_thickness = nil
 
 -- awesome
-theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.fg_focus, theme.bg_focus)
+theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.bg_focus, theme.fg_focus)
 
+-- generic widget themeing colors
+theme.widget_fg = theme.fg_normal
+theme.widget_bg = theme.bg_normal
 
 -- calendar
 -- theme.calendar_style = nil
@@ -187,8 +190,8 @@ theme.gap_single_client = true
 theme.menu_font = theme.font
 -- theme.menu_height = nil
 theme.menu_width = dpi(96)
--- theme.menu_border_color = theme.border_normal
--- theme.menu_border_width = theme.border_width
+theme.menu_border_color = theme.border_normal
+theme.menu_border_width = theme.border_width
 theme.menu_fg_focus = theme.fg_focus
 theme.menu_bg_focus = theme.bg_focus
 theme.menu_fg_normal = theme.fg_normal

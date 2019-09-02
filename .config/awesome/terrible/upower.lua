@@ -4,6 +4,13 @@ local wibox = require('wibox')
 local lgi = require('lgi')
 local UPowerGlib = lgi.UPowerGlib
 
+local client_properties = {
+    'daemon-version',
+    'lid-is-closed',
+    'lid-is-present',
+    'on-battery'
+}
+
 local device_properties = {
     'battery-level',
     'capacity',
@@ -57,10 +64,13 @@ local client_signals = {
         end
     }
 }
-local Client = UPowerGlib.Client.new()
-Client.on_device_added = client_signals.on_device_added
-Client.on_device_removed = client_signals.on_device_removed
+local Client = UPowerGlib.Client { 
+    on_device_added = client_signals.on_device_added,
+    on_device_removed = client_signals.on_device_removed
+}
+
 property_callbacks[Client] = callback_handler:new()
+Client.on_notify = property_callbacks[Client]
 
 local display_device = Client:get_display_device()
 property_callbacks[display_device] = callback_handler:new()
@@ -75,13 +85,12 @@ for idx,device in ipairs(devices) do
     devices_lookup[device:get_object_path()] = idx
 end
 
-Client.on_notify = property_callbacks[Client]
 
 local client_widget = function (args)
     local widget = wibox.widget(args.template)
     for _,prop in ipairs(client_properties) do
         for _,wdg in ipairs(widget:get_children_by_id(prop..'_role')) do
-            wdg:update_widget(client)
+            wdg:update_widget(Client)
         end
     end
     property_callbacks[Client]:add( function (self, pspec)
