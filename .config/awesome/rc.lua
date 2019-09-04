@@ -12,6 +12,8 @@ local screen = screen
 -- Standard awesome library
 local gears = require('gears')
 local beautiful = require('beautiful')
+beautiful.init('~/.config/awesome/theme/theme.lua')
+
 local wibox = require('wibox')
 local awful = require('awful')
               require('awful.autofocus')
@@ -28,6 +30,7 @@ local terrible = require('terrible')
 terrible.upower.add_client_property_callback('lid-is-closed', function (client)
     awful.spawn('xlock -mode blank')
 end)
+local power = require('power')
 local settings = require('settings')
 
 -------------------------------------------------------------- Error handling --
@@ -61,7 +64,6 @@ end
 
 ----------------------------------------------------------------------- Theme --
 
-beautiful.init('~/.config/awesome/theme/theme.lua')
 
 ------------------------------------------------------------ Useful Functions --
 
@@ -248,316 +250,14 @@ local main_menu = awful.menu {
 local text_date_widget = wibox.widget {
     id = '_background',
     layout = wibox.container.background,
-    bg = beautiful.widget_bg,
-    fg = beautiful.widget_fg,
+    bg = beautiful.widget_normal_bg,
+    fg = beautiful.widget_normal_fg,
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 4,
-        right = 4,
+        left = 16,
+        right = 16,
         wibox.widget.textclock('%H:%M %A %d/%m/%y', 60, 'Europe/London')
-    }
-}
-
-local upower_widget = terrible.upower.display_device_widget {
-    templates = {
-        battery = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.widget_fg,
-            bg = beautiful.widget_bg,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = 'percentage_container',
-                        layout = wibox.container.constraint,
-                        width = 64,
-                        hieght = 18,
-                        {
-                            id = 'percentage_role',
-                            widget = wibox.widget.progressbar,
-                            max_value = 100,
-                            color = beautiful.green,
-                            update_widget = function (self, dev)
-                                self.color = (dev.percentage < 10 and beautiful.red) or (dev.percentage < 25 and beautiful.yellow) or beautiful.green
-                                self:set_value(dev.percentage)
-                            end
-                        }
-                    },
-                    {
-                        id = 'time-to-empty_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self.text = format_time(dev.time_to_empty)
-                        end
-                    }
-                }
-            }
-        }
-    }
-}
-
-local upower_devices_widget = terrible.upower.devices_widget {
-    device_templates = {
-        battery = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.widget_fg,
-            bg = beautiful.widget_bg,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = 'percentage_container',
-                        layout = wibox.container.constraint,
-                        width = 64,
-                        height = 18,
-                        {
-                            id = 'percentage_role',
-                            widget = wibox.widget.progressbar,
-                            max_value = 100,
-                            color = beautiful.green,
-                            update_widget = function (self, dev)
-                                self.color = dev.percentage < 10 and beautiful.red or dev.percentage < 25 and beautiful.yellow or beautiful.green
-                                self:set_value(dev.percentage)
-                            end
-                        }
-                    },
-                    {
-                        id = 'state_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.state_to_string(dev.state))
-                        end
-                    }
-                }
-            }
-        },
-        ['line-power'] = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.widget_fg,
-            bg = beautiful.widget_bg,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.align.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = '_place_holder',
-                        layout = wibox.layout.fixed.horizontal
-                    },
-                    {
-                        id = 'online_constraint',
-                        layout = wibox.container.constraint,
-                        width = 18,
-                        height = 18,
-                        {
-                            id = 'online_container',
-                            layout = wibox.container.margin,
-                            top = 4,
-                            bottom = 4,
-                            {
-                                id = 'online_role',
-                                widget = wibox.widget.checkbox,
-                                update_widget = function (self, dev)
-                                    self.checked = dev.online
-                                end
-
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        mouse = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.widget_fg,
-            bg = beautiful.widget_bg,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = 'percentage_container',
-                        layout = wibox.container.constraint,
-                        width = 64,
-                        height = 18,
-                        {
-                            id = 'percentage_role',
-                            widget = wibox.widget.progressbar,
-                            max_value = 100,
-                            color = beautiful.green,
-                            update_widget = function (self, dev)
-                                self:set_value(dev.percentage)
-                            end
-                        }
-                    },
-                    {
-                        id = 'state_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.state_to_string(dev.state))
-                        end
-                    }
-                
-                }
-            }
-        },
-        keyboard = {
-            id = '_background',
-            layout = wibox.container.background,
-            fg = beautiful.widget_fg,
-            bg = beautiful.widget_bg,
-            {
-                id = '_margin',
-                layout = wibox.container.margin,
-                left = 4,
-                right = 4,
-                {
-                    id = '_layout',
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 4,
-                    {
-                        id = 'kind_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.kind_to_string(dev.kind))
-                        end
-                    },
-                    {
-                        id = 'percentage_container',
-                        layout = wibox.container.constraint,
-                        width = 64,
-                        height = 18,
-                        {
-                            id = 'percentage_role',
-                            widget = wibox.widget.progressbar,
-                            max_value = 100,
-                            color = beautiful.cyan,
-                            update_widget = function (self, dev)
-                                self:set_value(dev.percentage)
-                            end
-                        }
-                    },
-                    {
-                        id = 'state_role',
-                        widget = wibox.widget.textbox,
-                        update_widget = function (self, dev)
-                            self:set_text(dev.state_to_string(dev.state))
-                        end
-                    }
-                
-                }
-            }
-        }
-    },
-    container_template = {
-        id = '_backround',
-        layout = wibox.container.background,
-        fg = beautiful.widget_fg,
-        bg = beautiful.widget_bg,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 0,
-            right = 0,
-            {
-                id = 'container_role',
-                layout = wibox.layout.fixed.horizontal,
-                spacing = 4,
-                device_added = function (self, dev, wdg)
-                    self[dev:get_object_path()] = wdg
-                    self:add(wdg)
-                end,
-                device_removed = function (self, dev_path)
-                    self:remove_widgets(self[dev_path])
-                    self[dev_path] = nil
-                end
-            }
-        }
-    }
-}
-
-local upower_client_widget = terrible.upower.client_widget {
-    template = {
-        id = '_background',
-        layout = wibox.container.background,
-        fg = beautiful.widget_fg,
-        bg = beautiful.widget_bg,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 0,
-            right = 0,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                {
-                    id = 'on-battery_role',
-                    layout = wibox.layout.fixed.horizontal,
-                    upower_widget,
-                    update_widget = function (self, dev)
-                        if dev.on_battery == true then
-                            self.visible = true
-                            else
-                            self.visible = false
-                        end
-                    end
-                }
-            }
-        }
     }
 }
 
@@ -565,18 +265,18 @@ local mpd_widget = mpd.widget {
     template = {
         id = 'status_state_role',
         layout = wibox.container.background,
-        fg = beautiful.widget_fg,
-        bg = beautiful.widget_bg,
+        fg = beautiful.widget_normal_fg,
+        bg = beautiful.widget_normal_bg,
         update_mpd_widget = function (self, v)
             if v == 'stop' then
                 self.visible = false
             else
                 if v == 'pause' then
-                    self.fg = beautiful.widget_fg
-                    self.bg = beautiful.widget_bg
+                    self.fg = beautiful.widget_normal_fg
+                    self.bg = beautiful.widget_normal_bg
                 else
-                    self.fg = beautiful.fg_focus
-                    self.bg = beautiful.bg_focus
+                    self.fg = beautiful.widget_focus_fg
+                    self.bg = beautiful.widget_focus_bg
                 end
                 self.visible = true
             end
@@ -584,8 +284,8 @@ local mpd_widget = mpd.widget {
         {
             id = '_margin',
             layout = wibox.container.margin,
-            left = 4,
-            right = 4,
+            left = 16,
+            right = 16,
             {
                 id = '_layout',
                 layout = wibox.layout.fixed.horizontal,
@@ -690,23 +390,29 @@ awful.screen.connect_for_each_screen(function(s)
                 layout = wibox.layout.fixed.horizontal
             },
             {
-                layout = wibox.container.background,
-                fg = beautiful.fg_normal,
-                bg = beautiful.bg_normal,
+                layout = wibox.layout.fixed.horizontal,
+                spacing = 0,
+                -- only display widgets on the primary screen
+                s == screen.primary and wibox.widget.systray(),
+                s == screen.primary and mpd_widget,
+                s == screen.primary and power,
+                text_date_widget,
                 {
-                    layout = wibox.layout.fixed.horizontal,
-                    spacing = 16,
-                    -- only display widgets on the primary screen
-                    s == screen.primary and wibox.widget.systray(),
-                    s == screen.primary and mpd_widget,
-                    s == screen.primary and upower_client_widget,
-                    text_date_widget,
-                    awful.widget.layoutbox(s)
+                    id = '_layou_background',
+                    layout = wibox.container.background,
+                    bg = beautiful.widget_normal_bg,
+                    fg = beautiful.widget_normal_fg,
+                    {
+                        id = '_layout_margin',
+                        layout = wibox.container.margin,
+                        left = 16,
+                        right = 16,
+                        awful.widget.layoutbox(s)
+                    }
                 }
             }
         }
     }
-
 end)
 
 

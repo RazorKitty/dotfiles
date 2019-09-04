@@ -59,23 +59,23 @@ theme.useless_gap = dpi(4)
 theme.bg_normal = theme.light_black
 theme.fg_normal = theme.white
 
-theme.bg_focus = theme.blue
+theme.bg_focus = theme.white
 theme.fg_focus = theme.black
 
-theme.bg_important = theme.light_white
+theme.bg_important = theme.yellow
 theme.fg_important = theme.black
 
 theme.bg_urgent = theme.red
 theme.fg_urgent = theme.black
 
 theme.bg_minimize = theme.bg_normal
-theme.fg_minimize = theme.light_blue
+theme.fg_minimize = theme.blue
 
 theme.bg_systray = theme.light_black
 
 theme.border_width = dpi(1)
 theme.border_normal = theme.light_black
-theme.border_focus = theme.blue
+theme.border_focus = theme.white
 theme.border_marked = theme.green
 theme.wallpaper = theme_dir..'wallpaper.png'
 
@@ -90,8 +90,17 @@ theme.wallpaper = theme_dir..'wallpaper.png'
 theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.bg_focus, theme.fg_focus)
 
 -- generic widget themeing colors
-theme.widget_fg = theme.fg_normal
-theme.widget_bg = theme.bg_normal
+theme.widget_normal_fg = theme.white
+theme.widget_normal_bg = theme.light_black
+
+theme.widget_focus_fg = theme.black
+theme.widget_focus_bg = theme.white
+
+theme.widget_urgent_fg = theme.black
+theme.widget_urgent_bg = theme.red
+
+theme.widget_important_fg = theme.black
+theme.widget_important_bg = theme.yellow
 
 -- calendar
 -- theme.calendar_style = nil
@@ -190,7 +199,7 @@ theme.gap_single_client = true
 theme.menu_font = theme.font
 -- theme.menu_height = nil
 theme.menu_width = dpi(96)
-theme.menu_border_color = theme.border_normal
+theme.menu_border_color = theme.black
 theme.menu_border_width = theme.border_width
 theme.menu_fg_focus = theme.fg_focus
 theme.menu_bg_focus = theme.bg_focus
@@ -204,7 +213,7 @@ theme.notification_font = theme.font
 theme.notification_bg = theme.bg_normal
 theme.notification_fg = theme.fg_normal
 theme.notification_border_width = dpi(2)
-theme.notification_border_color = theme.border_normal
+theme.notification_border_color = theme.border_focus
 -- theme.notification_shape = nil
 -- theme.notification_opacity = nil
 theme.notification_margin = dpi(32)
@@ -223,11 +232,11 @@ theme.notification_margin = dpi(32)
 theme.progressbar_bg = theme.black
 theme.progressbar_fg = theme.light_white
 -- theme.progressbar_shape = nil
-theme.progressbar_border_color = theme.black
+theme.progressbar_border_color = theme.light_black
 theme.progressbar_border_width = dpi(1)
 -- theme.progressbar_bar_shape = nil
---theme.progressbar_bar_border_width = nil
---theme.progressbar_bar_border_color = nil
+theme.progressbar_bar_border_width = dpi(1)
+--theme.progressbar_bar_border_color = theme.light_white
 theme.progressbar_margins = {
     left = dpi(0),
     right = dpi(0),
@@ -465,8 +474,8 @@ theme.tooltip_border_width = dpi(1)
 
 -- wibar
 -- theme.wibar_stretch = false
-theme.wibar_border_width = dpi(0)
-theme.wibar_border_color = theme.border_normal
+theme.wibar_border_width = dpi(1)
+theme.wibar_border_color = theme.black
 theme.wibar_ontop = false
 -- theme.wibar_cursor = nil
 -- theme.wibar_opacity = nil
