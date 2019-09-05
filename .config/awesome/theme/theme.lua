@@ -96,11 +96,14 @@ theme.widget_normal_bg = theme.light_black
 theme.widget_focus_fg = theme.black
 theme.widget_focus_bg = theme.white
 
+theme.widget_warning_fg = theme.black
+theme.widget_warning_bg = theme.yellow
+
 theme.widget_urgent_fg = theme.black
 theme.widget_urgent_bg = theme.red
 
 theme.widget_important_fg = theme.black
-theme.widget_important_bg = theme.yellow
+theme.widget_important_bg = theme.blue
 
 -- calendar
 -- theme.calendar_style = nil
@@ -232,16 +235,16 @@ theme.notification_margin = dpi(32)
 theme.progressbar_bg = theme.black
 theme.progressbar_fg = theme.light_white
 -- theme.progressbar_shape = nil
-theme.progressbar_border_color = theme.light_black
+theme.progressbar_border_color = theme.black
 theme.progressbar_border_width = dpi(1)
 -- theme.progressbar_bar_shape = nil
-theme.progressbar_bar_border_width = dpi(1)
---theme.progressbar_bar_border_color = theme.light_white
+theme.progressbar_bar_border_width = dpi(0)
+theme.progressbar_bar_border_color = theme.light_white
 theme.progressbar_margins = {
     left = dpi(0),
     right = dpi(0),
-    top = dpi(4),
-    bottom = dpi(4)
+    top = dpi(6),
+    bottom = dpi(6)
 }
 theme.progressbar_paddings = dpi(0)
 

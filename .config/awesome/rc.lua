@@ -27,9 +27,6 @@ local hotkeys_popup = require('awful.hotkeys_popup').widget
 -- extras
 local mpd = require('mpd')
 local terrible = require('terrible')
-terrible.upower.add_client_property_callback('lid-is-closed', function (client)
-    awful.spawn('xlock -mode blank')
-end)
 local power = require('power')
 local settings = require('settings')
 
@@ -395,7 +392,7 @@ awful.screen.connect_for_each_screen(function(s)
                 -- only display widgets on the primary screen
                 s == screen.primary and wibox.widget.systray(),
                 s == screen.primary and mpd_widget,
-                s == screen.primary and power,
+                s == screen.primary and power.panel_widget,
                 text_date_widget,
                 {
                     id = '_layou_background',
