@@ -25,8 +25,3 @@ if [ "$TERM" = "linux" ]; then
   clear
 fi
 
-
-if [ -z $(pgrep -x "startx") ] && [ $(tty) != '/dev/pts/0' ]; then
-    exec startx 
-fi
-

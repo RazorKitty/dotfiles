@@ -23,16 +23,14 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
+if [ -d /etc/X11/xinit/xinitrc.d ]; then
+  for f in /etc/X11/xinit/xinitrc.d/*; do
+    [ -x "$f" ] && . "$f"
+  done
+  unset f
+fi
+
 # start some nice programs
-
-#start pulseaudio
-if [ -z $(pgrep -x "pulseaudio") ]; then
-    start-pulseaudio-x11 &
-fi
-
-if [ -z $(pgrep -x "mpd") ]; then
-    mpd --no-daemon &
-fi
 
 if [ -z $(pgrep -x "xbanish") ]; then
     xbanish  &
@@ -46,4 +44,4 @@ if [ -z $(pgrep -x "kdeconnectd") ]; then
     /usr/lib/libexec/kdeconnectd &
 fi
 
-exec awesome $@
+exec $STARTUP awesome $@

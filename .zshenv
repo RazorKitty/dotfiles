@@ -36,9 +36,6 @@ ost () {
     fi
 }
 
-xi () {
-    sudo xbps-install "$@"; echo -e "\a"
-}
 
 xq () {
     xbps-query --regex -RS "$@" || xbps-query --regex -Rs "$@"
@@ -46,22 +43,6 @@ xq () {
 
 lscp () {
     scp "$@"; /bin/echo -e "\a"
-}
-
-zzz () {
-    /bin/sudo zzz "$@"
-}
-
-ZZZ () {
-    /bin/sudo ZZZ "$@"
-}
-
-reboot () {
-    /bin/sudo reboot "$@"
-}
-
-poweroff () {
-    /bin/sudo poweroff "$@"
 }
 
 alias night_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 50  && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 1"
