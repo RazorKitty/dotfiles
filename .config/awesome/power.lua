@@ -238,11 +238,31 @@ local display_device_widget = terrible.upower.display_device_widget {
                 left = 16,
                 right = 16,
                 {
-                    id = 'time-to-empty_role',
-                    widget = wibox.widget.textbox,
-                    update_widget = function (self, dev)
-                        self.text = 'BAT:'..format_time(dev.time_to_empty)
-                    end
+                    id = '_layout',
+                    layout = wibox.layout.fixed.horizontal,
+                    spacing = 0,
+                    {
+                        id = '_lable',
+                        widget = wibox.widget.textbox,
+                        text = 'BAT:'
+
+                    },
+                    {
+                        id = 'time-to-empty_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)                              
+                            self.visible = dev.time_to_empty > 0 and true or false
+                            self.text = format_time(dev.time_to_empty)
+                        end
+                    },
+                    {
+                        id = 'time-to-full_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self.visible = dev.time_to_full > 0 and true or false
+                            self.text = format_time(dev.time_to_full)
+                        end
+                    }
                 }
             }
         }
