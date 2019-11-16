@@ -2,7 +2,7 @@
 ----------------------- AwesomeWM 4.2 void linux config ------------------------
 -----------------------     by RazorKitty@null.net      ------------------------
 --------------------------------------------------------------------------------
---
+
 -- make the globals local
 local awesome = awesome
 local root = root
@@ -252,8 +252,8 @@ local text_date_widget = wibox.widget {
     {
         id = '_margin',
         layout = wibox.container.margin,
-        left = 16,
-        right = 16,
+        left = 8,
+        right = 8,
         wibox.widget.textclock('%H:%M %A %d/%m/%y', 60, 'Europe/London')
     }
 }
@@ -281,19 +281,12 @@ local mpd_widget = mpd.widget {
         {
             id = '_margin',
             layout = wibox.container.margin,
-            left = 16,
-            right = 16,
+            left = 8,
+            right = 8,
             {
                 id = '_layout',
                 layout = wibox.layout.fixed.horizontal,
                 spacing = 4,
-                {
-                    id = 'currentsong_artist_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v..':'
-                    end
-                },
                 {
                     id = 'currentsong_title_role',
                     widget = wibox.widget.textbox,
@@ -307,7 +300,7 @@ local mpd_widget = mpd.widget {
                     text = '-'
                 },
                 {
-                    id = 'currentsong_album_role',
+                    id = 'currentsong_artist_role',
                     widget = wibox.widget.textbox,
                     update_mpd_widget = function (self, v)
                         self.text = v
@@ -402,8 +395,8 @@ awful.screen.connect_for_each_screen(function(s)
                     {
                         id = '_layout_margin',
                         layout = wibox.container.margin,
-                        left = 16,
-                        right = 16,
+                        left = 8,
+                        right = 0,
                         awful.widget.layoutbox(s)
                     }
                 }
@@ -416,24 +409,29 @@ end)
 ---------------------------------------------------------------- Key bindings --
 
 globalkeys = gears.table.join(
+    -- media
     awful.key({}, 'XF86AudioMute', function ()
         awful.spawn.with_shell('pactl set-sink-mute @DEFAULT_SINK@ toggle')
     end,
-    {description = 'Toggle Mute', group='Media'}),    
+    {description = 'Toggle Mute', group='media'}),    
 
     awful.key({}, 'XF86AudioLowerVolume', function ()
         awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ -1%')
     end,
-    {description = 'Lower Volume', group='Media'}),    
+    {description = 'Lower Volume', group='media'}),    
 
     awful.key({}, 'XF86AudioRaiseVolume', function ()
         awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ +1%')
     end,
-    {description = 'Raise Volume', group='Media'}),
+    {description = 'Raise Volume', group='media'}),
 
+    
+    -- help
     awful.key({ settings.modkey }, 's',  hotkeys_popup.show_help,
-              {description='show help', group='awesome'}),
+              {description='show help', group = 'awesome'}),
 
+
+    -- awesome
     awful.key({ settings.modkey }, 'w', function ()
         main_menu:show();
     end,
@@ -444,6 +442,72 @@ globalkeys = gears.table.join(
     end,
     {description = 'run prompt', group = 'awesome'}),
 
+    awful.key({ settings.modkey }, 'Return', function ()
+            awful.spawn(settings.terminal)
+        end,
+        {description = 'open a terminal', group = 'awesome'}),
+
+    awful.key({ settings.modkey, 'Control' }, 'r', awesome.restart,
+        {description = 'reload awesome', group = 'awesome'}),
+
+    awful.key({ settings.modkey, 'Shift'   }, 'q', awesome.quit,
+        {description = 'quit awesome', group = 'awesome'}),
+    
+
+    -- layout
+
+    awful.key({ settings.modkey, 'Control' }, 'h', function ()
+            awful.client.swap.global_bydirection('left')
+        end,
+        {description = 'Swap wiith left side Client', group = 'layout'}),
+
+    awful.key({ settings.modkey, 'Control' }, 'j', function ()
+            awful.client.swap.global_bydirection('down')
+        end,
+        {description = 'Swap wiith right side Client', group = 'layout'}),
+
+    awful.key({ settings.modkey, 'Control' }, 'k', function ()
+            awful.client.swap.global_bydirection('up')
+        end,
+        {description = 'Swap with upper side Client', group = 'layout'}),
+
+    awful.key({ settings.modkey, 'Control' }, 'l', function ()
+            awful.client.swap.global_bydirection('right')
+        end,
+        {description = 'Swap with lower side Client', group = 'layout'}),
+
+    awful.key({ settings.modkey }, '+', function ()
+            awful.tag.incncol( 1, nil, true)
+        end,
+        {description = 'increase the number of columns', group = 'layout'}),
+
+    awful.key({ settings.modkey }, '-', function () 
+            awful.tag.incncol(-1, nil, true) 
+        end,
+        {description = 'decrease the number of columns', group = 'layout'}),
+
+    awful.key({ settings.modkey }, '[', function ()
+            awful.tag.incmwfact( 0.002)
+        end,
+        {description = "increase master width factor", group = "layout"}),
+
+    awful.key({ settings.modkey }, ']', function ()
+            awful.tag.incmwfact(-0.002)
+        end,
+        {description = "decrease master width factor", group = "layout"}),
+
+    awful.key({ settings.modkey }, 'space', function () 
+            awful.layout.inc( 1) 
+        end,
+        {description = 'select next', group = 'layout'}),
+
+    awful.key({ settings.modkey, 'Shift' }, 'space', function () 
+            awful.layout.inc(-1) 
+        end,
+        {description = 'select previous', group = 'layout'}),
+
+
+    -- tag
     awful.key({ settings.modkey }, 'p', awful.tag.viewprev,
               {description = 'view previous', group = 'tag'}),
 
@@ -451,38 +515,14 @@ globalkeys = gears.table.join(
               {description = 'view next', group = 'tag'}),
 
     awful.key({ settings.modkey }, 'Escape', awful.tag.history.restore,
-              {description = 'go back', group = 'tag'}),
+              {description = 'go back', group = 'Tag'}),
 
-    awful.key({ settings.modkey, 'Shift' }, '=', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = t.gap + beautiful.useless_gap or 1
-        end,
-        {description = 'increase useless gap', group = 'tag'}),
 
-    awful.key({ settings.modkey }, '-', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = t.gap - beautiful.useless_gap or 1
-        end,
-        {description = 'decrease useless gap', group = 'tag'}),
 
-    awful.key({ settings.modkey }, '=', function ()
-            local t = awful.screen.focused().selected_tag
-            t.gap = beautiful.useless_gap
-        end,
-        {description = 'reset useless gap', group = 'tag'}),
+    -- screen
 
-    -- Layout manipulation
 
-    awful.key({ settings.modkey, 'Control' }, 'j', function ()
-            awful.screen.focus_relative( 1)
-        end,
-       {description = 'focus the next screen', group = 'screen'}),
-
-    awful.key({ settings.modkey, 'Control' }, 'k', function ()
-            awful.screen.focus_relative(-1)
-        end,
-        {description = 'focus the previous screen', group = 'screen'}),
-
+    -- client
     awful.key({ settings.modkey }, 'h', function ()
             awful.client.focus.global_bydirection('left')
         end,
@@ -506,39 +546,8 @@ globalkeys = gears.table.join(
     awful.key({ settings.modkey }, 'u', awful.client.urgent.jumpto,
         {description = 'jump to urgent client', group = 'client'}),
 
-    -- Standard program
-    awful.key({ settings.modkey }, 'Return', function ()
-            awful.spawn(settings.terminal)
-        end,
-        {description = 'open a terminal', group = 'launcher'}),
 
-    awful.key({ settings.modkey, 'Control' }, 'r', awesome.restart,
-        {description = 'reload awesome', group = 'awesome'}),
-
-    awful.key({ settings.modkey, 'Shift'   }, 'q', awesome.quit,
-        {description = 'quit awesome', group = 'awesome'}),
-    
-    awful.key({ settings.modkey, 'Control' }, 'h', function ()
-            awful.tag.incncol( 1, nil, true)
-        end,
-        {description = 'increase the number of columns', group = 'layout'}),
-
-    awful.key({ settings.modkey, 'Control' }, 'l', function () 
-            awful.tag.incncol(-1, nil, true) 
-        end,
-        {description = 'decrease the number of columns', group = 'layout'}),
-
-    awful.key({ settings.modkey }, 'space', function () 
-            awful.layout.inc( 1) 
-        end,
-        {description = 'select next', group = 'layout'}),
-
-    awful.key({ settings.modkey, 'Shift' }, 'space', function () 
-            awful.layout.inc(-1) 
-        end,
-        {description = 'select previous', group = 'layout'}),
-
-    awful.key({ settings.modkey, 'Control' }, 'm',
+    awful.key({ settings.modkey, 'Shift' }, 'm',
               function ()
                   local c = awful.client.restore()
                   -- Focus restored client
@@ -547,7 +556,7 @@ globalkeys = gears.table.join(
                       c:raise()
                   end
               end,
-              {description = 'restore minimized', group = 'client'})
+              {description = 'restore minimized client', group = 'client'})
 )
 
 
@@ -600,7 +609,6 @@ for i = 1, 9 do
              {description = 'toggle focused client on tag #' .. i, group = 'tag'})
     )
 end
-
 
 root.keys(globalkeys)
 

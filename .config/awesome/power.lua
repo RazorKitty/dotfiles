@@ -1,21 +1,28 @@
 local wibox = require('wibox')
 local awful = require('awful')
 local beautiful = require('beautiful')
+local naughty = require('naughty')
 local terrible = require('terrible')
-
-terrible.upower.add_client_property_callback('lid-is-closed', function (client)
-    awful.spawn('xlock -mode blank')
-end)
 
 local format_time = function(seconds)
     if seconds <= 0 then
-	    return "";
-	else
-		hours = string.format("%02.f", math.floor(seconds/3600));
-		mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)));
-		secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins *60));
-		return hours.."h "..mins.."m"
-	end
+        return "0h 0m";
+    else
+        hours = string.format("%02.f", math.floor(seconds/3600));
+        mins = string.format("%02.f", math.floor(seconds/60 - (hours*60)));
+        secs = string.format("%02.f", math.floor(seconds - hours*3600 - mins *60));
+        return hours.."h "..mins.."m"
+    end
+end
+
+local attach_popup_on_hover = function (widget, popup)
+    widget:connect_signal('mouse::enter', function (self, geo)
+        popup.visible = true
+        popup:move_next_to(geo)
+    end)
+    widget:connect_signal('mouse::leave', function (self, geo)
+        popup.visible = false
+    end)
 end
 
 local battery_widget_template = {
@@ -50,11 +57,11 @@ local battery_widget_template = {
                     max_value = 100,
                     color = beautiful.green,
                     update_widget = function (self, dev)
-                        self.color = (dev.percentage < 10 and beautiful.red) or (dev.percentage < 25 and beautiful.yellow) or beautiful.green
+                        self.color = (dev.percentage < 10 and beautiful.widget_urgent_bg) or (dev.percentage < 25 and beautiful.widget_warning_bg) or beautiful.widget_online_bg
                         self:set_value(dev.percentage)
                     end
                 }
-            },
+            }
         }
     }
 }
@@ -75,7 +82,7 @@ local line_power_widget_template = {
         right = 4,
         {
             id = '_layout',
-            layout = wibox.layout.align.horizontal,
+            layout = wibox.layout.fixed.horizontal,
             spacing = 4,
             {
                 id = 'native-path_role',
@@ -147,15 +154,7 @@ local mouse_widget_template = {
                         self:set_value(dev.percentage)
                     end
                 }
-            },
-            {
-                id = 'state_role',
-                widget = wibox.widget.textbox,
-                update_widget = function (self, dev)
-                    self:set_text(dev.state_to_string(dev.state))
-                end
             }
-        
         }
     }
 }
@@ -195,15 +194,7 @@ local keyboard_widget_template = {
                         self:set_value(dev.percentage)
                     end
                 }
-            },
-            {
-                id = 'state_role',
-                widget = wibox.widget.textbox,
-                update_widget = function (self, dev)
-                    self:set_text(dev.state_to_string(dev.state))
-                end
-            }
-        
+            } 
         }
     }
 }
@@ -211,18 +202,18 @@ local keyboard_widget_template = {
 local display_device_widget = terrible.upower.display_device_widget {
     templates = {
         battery = {
-            id = 'percentage_role',
+            id = 'battery-level_role',
             layout = wibox.container.background,
             fg = beautiful.widget_normal_fg,
             bg = beautiful.widget_normal_bg,
             update_widget = function (self, dev)
-                if dev.percentage > 75 then
+                if dev.battery_level > 7 then
                     self.fg = beautiful.widget_normal_fg
                     self.bg = beautiful.widget_normal_bg
-                else if dev.percentage > 50 then
+                else if dev.percentage > 5 then
                         self.fg = beautiful.widget_important_fg
                         self.bg = beautiful.widget_important_bg
-                    else if dev. percentage > 10 then
+                    else if dev. percentage > 3 then
                             self.fg = beautiful.widget_warning_fg
                             self.bg = beautiful.widget_warning_bg
                         else
@@ -235,8 +226,8 @@ local display_device_widget = terrible.upower.display_device_widget {
             {
                 id = '_margin',
                 layout = wibox.container.margin,
-                left = 16,
-                right = 16,
+                left = 8,
+                right = 8,
                 {
                     id = '_layout',
                     layout = wibox.layout.fixed.horizontal,
@@ -245,14 +236,13 @@ local display_device_widget = terrible.upower.display_device_widget {
                         id = '_lable',
                         widget = wibox.widget.textbox,
                         text = 'BAT:'
-
                     },
                     {
                         id = 'time-to-empty_role',
                         widget = wibox.widget.textbox,
                         update_widget = function (self, dev)                              
                             self.visible = dev.time_to_empty > 0 and true or false
-                            self.text = format_time(dev.time_to_empty)
+                            self.text = format_time(dev.time_to_empty) .. ' '
                         end
                     },
                     {
@@ -260,7 +250,14 @@ local display_device_widget = terrible.upower.display_device_widget {
                         widget = wibox.widget.textbox,
                         update_widget = function (self, dev)
                             self.visible = dev.time_to_full > 0 and true or false
-                            self.text = format_time(dev.time_to_full)
+                            self.text = format_time(dev.time_to_full) .. ' '
+                        end
+                    },
+                    {
+                        id = 'state_role',
+                        widget = wibox.widget.textbox,
+                        update_widget = function (self, dev)
+                            self.text = dev.state_to_string(dev.state)
                         end
                     }
                 }
@@ -302,33 +299,6 @@ local devices_widget = terrible.upower.devices_widget {
     }
 }
 
-local client_widget = terrible.upower.client_widget {
-    template = {
-        id = '_background',
-        layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 16,
-            right = 16,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                upower_display_device_widget and {
-                    id = 'on-battery_role',
-                    layout = wibox.layout.fixed.horizontal,
-                    upower_display_device_widget,
-                    update_widget = function (self, dev)
-                        self.visible = dev.on_battery
-                    end
-                } or upower_devices_widget
-            }
-        }
-    }
-}
-
 if display_device_widget then
     upower_popup = awful.popup {
         widget = devices_widget,
@@ -342,13 +312,7 @@ if display_device_widget then
     ontop = true
     }
 
-    display_device_widget:connect_signal('button::press', function (self, _,_, button, _, geo)
-        if not upower_popup.visible then
-            upower_popup:move_next_to(geo)
-        else
-            upower_popup.visible = false
-        end
-    end)
+    attach_popup_on_hover(display_device_widget, upower_popup)
 end
 
 return {

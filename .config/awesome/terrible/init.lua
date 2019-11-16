@@ -1,4 +1,4 @@
-local upower = require('terrible/upower')
+local upower = require('terrible.upower')
 
 return {
     upower = upower

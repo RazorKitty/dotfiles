@@ -42,38 +42,12 @@ Xft.hintstyle:  hintslight
 *.color7:       #48737a
 *.color15:      #b4c1c2
 
-! grey scale
-*.color16:      #0d0015
-*.color17:      #0f192e
-*.color18:      #153043
-*.color19:      #174b58
-*.color20:      #2f6065
-*.color21:      #48737a
-*.color22:      #9db0b1
-*.color23:      #b4c1c2
 
 *.font:         xft:terminus:size=8
 *.boldfont:     xft:terminus:size=8:style=bold
 
-
-! URxvt settings
-URxvt*scrollBar: false
-URxvt*internalBorder: 4
-!URxvt*externalBorder: 2 
-!URxvt.geometry:84x30
-! color depth for transparency support
-URxvt.depth: 32
-! do not scroll with output
-URxvt*scrollTtyOutput: false
-
-! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
-URxvt*scrollWithBuffer: true
-
-! scroll back to the bottom on keypress
-URxvt*scrollTtyKeypress: true
-
-st.font:			-*-terminus-*-*-*-*-11-*-*-*-*-*-*-1
-!st.font:    xtf:terminus:size8
+st.font:		-*-terminus-*-*-*-*-11-*-*-*-*-*-*-1
+!st.font:       xtf:terminus:size8
 st.bold_font:	0
 st.termname:	st-256color
 st.shell:		/bin/zsh
@@ -82,3 +56,10 @@ st.tabspaces:   4
 st.chscale:		1.0
 st.borderpx:    4
 
+Xautolock.time: 1
+Xautolock.locker: xlock -mode blank
+Xautolock.notify: 30
+Xautolock.notifier: notify-send -t 0 "Screen will lock in 30 seconds"
+Xautolock.corners: 0-0+
+Xautolock.cornerdelay: 5
+Xautolock.cornerredelay: 30

@@ -1,7 +1,8 @@
 local table = table
 local callback_handler = require('terrible.callback_handler')
-local wibox = require('wibox')
 local lgi = require('lgi')
+local wibox = require('wibox')
+
 local UPowerGlib = lgi.UPowerGlib
 
 local client_properties = {
@@ -64,10 +65,7 @@ local client_signals = {
         end
     }
 }
-local Client = UPowerGlib.Client { 
-    on_device_added = client_signals.on_device_added,
-    on_device_removed = client_signals.on_device_removed
-}
+local Client = UPowerGlib.Client(client_signals)
 
 property_callbacks[Client] = callback_handler:new()
 Client.on_notify = property_callbacks[Client]

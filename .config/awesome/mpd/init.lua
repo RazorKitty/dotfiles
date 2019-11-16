@@ -6,9 +6,9 @@ local naughty = require('naughty')
 
 local error_handler = function (client)
     return function(err)
-        naughty {
+        naughty.notify {
             title = 'MPC ERROR!!!',
-            text = err
+            text = 'Something Went Wrong'
         }
         gears.timer {
             timeout = 10,
@@ -33,6 +33,7 @@ local widget = function (args)
                 for k,v in pairs(status) do
                     for _,wdg in ipairs(mpd_widget:get_children_by_id('status_'..k..'_role')) do
                         wdg:update_mpd_widget(v)
+                        mpd_widget.client:send('status')
                     end
                 end
             end
@@ -42,6 +43,7 @@ local widget = function (args)
                 for k,v in pairs(currentsong) do
                     for _,wdg in ipairs(mpd_widget:get_children_by_id('currentsong_'..k..'_role')) do
                         wdg:update_mpd_widget(v)
+                        mpd_widget.client:send('currentsong')
                     end
                 end
             end

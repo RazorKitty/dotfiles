@@ -25,3 +25,7 @@ if [ "$TERM" = "linux" ]; then
   clear
 fi
 
+if [ $TTY = "/dev/tty1" ]; then
+    exec startx
+fi
+

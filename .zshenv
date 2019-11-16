@@ -4,7 +4,6 @@ fi
 #set sonme enviroment vars
 
 export HOSTNAME=$(</etc/hostname)
-export PATH=$HOME/bin:$PATH
 export EDITOR=nvim
 
 
@@ -49,6 +48,6 @@ alias night_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 50  && xbacklight 
 alias day_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 0 && xbacklight -ctrl intel_backlight -time 333 -fps 60 -set 50"
 
 alias sudo="sudo -E"
-alias alert="beep -l 100 -d 100 -r 2"
+alias alert="/bin/echo -e "\a" && beep -l 100 -d 100 -r 2"
 alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
 

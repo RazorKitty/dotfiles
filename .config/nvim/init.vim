@@ -21,6 +21,8 @@ set foldlevel=2
 "set termguicolors
 colorscheme void
 set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
+set splitbelow
+set splitright
 "set colorcolumn=160
 
 " terminal settings
@@ -31,7 +33,7 @@ let g:netrw_banner = 0
 "let g:netrw_liststyle = 3
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
-"let g:netrw_winsize = 25
+"let g:netrw_winsize = 24
 let g:netrw_preview = 1
 
 "augroup netrw_open
@@ -39,22 +41,53 @@ let g:netrw_preview = 1
 "    autocmd VimEnter * :Vexplore
 "    autocmd VimEnter * :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
 "augroup END
-
-augroup netrw_close
-    autocmd!
-    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
-augroup END
+"
+"augroup netrw_close
+"    autocmd!
+"    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
+"augroup END
 
 
 call plug#begin()
+Plug 'fabi1cazenave/suckless.vim'
+Plug 'fabi1cazenave/termopen.vim'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion framework
 Plug 'Shougo/neoinclude.vim' "c include completion
 Plug 'neomake/neomake' "cmake runner
 Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
-Plug 'zchee/deoplete-clang' "c family completion
+Plug 'deoplete-plugins/deoplete-clang' "c family completion
 call plug#end()
+
+"suckless settings
+
+let g:suckless_tmap = 1            " work in terminal insert mode
+
+let g:suckless_min_width = 24      " minimum window width
+let g:suckless_inc_width = 1       " width increment
+let g:suckless_inc_height = 1      " height increment
+
+let g:suckless_mappings = {
+\        '<M-[sdf]>'      :   'SetTilingMode("[sdf]")'    ,
+\        '<M-[hjkl]>'     :    'SelectWindow("[hjkl]")'   ,
+\        '<M-[HJKL]>'     :      'MoveWindow("[hjkl]")'   ,
+\      '<C-M-[hjkl]>'     :    'ResizeWindow("[hjkl]")'   ,
+\        '<M-[oO]>'       :    'CreateWindow("[sv]")'     ,
+\        '<M-w>'          :     'CloseWindow()'           ,
+\   '<Leader>[123456789]' :       'SelectTab([123456789])',
+\  '<Leader>t[123456789]' : 'MoveWindowToTab([123456789])',
+\  '<Leader>T[123456789]' : 'CopyWindowToTab([123456789])',
+\}
+
+
+"term open settings
+"open a terminal
+nmap <M-Return> :call TermOpen()<CR>
+nmap <M-Backspace> :call TermOpenRanger('lf')<CR>
+nmap <Leader>l :call TermOpen('lua')<CR>
+nmap <Leader>L :call TermOpen('lua', 'v')<CR>
+
 
 "deoplete settings
 
@@ -115,9 +148,10 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsListTrigger="<c-e>"
 
 
+
 "deoplete-clang settings
 
-let g:deoplete#sources#clang#libclang_path = '/lib/libclang.so'
+let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
 
-let g:deoplete#sources#clang#clang_header = '/lib/clang/8.0.0/include'
+let g:deoplete#sources#clang#clang_header = '/lib/clang/'
 

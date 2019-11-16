@@ -105,6 +105,9 @@ theme.widget_urgent_bg = theme.red
 theme.widget_important_fg = theme.black
 theme.widget_important_bg = theme.blue
 
+theme.widget_online_fg = theme.black
+theme.widget_online_bg = theme.green
+
 -- calendar
 -- theme.calendar_style = nil
 theme.calendar_font = theme.font
@@ -131,14 +134,14 @@ theme.checkbox_color = theme.fg_normal
 -- theme.graph_border_color = nil
 
 -- hotkeys
-theme.hotkeys_bg = theme.bg_normal
-theme.hotkeys_fg = theme.fg_normal
-theme.hotkeys_border_width = dpi(2)
-theme.hotkeys_border_color = theme.border_normal
+-- theme.hotkeys_bg = theme.bg_normal
+-- theme.hotkeys_fg = theme.fg_normal
+-- theme.hotkeys_border_width = dpi(2)
+-- theme.hotkeys_border_color = theme.border_normal
 -- theme.hotkeys_shape = nil
 theme.hotkeys_modifiers_fg = theme.light_white
-theme.hotkeys_label_bg = theme.bg_normal
-theme.hotkeys_label_fg = theme.fg_normal
+-- theme.hotkeys_label_bg = theme.bg_normal
+-- theme.hotkeys_label_fg = theme.fg_normal
 theme.hotkeys_font = theme.font
 theme.hotkeys_description_font = theme.font
 -- theme.hotkeys_group_margin = nil
@@ -167,12 +170,12 @@ theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 theme = theme_assets.recolor_layout(theme, theme.light_white)
 
 -- master
--- theme.master_width_factor = 0.43
+theme.master_width_factor = 0.34
 -- theme.master_fill_policy = nil
--- theme.master_count = nil
+theme.master_count = 1
 
 -- column
--- theme.column_count = 2
+theme.column_count = 2
 
 -- cursor
 -- theme.cursor_mouse_resize = nil
@@ -216,7 +219,7 @@ theme.notification_font = theme.font
 theme.notification_bg = theme.bg_normal
 theme.notification_fg = theme.fg_normal
 theme.notification_border_width = dpi(2)
-theme.notification_border_color = theme.border_focus
+theme.notification_border_color = theme.border_normal
 -- theme.notification_shape = nil
 -- theme.notification_opacity = nil
 theme.notification_margin = dpi(32)
