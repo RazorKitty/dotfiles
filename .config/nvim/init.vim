@@ -34,18 +34,20 @@ let g:netrw_banner = 0
 let g:netrw_browse_split = 4
 let g:netrw_altv = 1
 "let g:netrw_winsize = 24
-let g:netrw_preview = 1
+"let g:netrw_preview = 1
 
-"augroup netrw_open
-"    autocmd!
-"    autocmd VimEnter * :Vexplore
-"    autocmd VimEnter * :execute "vertical resize" max(map(range(1, line('$')), "virtcol([v:val, '$'])"))
-"augroup END
+" custom keys
+nmap <silent> <M-t> :execute('tabnew')<CR>
+nmap <silent> <M-T> :execute('tabclose')<CR>
+nmap <silent> <M-n> :execute('tabnext')<CR>
+nmap <silent> <M-p> :execute('tabprev')<CR>
+
+
+
+"statusline
+
+set statusline=%8*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
 "
-"augroup netrw_close
-"    autocmd!
-"    autocmd WinEnter * if winnr('$') == 1 && getbufvar(winbufnr(winnr()), "&filetype") == "netrw"|q|endif
-"augroup END
 
 
 call plug#begin()
@@ -63,7 +65,7 @@ call plug#end()
 "suckless settings
 
 let g:suckless_tmap = 1            " work in terminal insert mode
-
+let g:suckless_tabline = 0
 let g:suckless_min_width = 24      " minimum window width
 let g:suckless_inc_width = 1       " width increment
 let g:suckless_inc_height = 1      " height increment
@@ -73,9 +75,9 @@ let g:suckless_mappings = {
 \        '<M-[hjkl]>'     :    'SelectWindow("[hjkl]")'   ,
 \        '<M-[HJKL]>'     :      'MoveWindow("[hjkl]")'   ,
 \      '<C-M-[hjkl]>'     :    'ResizeWindow("[hjkl]")'   ,
-\        '<M-[oO]>'       :    'CreateWindow("[sv]")'     ,
+\        '<M-[Oo]>'       :    'CreateWindow("[sv]")'     ,
 \        '<M-w>'          :     'CloseWindow()'           ,
-\   '<Leader>[123456789]' :       'SelectTab([123456789])',
+\   '<M-[123456789]>' :       'SelectTab([123456789])',
 \  '<Leader>t[123456789]' : 'MoveWindowToTab([123456789])',
 \  '<Leader>T[123456789]' : 'CopyWindowToTab([123456789])',
 \}
@@ -83,12 +85,10 @@ let g:suckless_mappings = {
 
 "term open settings
 "open a terminal
-nmap <M-Return> :call TermOpen()<CR>
-nmap <M-Backspace> :call TermOpenRanger('lf')<CR>
+nmap <M-Return> :call TermOpen('','v')<CR>
+nmap <M-Backspace> :call TermOpenRanger('lf','v')<CR>
 nmap <Leader>l :call TermOpen('lua')<CR>
 nmap <Leader>L :call TermOpen('lua', 'v')<CR>
-
-
 "deoplete settings
 
 let g:deoplete#enable_at_startup = 1
