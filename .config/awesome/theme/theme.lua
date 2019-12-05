@@ -366,16 +366,16 @@ theme.tasklist_disable_icon = true
 -- theme.tasklist_shape_border_width_urgent = nil
 -- theme.tasklist_shape_border_color_urgent = nil
 
---[[
+---[[
 -- titlebar
--- theme.titlebar_fg_normal = nil
--- theme.titlebar_bg_normal = nil
+theme.titlebar_fg_normal = theme.fg_normal
+theme.titlebar_bg_normal = theme.bg_normal
 -- theme.titlebar_bgimage_normal = nil
 -- theme.titlebar_fg = nil
 -- theme.titlebar_bg = nil
 -- theme.titlebar_bgimage = nil
--- theme.titlebar_fg_focus = nil
--- theme.titlebar_bg_focus = nil
+theme.titlebar_fg_focus = theme.fg_focus
+theme.titlebar_bg_focus = theme.bg_focus
 -- theme.titlebar_bgimage_focus = nil
 -- theme.titlebar_floating_button_normal = nil
 -- theme.titlebar_maximized_button_normal = nil
@@ -389,15 +389,15 @@ theme.titlebar_close_button_normal = theme_dir .. 'titlebar/close_normal.png'
 -- theme.titlebar_sticky_button_normal = nil
 -- theme.titlebar_floating_button_focus = nil
 -- theme.titlebar_maximized_button_focus = nil
-theme.titlebar_minimize_button_focus theme_dir .. = 'titlebar/minimize_focus.png'
+theme.titlebar_minimize_button_focus = theme_dir .. 'titlebar/minimize_focus.png'
 -- theme.titlebar_minimize_button_focus_hover = nil
 -- theme.titlebar_minimize_button_focus_press = nil
-theme.titlebar_close_button_focus theme_dir .. = 'titlebar/close_normal.png'
+theme.titlebar_close_button_focus = theme_dir ..  'titlebar/close_normal.png'
 -- theme.titlebar_close_button_focus_hover = nil
 -- theme.titlebar_close_button_focus_press = nil
 -- theme.titlebar_ontop_button_focus = nil
 -- theme.titlebar_sticky_button_focus = nil
-theme.titlebar_floating_button_normal_active = thems_path .. 'titlebar/floating_normal_active.png'
+theme.titlebar_floating_button_normal_active = theme_dir .. 'titlebar/floating_normal_active.png'
 
 -- theme.titlebar_floating_button_normal_active_hover = nil
 -- theme.titlebar_floating_button_normal_active_press = nil

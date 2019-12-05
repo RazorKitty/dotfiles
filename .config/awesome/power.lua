@@ -202,18 +202,18 @@ local keyboard_widget_template = {
 local display_device_widget = terrible.upower.display_device_widget {
     templates = {
         battery = {
-            id = 'battery-level_role',
+            id = 'warnging-level_role',
             layout = wibox.container.background,
             fg = beautiful.widget_normal_fg,
             bg = beautiful.widget_normal_bg,
             update_widget = function (self, dev)
-                if dev.battery_level > 7 then
+                if dev.battery_level == 1 then
                     self.fg = beautiful.widget_normal_fg
                     self.bg = beautiful.widget_normal_bg
-                else if dev.percentage > 5 then
+                else if dev.battery_level == 2 then
                         self.fg = beautiful.widget_important_fg
                         self.bg = beautiful.widget_important_bg
-                    else if dev. percentage > 3 then
+                    else if dev.battery_level == 3 then
                             self.fg = beautiful.widget_warning_fg
                             self.bg = beautiful.widget_warning_bg
                         else
