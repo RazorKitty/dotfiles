@@ -1,0 +1,27 @@
+#!/bin/sh
+
+exec acpi_listen | while read -r button event data; do
+    case $event in
+        BRTUP|BRTDN)
+            currentScreenBackight=`xbacklight -ctrl intel_backlight -get`
+            currentKeyboardBacklight=`xbacklight -ctrl tpacpi::kbd_backlight -get`
+            case $event in
+                BRTUP)
+                    if [ $currentScreenBackight -le 5 ]; then
+                        xbacklight -ctrl tpacpi::kbd_backlight -set 0
+                    fi
+                    xbacklight -ctrl intel_backlight -inc 5
+                    ;;
+                BRTDN)
+                    if [ $currentScreenBackight -le 5 ]; then
+                        xbacklight -ctrl intel_backlight -set 1
+                        xbacklight -ctrl tpacpi::kbd_backlight -set 50
+                    else
+                        xbacklight -ctrl intel_backlight -dec 5
+                    fi
+                    ;;
+            esac
+            echo $event
+            ;;
+    esac
+done
