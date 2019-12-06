@@ -1,27 +1,46 @@
 #!/bin/sh
+KEYBOARD_BACKLIGHT_TRIGGER=20
+KEYBOARD_BACKLIGHT_LOW=0
+KEYBOARD_BACKLIGHT_HIGH=50
 
-exec acpi_listen | while read -r button event data; do
+SCREEN_BACKLIGHT_INCREMENT=5
+SCREEN_BACKLIGHT_INCREMENT_SETTINGS="" #-fps 60 -time 100"
+
+acpi_listen | while read -r button event data; do
     case $event in
         BRTUP|BRTDN)
             currentScreenBackight=`xbacklight -ctrl intel_backlight -get`
-            currentKeyboardBacklight=`xbacklight -ctrl tpacpi::kbd_backlight -get`
             case $event in
                 BRTUP)
-                    if [ $currentScreenBackight -le 5 ]; then
-                        xbacklight -ctrl tpacpi::kbd_backlight -set 0
+                    if [ $currentScreenBackight -eq 1 ]; then
+                        xbacklight -ctrl intel_backlight -set $SCREEN_BACKLIGHT_INCREMENT $SCREEN_BACKLIGHT_INCREMENT_SETTINGS
+                    else
+                        xbacklight -ctrl intel_backlight -inc $SCREEN_BACKLIGHT_INCREMENT $SCREEN_BACKLIGHT_INCREMENT_SETTINGS
                     fi
-                    xbacklight -ctrl intel_backlight -inc 5
                     ;;
                 BRTDN)
-                    if [ $currentScreenBackight -le 5 ]; then
-                        xbacklight -ctrl intel_backlight -set 1
-                        xbacklight -ctrl tpacpi::kbd_backlight -set 50
+                    if [ $currentScreenBackight -gt $SCREEN_BACKLIGHT_INCREMENT ]; then
+                        xbacklight -ctrl intel_backlight -dec $SCREEN_BACKLIGHT_INCREMENT $SCREEN_BACKLIGHT_INCREMENT_SETTINGS
                     else
-                        xbacklight -ctrl intel_backlight -dec 5
+                        xbacklight -ctrl intel_backlight -set 1 $SCREEN_BACKLIGHT_INCREMENT_SETTINGS
                     fi
                     ;;
             esac
-            echo $event
+            currentScreenBackight=`xbacklight -ctrl intel_backlight -get`
+            if [ $currentScreenBackight -le $KEYBOARD_BACKLIGHT_TRIGGER ]; then
+                xbacklight -ctrl tpacpi::kbd_backlight -set $KEYBOARD_BACKLIGHT_HIGH
+            else
+                xbacklight -ctrl tpacpi::kbd_backlight -set $KEYBOARD_BACKLIGHT_LOW
+            fi
+            ;;
+        LID)
+            case $data in
+                open)
+                    ;;
+                close)
+                    xlock -mode blank
+                    ;;
+            esac
             ;;
     esac
 done
