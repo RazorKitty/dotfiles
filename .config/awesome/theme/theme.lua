@@ -58,8 +58,8 @@ theme.useless_gap = dpi(4)
 theme.bg_normal = theme.light_black
 theme.fg_normal = theme.light_blue
 
-theme.bg_focus = theme.green
-theme.fg_focus = theme.black
+theme.bg_focus = theme.light_black
+theme.fg_focus = theme.green
 
 theme.bg_important = theme.white
 theme.fg_important = theme.black
@@ -176,12 +176,12 @@ theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 theme = theme_assets.recolor_layout(theme, theme.light_white)
 
 -- master
-theme.master_width_factor = 0.34
+theme.master_width_factor = 0.54
 -- theme.master_fill_policy = nil
-theme.master_count = 1
+--theme.master_count = 1
 
 -- column
-theme.column_count = 2
+--theme.column_count = 2
 
 -- cursor
 -- theme.cursor_mouse_resize = nil
