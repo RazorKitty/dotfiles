@@ -54,30 +54,36 @@ theme.light_magenta = xrdb.color13
 theme.light_cyan = xrdb.color14
 theme.light_white = xrdb.color15
 
-
 theme.useless_gap = dpi(4)
 theme.bg_normal = theme.light_black
-theme.fg_normal = theme.white
+theme.fg_normal = theme.light_blue
 
-theme.bg_focus = theme.white
+theme.bg_focus = theme.green
 theme.fg_focus = theme.black
 
-theme.bg_important = theme.yellow
+theme.bg_important = theme.white
 theme.fg_important = theme.black
 
 theme.bg_urgent = theme.red
-theme.fg_urgent = theme.black
+theme.fg_urgent = theme.light_white
 
 theme.bg_minimize = theme.bg_normal
-theme.fg_minimize = theme.blue
+theme.fg_minimize = theme.white
 
 theme.bg_systray = theme.light_black
 
 theme.border_width = dpi(1)
-theme.border_normal = theme.light_black
-theme.border_focus = theme.white
-theme.border_marked = theme.green
-theme.wallpaper = theme_dir..'wallpaper.png'
+theme.border_normal = theme.blue
+theme.border_focus = theme.green
+theme.border_marked = theme.magenta
+--theme.wallpaper = theme_dir..'wallpaper.png'
+
+local wallpaper_bg = theme.black
+local wallpaper_fg = theme.blue
+local wallpaper_alt_fg = theme.green
+theme.wallpaper = function(s)
+    return theme_assets.wallpaper(wallpaper_bg, wallpaper_fg, wallpaper_alt_fg, s)
+end
 
 -- arcchart
 -- theme.arcchart_border_color = nil
@@ -90,17 +96,17 @@ theme.wallpaper = theme_dir..'wallpaper.png'
 theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.bg_focus, theme.fg_focus)
 
 -- generic widget themeing colors
-theme.widget_normal_fg = theme.white
-theme.widget_normal_bg = theme.light_black
+theme.widget_normal_fg = theme.fg_normal
+theme.widget_normal_bg = theme.bg_normal
 
-theme.widget_focus_fg = theme.black
-theme.widget_focus_bg = theme.white
+theme.widget_focus_fg = theme.fg_focus
+theme.widget_focus_bg = theme.bg_focus
 
 theme.widget_warning_fg = theme.black
 theme.widget_warning_bg = theme.yellow
 
-theme.widget_urgent_fg = theme.black
-theme.widget_urgent_bg = theme.red
+theme.widget_urgent_fg = theme.fg_urgent
+theme.widget_urgent_bg = theme.bg_urgent
 
 theme.widget_important_fg = theme.black
 theme.widget_important_bg = theme.blue
@@ -129,9 +135,9 @@ theme.checkbox_paddings = 0
 theme.checkbox_color = theme.fg_normal
 
 -- graph
--- theme.graph_bg = nil
--- theme.graph_fg = nil
--- theme.graph_border_color = nil
+theme.graph_bg = theme.black
+theme.graph_fg = theme.fg_normal
+theme.graph_border_color = theme.bg_normal
 
 -- hotkeys
 -- theme.hotkeys_bg = theme.bg_normal
@@ -252,8 +258,8 @@ theme.progressbar_margins = {
 theme.progressbar_paddings = dpi(0)
 
 -- prompt
-theme.prompt_fg_cursor = theme.fg_normal
-theme.prompt_bg_cursor = theme.bg_normal
+theme.prompt_fg_cursor = theme.bg_focus
+theme.prompt_bg_cursor = theme.fg_focus
 -- theme.prompt_font = nil
 theme.prompt_fg = theme.fg_focus
 theme.prompt_bg = theme.bg_focus
@@ -471,7 +477,7 @@ theme = theme_assets.recolor_titlebar(theme, theme.bg_focus, 'focus', 'press')
 -- tooltip
 theme.tooltip_border_color = theme.border_normal
 theme.tooltip_bg = theme.bg_normal
-theme.tooltip_fg = theme.light_white
+theme.tooltip_fg = theme.fg_normal
 -- theme.tooltip_font = nil
 theme.tooltip_border_width = dpi(1)
 -- theme.tooltip_opacity = nil
@@ -488,9 +494,9 @@ theme.wibar_ontop = false
 -- theme.wibar_type = nil
 -- theme.wibar_width = nil
 -- theme.wibar_height = nil
-theme.wibar_bg = theme.black
+theme.wibar_bg = theme.background
 -- theme.wibar_bgimage = nil
-theme.wibar_fg = theme.light_white
+theme.wibar_fg = theme.fg_normal
 -- theme.wibar_shape = nil
 
 

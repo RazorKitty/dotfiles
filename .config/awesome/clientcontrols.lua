@@ -7,22 +7,10 @@ local screen = screen
 -- Standard awesome library
 local gears = require('gears')
 local beautiful = require('beautiful')
-beautiful.init('~/.config/awesome/theme/theme.lua')
-
 local wibox = require('wibox')
 local awful = require('awful')
               require('awful.autofocus')
--- Notification library
-local naughty = require('naughty')
-
-local hotkeys_popup = require('awful.hotkeys_popup').widget
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
-                      require('awful.hotkeys_popup.keys')
 -- extras
-local mpd = require('mpd')
-local terrible = require('terrible')
-local power = require('power')
 local settings = require('settings')
 
 clientkeys = gears.table.join(

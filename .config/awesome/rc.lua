@@ -2,34 +2,31 @@
 ----------------------- AwesomeWM 4.2 void linux config ------------------------
 -----------------------     by RazorKitty@null.net      ------------------------
 --------------------------------------------------------------------------------
-
--- make the globals local
-local awesome = awesome
-local root = root
-local client = client
-local screen = screen
-
--- Standard awesome library
-local gears = require('gears')
-local beautiful = require('beautiful')
-beautiful.init('~/.config/awesome/theme/theme.lua')
-
-local wibox = require('wibox')
-local awful = require('awful')
-              require('awful.autofocus')
+--local wibox = require('wibox')
+--local awful = require('awful')
+--              require('awful.autofocus')
 -- Notification library
-local naughty = require('naughty')
 
-local hotkeys_popup = require('awful.hotkeys_popup').widget
+--local hotkeys_popup = require('awful.hotkeys_popup').widget
 -- Enable hotkeys help widget for VIM and other apps
 -- when client with a matching name is opened:
-                      require('awful.hotkeys_popup.keys')
+ --                     require('awful.hotkeys_popup.keys')
 -- extras
-local mpd = require('mpd')
-local terrible = require('terrible')
-local power = require('power')
-local settings = require('settings')
+--local mpd = require('mpd')
+--local terrible = require('terrible')
+--local power = require('power')
+--local settings = require('settings')
+-- make the globals local
+--local awesome = awesome
+--local root = root
+--local client = client
+--local screen = screen
+--local gears = require('gears')
 
+-- Standard awesome library
+local beautiful = require('beautiful')
+beautiful.init(os.getenv('HOME')..'/.config/awesome/theme/theme.lua')
+local naughty = require('naughty')
 -------------------------------------------------------------- Error handling --
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -59,13 +56,7 @@ do
         end)
 end
 
+--add the bits
 local display = require('display')
------------------------------------------------------------- Useful Functions --
-
---------------------------------------------------------------------- Widgets --
-
----------------------------------------------------------------- Key bindings --
---------------------------------------------------------------------------------
 local globalcontrols = require('globalcontrols')
-
 local clientcontrols = require('clientcontrols')

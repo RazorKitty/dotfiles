@@ -40,8 +40,8 @@ hi User9           guifg=none       guibg=none      ctermfg=0    ctermbg=8    ct
 hi Normal          guifg=#48737a    guibg=#0d0015   ctermfg=7       ctermbg=0       cterm=none
 hi Cursor          guifg=#0d0015    guibg=#b4c1c2   ctermfg=0       ctermbg=15      cterm=none
 hi CursorLine      guifg=none       guibg=#0f192e   ctermfg=none    ctermbg=none    cterm=none
-hi LineNr          guifg=#48737a    guibg=#0f192e   ctermfg=7       ctermbg=8    cterm=none
-hi CursorLineNR    guifg=#b4c1c2    guibg=#0f192e   ctermfg=0      ctermbg=7    cterm=none
+hi LineNr          guifg=#48737a    guibg=#0f192e   ctermfg=12       ctermbg=8    cterm=none
+hi CursorLineNR    guifg=#b4c1c2    guibg=#0f192e   ctermfg=0      ctermbg=2    cterm=none
 
 " -----------------
 " - Number column -
@@ -54,11 +54,11 @@ hi Folded          guifg=none       guibg=#0f192e   ctermfg=none    ctermbg=none
 " -------------------------
 " - Window/Tab delimiters - 
 " -------------------------
-hi VertSplit       guifg=#0f192e    guibg=#0f192e   ctermfg=8       ctermbg=0       cterm=none
+hi VertSplit       guifg=#0f192e    guibg=#0f192e   ctermfg=4       ctermbg=0       cterm=none
 hi ColorColumn     guifg=none       guibg=#0f192e   ctermfg=8       ctermbg=none    cterm=none
-hi TabLine         guifg=#48737a    guibg=#0f192e   ctermfg=7       ctermbg=8    cterm=none
+hi TabLine         guifg=#48737a    guibg=#0f192e   ctermfg=12       ctermbg=8    cterm=none
 hi TabLineFill     guifg=#0f192e    guibg=#0f192e   ctermfg=8       ctermbg=0    cterm=none
-hi TabLineSel      guifg=#b4c1c2    guibg=#0f192e   ctermfg=0      ctermbg=7    cterm=none
+hi TabLineSel      guifg=#b4c1c2    guibg=#0f192e   ctermfg=0      ctermbg=2    cterm=none
 
 " -------------------------------
 " - File Navigation / Searching -
@@ -70,8 +70,8 @@ hi IncSearch       guifg=#0d0015    guibg=#b4c1c2   ctermfg=15      ctermbg=none
 " -----------------
 " - Prompt/Status -
 " -----------------
-hi StatusLine      guifg=#0f192e    guibg=#b4c1c2   ctermfg=0      ctermbg=7    cterm=none
-hi StatusLineNC    guifg=#0f192e    guibg=#48737a   ctermfg=7       ctermbg=8    cterm=none
+hi StatusLine      guifg=#0f192e    guibg=#b4c1c2   ctermfg=0      ctermbg=2    cterm=none
+hi StatusLineNC    guifg=#0f192e    guibg=#48737a   ctermfg=12       ctermbg=8    cterm=none
 hi WildMenu        guifg=#48737a    guibg=#0f192e   ctermfg=15      ctermbg=none    cterm=none
 hi Question        guifg=#797724    guibg=#0f192e   ctermfg=15      ctermbg=none    cterm=none
 hi Title           guifg=#b4c1c2    guibg=#0f192e   ctermfg=15      ctermbg=none    cterm=none

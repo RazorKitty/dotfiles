@@ -25,6 +25,53 @@ local attach_popup_on_hover = function (widget, popup)
     end)
 end
 
+local battery_graph_template = {
+    id = '_background',
+    layout = wibox.container.background,
+    fg = beautiful.widget_normal_fg,
+    bg = beautiful.widget_normal_bg,
+    {
+        id = '_margin',
+        layout = wibox.container.margin,
+        left = 4,
+        right = 4,
+        top = 2,
+        bottom = 2,
+        {
+            id = '_layout',
+            layout = wibox.layout.fixed.vertical,
+            {
+                id = 'native-path_role',
+                widget = wibox.widget.textbox,
+                update_widget = function (self, dev)
+                    self.text = dev.native_path
+                end
+            },
+            {
+                id = 'percentage_container',
+                layout = wibox.container.constraint,
+                width = 64,
+                height = 40,
+                {
+                    id = 'percentage_role',
+                    widget = wibox.widget.graph,
+                    max_value = 100,
+                    min_value = 0,
+                    color = beautiful.green,
+                    update_widget = function (self, dev)
+                        if not self.loaded then
+                            
+                            self.loaded = true
+                        end
+                        self.color = (dev.percentage < 10 and beautiful.widget_urgent_bg) or (dev.percentage < 25 and beautiful.widget_warning_bg) or beautiful.widget_online_bg
+                        self:add_value(dev.percentage)
+                    end
+                }
+            }
+        }
+    }
+}
+
 local battery_widget_template = {
     id = 'stat_role',
     layout = wibox.container.background,
@@ -82,8 +129,8 @@ local line_power_widget_template = {
         right = 4,
         {
             id = '_layout',
-            layout = wibox.layout.fixed.horizontal,
-            spacing = 4,
+            layout = wibox.layout.align.horizontal,
+            --spacing = 4,
             {
                 id = 'native-path_role',
                 widget = wibox.widget.textbox,
@@ -91,10 +138,7 @@ local line_power_widget_template = {
                     self.text = dev.native_path
                 end
             },
-            {
-                id = '_place_holder',
-                layout = wibox.layout.fixed.horizontal
-            },
+            nil,
             {
                 id = 'online_constraint',
                 layout = wibox.container.constraint,
@@ -202,18 +246,18 @@ local keyboard_widget_template = {
 local display_device_widget = terrible.upower.display_device_widget {
     templates = {
         battery = {
-            id = 'warnging-level_role',
+            id = 'warning-level_role',
             layout = wibox.container.background,
             fg = beautiful.widget_normal_fg,
             bg = beautiful.widget_normal_bg,
             update_widget = function (self, dev)
-                if dev.battery_level == 1 then
+                if dev.warning_level == 1 then
                     self.fg = beautiful.widget_normal_fg
                     self.bg = beautiful.widget_normal_bg
-                else if dev.battery_level == 2 then
+                else if dev.warning_level == 2 then
                         self.fg = beautiful.widget_important_fg
                         self.bg = beautiful.widget_important_bg
-                    else if dev.battery_level == 3 then
+                    else if dev.warning_level == 3 then
                             self.fg = beautiful.widget_warning_fg
                             self.bg = beautiful.widget_warning_bg
                         else

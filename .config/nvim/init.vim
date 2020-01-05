@@ -46,7 +46,7 @@ nmap <silent> <M-p> :execute('tabprev')<CR>
 
 "statusline
 
-set statusline=%8*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
+set statusline=%3*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
 "
 
 
@@ -59,13 +59,16 @@ Plug 'neomake/neomake' "cmake runner
 Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
-Plug 'deoplete-plugins/deoplete-clang' "c family completion
+Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'kristijanhusak/deoplete-phpactor'
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 call plug#end()
 
 "suckless settings
 
 let g:suckless_tmap = 1            " work in terminal insert mode
-let g:suckless_tabline = 0
+let g:suckless_tabline = 1
 let g:suckless_min_width = 24      " minimum window width
 let g:suckless_inc_width = 1       " width increment
 let g:suckless_inc_height = 1      " height increment
@@ -147,11 +150,23 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsListTrigger="<c-e>"
 
+"language server
+set hidden
 
+let g:LanguageClient_serverCommands = {
+    \ 'c': ['/usr/bin/clangd'],
+    \ 'cpp': ['/usr/bin/clangd']
+    \ }
 
-"deoplete-clang settings
+"phpactor
+"navigation
+au FileType php nmap <buffer> <silent> <Leader>f :call phpactor#FindReferences()<CR>
+au FileType php nmap <buffer> <silent> <Leader>h :call phpactor#Hover()<CR>
+au FileType php nmap <buffer> <silent> <Leader>d :call phpactor#GotoDefinition()<CR>
+au FileType php nmap <buffer> <silent> <Leader>j :call phpactor#Navigate()<CR>
 
-let g:deoplete#sources#clang#libclang_path = '/usr/lib/libclang.so'
+"refactoring
 
-let g:deoplete#sources#clang#clang_header = '/lib/clang/'
-
+au FileType php nmap <buffer> <silent> <Leader>u :call phpactor#UseAdd()<CR>
+au FileType php nmap <buffer> <silent> <Leader>t :call phpactor#Transform()<CR>
+au FileType php nmap <buffer> <silent> <Leader>c :call phpactor#ContextMenu()<CR>

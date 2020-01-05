@@ -11,13 +11,11 @@ local beautiful = require('beautiful')
 local wibox = require('wibox')
 local awful = require('awful')
               require('awful.autofocus')
--- Notification library
-local naughty = require('naughty')
 
 -- extras
 local mpd = require('mpd')
 local terrible = require('terrible')
-local power = require('power')
+local power = require('display.power')
 local settings = require('settings')
 
 local function set_wallpaper(s)
