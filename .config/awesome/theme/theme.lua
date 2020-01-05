@@ -76,14 +76,14 @@ theme.border_width = dpi(1)
 theme.border_normal = theme.blue
 theme.border_focus = theme.green
 theme.border_marked = theme.magenta
---theme.wallpaper = theme_dir..'wallpaper.png'
+theme.wallpaper = theme_dir..'wallpaper.png'
 
 local wallpaper_bg = theme.black
 local wallpaper_fg = theme.blue
 local wallpaper_alt_fg = theme.green
-theme.wallpaper = function(s)
-    return theme_assets.wallpaper(wallpaper_bg, wallpaper_fg, wallpaper_alt_fg, s)
-end
+--theme.wallpaper = function(s)
+--    return theme_assets.wallpaper(wallpaper_bg, wallpaper_fg, wallpaper_alt_fg, s)
+--end
 
 -- arcchart
 -- theme.arcchart_border_color = nil
