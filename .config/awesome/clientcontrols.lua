@@ -120,15 +120,12 @@ awful.rules.rules = {
     },
     {
         rule = {
-            class = 'oblivion.exe'
+            class = 'Steam'
         },
         properties = {
-            border_width = 0,
-            fullscreen = true,
-            focus = true,
             new_tag = {
-                name = 'Oblivion',
-                layout = awful.layout.suit.max,
+                name = 'Steam',
+                layout = awful.layout.suit.tile,
                 volatile = true
             }
         }
