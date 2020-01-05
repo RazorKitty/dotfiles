@@ -138,7 +138,7 @@ awful.rules.rules = {
             }
         },
         properties = {
-            titlebars_enabled = true
+            titlebars_enabled = false
         }
     }
 }
@@ -178,22 +178,30 @@ client.connect_signal('request::titlebars', function(c)
 
     awful.titlebar(c, { position = 'bottom' }) : setup {
         { -- Left
-            layout = wibox.container.margin,
-            left = 4,
-            right = 4,
-            awful.titlebar.widget.titlewidget(c),
+            layout = wibox.layout.fixed.horizontal,
             buttons = buttons,
+            {
+                layout = wibox.container.margin,
+                left = 4,
+                right = 4,
+                awful.titlebar.widget.titlewidget(c),
+            }
         },
         { -- Middle
             buttons = buttons,
-            layout  = wibox.layout.flex.horizontal
+            layout  = wibox.container.background,
+            bg = beautiful.background,
+            fg = beautiful.background,
+            {
+                widget = wibox.widget.textbox,
+            }
         },
         { -- Right
-            --awful.titlebar.widget.floatingbutton (c),
-            --awful.titlebar.widget.maximizedbutton(c),
-            --awful.titlebar.widget.stickybutton   (c),
-            --awful.titlebar.widget.ontopbutton    (c),
-            --awful.titlebar.widget.closebutton    (c),
+            awful.titlebar.widget.floatingbutton (c),
+            awful.titlebar.widget.maximizedbutton(c),
+            awful.titlebar.widget.stickybutton   (c),
+            awful.titlebar.widget.ontopbutton    (c),
+            awful.titlebar.widget.closebutton    (c),
             layout = wibox.layout.fixed.horizontal()
         },
         layout = wibox.layout.align.horizontal

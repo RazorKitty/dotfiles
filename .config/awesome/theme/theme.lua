@@ -178,7 +178,7 @@ theme = theme_assets.recolor_layout(theme, theme.light_white)
 -- master
 theme.master_width_factor = 0.54
 -- theme.master_fill_policy = nil
---theme.master_count = 1
+theme.master_count = 1
 
 -- column
 --theme.column_count = 2
@@ -465,7 +465,7 @@ theme.titlebar_sticky_button_focus_inactive = theme_dir .. 'titlebar/sticky_focu
 -- theme.titlebar_sticky_button_focus_inactive_press = nil
 --]]
 
---[[
+---[[
 theme = theme_assets.recolor_titlebar(theme, theme.fg_normal, 'normal')
 theme = theme_assets.recolor_titlebar(theme, theme.fg_normal, 'normal', 'hover')
 theme = theme_assets.recolor_titlebar(theme, theme.bg_normal, 'normal', 'press')
