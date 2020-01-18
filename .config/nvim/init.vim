@@ -16,11 +16,11 @@ set scrolloff=32
 set foldmethod=syntax
 set nofoldenable
 set foldlevel=2
+set colorcolumn=120
 "set t_Co=16
 "color settings
 "set termguicolors
 colorscheme void
-set titlestring=%t%(\ %M%)%(\ (%{expand(\"%:p:h\")})%)%(\ %a%)\ -\ %{v:servername}
 set splitbelow
 set splitright
 "set colorcolumn=160
@@ -46,7 +46,7 @@ nmap <silent> <M-p> :execute('tabprev')<CR>
 
 "statusline
 
-set statusline=%3*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
+"set statusline=%3*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
 "
 
 

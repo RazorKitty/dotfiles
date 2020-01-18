@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =4
+let g:netrw_dirhist_4='/home/william/.config/awesome/display'
+let g:netrw_dirhist_3='/home/william/.config/awesome/terrible/networkmanager'
+let g:netrw_dirhist_2='/home/william/.config/awesome/terrible'
+let g:netrw_dirhist_1='/home/william/.config/awesome/display'
+let g:netrw_dirhist_0='/home/william/Projects/WorkProject/src/Service'
+let g:netrw_dirhist_9='/home/william/Projects/WorkProject/src'
+let g:netrw_dirhist_8='/home/william/Projects/WorkProject/src/Service'
+let g:netrw_dirhist_7='/home/william/Projects/WorkProject/src'
+let g:netrw_dirhist_6='/home/william/Projects/WorkProject'
+let g:netrw_dirhist_5='/home/william/Projects/lua_stuff/awesome_client_pipe'
