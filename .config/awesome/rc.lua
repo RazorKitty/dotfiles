@@ -2,31 +2,52 @@
 ----------------------- AwesomeWM 4.2 void linux config ------------------------
 -----------------------     by RazorKitty@null.net      ------------------------
 --------------------------------------------------------------------------------
---local wibox = require('wibox')
---local awful = require('awful')
---              require('awful.autofocus')
--- Notification library
+-- globals
+local awesome = awesome
+local root = root
+local client = client
+local screen = screen
 
---local hotkeys_popup = require('awful.hotkeys_popup').widget
--- Enable hotkeys help widget for VIM and other apps
--- when client with a matching name is opened:
- --                     require('awful.hotkeys_popup.keys')
--- extras
---local mpd = require('mpd')
---local terrible = require('terrible')
---local power = require('power')
---local settings = require('settings')
--- make the globals local
---local awesome = awesome
---local root = root
---local client = client
---local screen = screen
---local gears = require('gears')
+local settings = require('settings')
 
 -- Standard awesome library
 local beautiful = require('beautiful')
 beautiful.init(os.getenv('HOME')..'/.config/awesome/theme/theme.lua')
+
+local function set_wallpaper(s)
+    -- Wallpaper
+    if beautiful.wallpaper then
+        local wallpaper = beautiful.wallpaper
+        -- If wallpaper is a function, call it with the screen
+        if type(wallpaper) == 'function' then
+            wallpaper = wallpaper(s)
+        end
+        gears.wallpaper.centered(wallpaper, s, true)
+    end
+end
+screen.connect_signal('property::geometry', function(s)
+    -- Wallpaper
+    if beautiful.wallpaper then
+        local wallpaper = beautiful.wallpaper
+        -- If wallpaper is a function, call it with the screen
+        if type(wallpaper) == 'function' then
+            wallpaper = wallpaper(s)
+        end
+        gears.wallpaper.maximized(wallpaper, s, true)
+    end
+end)
+
+-- Standard awesome library
+local gears = require('gears')
+local wibox = require('wibox')
 local naughty = require('naughty')
+local awful = require('awful')
+              require('awful.autofocus')
+
+-- extras
+local mpd = require('mpd')
+local terrible = require('terrible')
+
 -------------------------------------------------------------- Error handling --
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)

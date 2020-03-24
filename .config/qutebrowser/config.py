@@ -113,7 +113,7 @@ c.content.headers.referer = 'same-domain'
 # User agent to send. Unset to send the default. Note that the value
 # read from JavaScript is always the global value.
 # Type: String
-c.content.headers.user_agent = None
+#c.content.headers.user_agent = None
 
 # Enable host blocking.
 # Type: Bool
@@ -528,7 +528,7 @@ c.colors.webpage.bg = '#0d0015'
 
 # Font used for the hints.
 # Type: Font
-c.fonts.hints = '10pt monospace'
+c.fonts.hints = 'terminus'
 
 # Bindings for normal mode
 config.bind('M', 'hint --rapid links spawn mpv {hint-url}')

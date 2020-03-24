@@ -7,18 +7,6 @@ export HOSTNAME=$(</etc/hostname)
 export EDITOR=nvim
 
 
-zsh-update () {
-    if [[ -d "${ZDOTDIR:-$HOME}/.zprezto" ]]; then
-        echo "Updating zprezto..."
-        git -C "${ZDOTDIR:-$HOME}/.zprezto" pull --recurse-submodules
-        echo "Done"
-    else
-        echo "Zprezto not found installing..."
-        git clone https://github.com/sorin-ionedcu/prezto .zprezto
-        echo "Done"
-    fi
-}
-
 clear () {
     /usr/bin/clear
     if [ -x /usr/bin/neofetch ]; then
@@ -49,5 +37,5 @@ alias day_mode="xbacklight -ctrl tpacpi::kbd_backlight -set 0 && xbacklight -ctr
 
 alias sudo="sudo -E"
 alias alert="/bin/echo -e "\a" && beep -l 100 -d 100 -r 2"
-alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME"
+alias dotfiles="git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME "
 

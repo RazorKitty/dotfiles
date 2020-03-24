@@ -37,11 +37,11 @@ hi User9           guifg=none   guibg=none  ctermfg=0       ctermbg=8       cter
 " --------------------------------
 " Editor settings
 " --------------------------------
-hi Normal          guifg=none   guibg=none  ctermfg=7       ctermbg=0       cterm=none
-hi Cursor          guifg=none   guibg=none  ctermfg=none    ctermbg=10      cterm=none
-hi CursorLine      guifg=none   guibg=none  ctermfg=none    ctermbg=8       cterm=none
-hi LineNr          guifg=none   guibg=none  ctermfg=12      ctermbg=8       cterm=none
-hi CursorLineNR    guifg=none   guibg=none  ctermfg=10      ctermbg=8       cterm=none
+hi Normal          guifg=none   guibg=none  ctermfg=7       ctermbg=none       cterm=none
+hi Cursor          guifg=none   guibg=none  ctermfg=none    ctermbg=15      cterm=none
+hi CursorLine      guifg=none   guibg=none  ctermfg=none    ctermbg=0       cterm=none
+hi LineNr          guifg=none   guibg=none  ctermfg=4      ctermbg=none       cterm=none
+hi CursorLineNR    guifg=none   guibg=none  ctermfg=15      ctermbg=none       cterm=none
 
 " -----------------
 " - Number column -
@@ -54,11 +54,11 @@ hi Folded          guifg=none   guibg=none  ctermfg=none    ctermbg=none    cter
 " -------------------------
 " - Window/Tab delimiters - 
 " -------------------------
-hi VertSplit       guifg=none   guibg=none  ctermfg=4       ctermbg=0       cterm=none
+hi VertSplit       guifg=none   guibg=none  ctermfg=4       ctermbg=none       cterm=none
 hi ColorColumn     guifg=none   guibg=none  ctermfg=none    ctermbg=8       cterm=none
-hi TabLine         guifg=none   guibg=none  ctermfg=12      ctermbg=8       cterm=none
-hi TabLineFill     guifg=none   guibg=none  ctermfg=8       ctermbg=8       cterm=none
-hi TabLineSel      guifg=none   guibg=none  ctermfg=10      ctermbg=8       cterm=none
+hi TabLine         guifg=none   guibg=none  ctermfg=4      ctermbg=none       cterm=none
+hi TabLineFill     guifg=none   guibg=none  ctermfg=none       ctermbg=none       cterm=none
+hi TabLineSel      guifg=none   guibg=none  ctermfg=15      ctermbg=none       cterm=none
 
 " -------------------------------
 " - File Navigation / Searching -
@@ -70,8 +70,8 @@ hi IncSearch       guifg=none   guibg=none  ctermfg=15      ctermbg=none    cter
 " -----------------
 " - Prompt/Status -
 " -----------------
-hi StatusLine      guifg=none   guibg=none  ctermfg=10      ctermbg=8       cterm=none
-hi StatusLineNC    guifg=none   guibg=none  ctermfg=12      ctermbg=8       cterm=none
+hi StatusLine      guifg=none   guibg=none  ctermfg=15      ctermbg=none       cterm=none
+hi StatusLineNC    guifg=none   guibg=none  ctermfg=4      ctermbg=none       cterm=none
 hi WildMenu        guifg=none   guibg=none  ctermfg=15      ctermbg=none    cterm=none
 hi Question        guifg=none   guibg=none  ctermfg=15      ctermbg=none    cterm=none
 hi Title           guifg=none   guibg=none  ctermfg=15      ctermbg=none    cterm=none
@@ -82,9 +82,9 @@ hi MoreMsg         guifg=none   guibg=none  ctermfg=7       ctermbg=none    cter
 " - Visual aid -
 " --------------
 hi MatchParen      guifg=none   guibg=none  ctermfg=0       ctermbg=7       cterm=none
-hi Visual          guifg=none   guibg=none  ctermfg=0       ctermbg=7       cterm=none
+hi Visual          guifg=none   guibg=none  ctermfg=none       ctermbg=0       cterm=none
 hi VisualNOS       guifg=none   guibg=none  ctermfg=none    ctermbg=none    cterm=none
-hi NonText         guifg=none   guibg=none  ctermfg=0       ctermbg=0       cterm=none
+hi NonText         guifg=none   guibg=none  ctermfg=0       ctermbg=none       cterm=none
 
 hi Todo            guifg=none   guibg=none  ctermfg=0       ctermbg=8       cterm=none
 hi Underlined      guifg=none   guibg=none  ctermfg=none    ctermbg=none    cterm=none

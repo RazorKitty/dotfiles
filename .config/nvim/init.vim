@@ -16,7 +16,8 @@ set scrolloff=32
 set foldmethod=syntax
 set nofoldenable
 set foldlevel=2
-set colorcolumn=120
+"set cursorline
+"set colorcolumn=120
 "set t_Co=16
 "color settings
 "set termguicolors
@@ -30,9 +31,9 @@ au TermOpen * setlocal nonumber norelativenumber
 
 "netrw settings
 let g:netrw_banner = 0
-"let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
+let g:netrw_liststyle = 3
+"let g:netrw_browse_split = 4
+"let g:netrw_altv = 1
 "let g:netrw_winsize = 24
 "let g:netrw_preview = 1
 
@@ -60,7 +61,7 @@ Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
 Plug 'kristijanhusak/deoplete-phpactor'
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 call plug#end()
@@ -158,15 +159,19 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['/usr/bin/clangd']
     \ }
 
+"phpcd
+let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
+
+
 "phpactor
 "navigation
 au FileType php nmap <buffer> <silent> <Leader>f :call phpactor#FindReferences()<CR>
 au FileType php nmap <buffer> <silent> <Leader>h :call phpactor#Hover()<CR>
 au FileType php nmap <buffer> <silent> <Leader>d :call phpactor#GotoDefinition()<CR>
 au FileType php nmap <buffer> <silent> <Leader>j :call phpactor#Navigate()<CR>
-
-"refactoring
-
-au FileType php nmap <buffer> <silent> <Leader>u :call phpactor#UseAdd()<CR>
-au FileType php nmap <buffer> <silent> <Leader>t :call phpactor#Transform()<CR>
-au FileType php nmap <buffer> <silent> <Leader>c :call phpactor#ContextMenu()<CR>
+"
+""refactoring
+"
+"au FileType php nmap <buffer> <silent> <Leader>u :call phpactor#UseAdd()<CR>
+"au FileType php nmap <buffer> <silent> <Leader>t :call phpactor#Transform()<CR>
+"au FileType php nmap <buffer> <silent> <Leader>c :call phpactor#ContextMenu()<CR>

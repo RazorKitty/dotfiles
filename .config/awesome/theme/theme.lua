@@ -45,38 +45,39 @@ theme.magenta = xrdb.color5
 theme.cyan = xrdb.color6
 theme.white = xrdb.color7
 
-theme.light_black = xrdb.color8
-theme.light_red = xrdb.color9
-theme.light_green = xrdb.color10
-theme.light_yellow = xrdb.color11
-theme.light_blue = xrdb.color12
-theme.light_magenta = xrdb.color13
-theme.light_cyan = xrdb.color14
-theme.light_white = xrdb.color15
+theme.bright_black = xrdb.color8
+theme.bright_red = xrdb.color9
+theme.bright_green = xrdb.color10
+theme.bright_yellow = xrdb.color11
+theme.bright_blue = xrdb.color12
+theme.bright_magenta = xrdb.color13
+theme.bright_cyan = xrdb.color14
+theme.bright_white = xrdb.color15
 
 theme.useless_gap = dpi(4)
-theme.bg_normal = theme.light_black
-theme.fg_normal = theme.light_blue
+theme.bg_normal = theme.bright_black
+theme.fg_normal = theme.bright_blue
 
-theme.bg_focus = theme.green
-theme.fg_focus = theme.black
+theme.bg_focus = theme.bg_normal
+theme.fg_focus = theme.bright_green
 
 theme.bg_important = theme.white
 theme.fg_important = theme.black
 
 theme.bg_urgent = theme.red
-theme.fg_urgent = theme.light_white
+theme.fg_urgent = theme.bright_white
 
 theme.bg_minimize = theme.bg_normal
 theme.fg_minimize = theme.white
 
-theme.bg_systray = theme.light_black
+theme.bg_systray = theme.bright_black
 
 theme.border_width = dpi(1)
 theme.border_normal = theme.blue
 theme.border_focus = theme.green
 theme.border_marked = theme.magenta
 theme.wallpaper = theme_dir..'wallpaper.png'
+--theme.wallpaper = '~/Downloads/wallpaper.jpg'
 
 local wallpaper_bg = theme.black
 local wallpaper_fg = theme.blue
@@ -93,7 +94,7 @@ local wallpaper_alt_fg = theme.green
 -- theme.arcchart_thickness = nil
 
 -- awesome
-theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.bg_focus, theme.fg_focus)
+theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.fg_focus, theme.bg_focus)
 
 -- generic widget themeing colors
 theme.widget_normal_fg = theme.fg_normal
@@ -145,7 +146,7 @@ theme.graph_border_color = theme.bg_normal
 -- theme.hotkeys_border_width = dpi(2)
 -- theme.hotkeys_border_color = theme.border_normal
 -- theme.hotkeys_shape = nil
-theme.hotkeys_modifiers_fg = theme.light_white
+theme.hotkeys_modifiers_fg = theme.bright_white
 -- theme.hotkeys_label_bg = theme.bg_normal
 -- theme.hotkeys_label_fg = theme.fg_normal
 theme.hotkeys_font = theme.font
@@ -173,7 +174,7 @@ theme.layout_spiral = theme_dir..'layouts/spiral.png'
 theme.layout_dwindle = theme_dir..'layouts/dwindle.png'
 theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 
-theme = theme_assets.recolor_layout(theme, theme.light_white)
+theme = theme_assets.recolor_layout(theme, theme.bright_white)
 
 -- master
 theme.master_width_factor = 0.34
@@ -220,6 +221,9 @@ theme.menu_bg_normal = theme.bg_normal
 
 theme.menu_submenu = ' > '
 
+-- amenu
+
+
 -- notification
 theme.notification_font = theme.font
 theme.notification_bg = theme.bg_normal
@@ -242,13 +246,13 @@ theme.notification_margin = dpi(32)
 
 -- progressbar
 theme.progressbar_bg = theme.black
-theme.progressbar_fg = theme.light_white
+theme.progressbar_fg = theme.bright_white
 -- theme.progressbar_shape = nil
 theme.progressbar_border_color = theme.black
 theme.progressbar_border_width = dpi(1)
 -- theme.progressbar_bar_shape = nil
 theme.progressbar_bar_border_width = dpi(0)
-theme.progressbar_bar_border_color = theme.light_white
+theme.progressbar_bar_border_color = theme.bright_white
 theme.progressbar_margins = {
     left = dpi(0),
     right = dpi(0),
@@ -493,8 +497,7 @@ theme.wibar_ontop = false
 -- theme.wibar_opacity = nil
 -- theme.wibar_type = nil
 -- theme.wibar_width = nil
--- theme.wibar_height = nil
-theme.wibar_bg = theme.background
+theme.wibar_bg = theme.bg_normal
 -- theme.wibar_bgimage = nil
 theme.wibar_fg = theme.fg_normal
 -- theme.wibar_shape = nil
