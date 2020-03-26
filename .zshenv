@@ -5,6 +5,7 @@ fi
 
 export HOSTNAME=$(</etc/hostname)
 export EDITOR=nvim
+export VISUAL=nvim
 
 
 clear () {
