@@ -4,52 +4,14 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
-
-!! special
-!*.foreground:   #b4c1c2
-!*.background:   #121419
-!*.cursorColor:  #b4c1c2
-!
-!! black
-!*.color0:       #1c2028
-!*.color8:       #252832
-!
-!! red
-!*.color1:       #ac1e33
-!*.color9:       #de263e
-!
-!! green
-!*.color2:       #247345
-!*.color10:      #33a667
-!
-!! yellow
-!*.color3:       #797724
-!*.color11:      #abab30
-!
-!! blue
-!*.color4:       #174b58
-!*.color12:      #20778c
-!
-!! magenta
-!*.color5:       #4d3a58
-!*.color13:      #77578c
-!
-!! cyan
-!*.color6:       #376e57
-!*.color14:      #50a178
-!
-!! white
-!*.color7:       #627087
-!*.color15:      #b4c1c2
-
 ! special
 *.foreground:   #b4c1c2
-*.background:   #060d19
+*.background:   #050b15
 *.cursorColor:  #b4c1c2
 
 ! black
 *.color0:       #0b1528
-*.color8:       #0f192e
+*.color8:       #101E39
 
 ! red
 *.color1:       #ac1e33
@@ -76,9 +38,8 @@ Xft.hintstyle:  hintslight
 *.color14:      #50a178
 
 ! white
-*.color7:       #48737a
+*.color7:       #7d8c9a
 *.color15:      #b4c1c2
-
 
 *.font:         xft:terminus:size=8
 *.boldfont:     xft:terminus:size=8:style=bold

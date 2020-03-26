@@ -12,9 +12,6 @@ clear () {
     if [ -x /usr/bin/neofetch ]; then
         neofetch --gtk2 off --gtk3 off
     fi
-    if [ -x /usr/bin/task ]; then
-        task next
-    fi
 }
 
 ost () {

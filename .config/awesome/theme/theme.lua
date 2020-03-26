@@ -55,11 +55,12 @@ theme.bright_cyan = xrdb.color14
 theme.bright_white = xrdb.color15
 
 theme.useless_gap = dpi(4)
-theme.bg_normal = theme.bright_black
-theme.fg_normal = theme.bright_blue
 
-theme.bg_focus = theme.light_black
-theme.fg_focus = theme.green
+theme.bg_normal = theme.black
+theme.fg_normal = theme.white
+
+theme.bg_focus = theme.bright_black
+theme.fg_focus = theme.bight_white
 
 theme.bg_important = theme.white
 theme.fg_important = theme.black
@@ -68,20 +69,20 @@ theme.bg_urgent = theme.red
 theme.fg_urgent = theme.bright_white
 
 theme.bg_minimize = theme.bg_normal
-theme.fg_minimize = theme.white
+theme.fg_minimize = theme.blue
+
 
 theme.bg_systray = theme.bright_black
 
 theme.border_width = dpi(1)
-theme.border_normal = theme.blue
-theme.border_focus = theme.green
-theme.border_marked = theme.magenta
+theme.border_normal = theme.black
+theme.border_focus = theme.white
+theme.border_marked = theme.blue
 theme.wallpaper = theme_dir..'wallpaper.png'
---theme.wallpaper = '~/Downloads/wallpaper.jpg'
 
-local wallpaper_bg = theme.black
-local wallpaper_fg = theme.blue
-local wallpaper_alt_fg = theme.green
+local wallpaper_bg = theme.background
+local wallpaper_fg = theme.bright_black
+local wallpaper_alt_fg = theme.white
 --theme.wallpaper = function(s)
 --    return theme_assets.wallpaper(wallpaper_bg, wallpaper_fg, wallpaper_alt_fg, s)
 --end
@@ -94,7 +95,7 @@ local wallpaper_alt_fg = theme.green
 -- theme.arcchart_thickness = nil
 
 -- awesome
-theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.fg_focus, theme.bg_focus)
+theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.white, theme.black)
 
 -- generic widget themeing colors
 theme.widget_normal_fg = theme.fg_normal
@@ -245,10 +246,10 @@ theme.notification_margin = dpi(32)
 -- theme.piechart_colors = nil
 
 -- progressbar
-theme.progressbar_bg = theme.black
+theme.progressbar_bg = theme.background
 theme.progressbar_fg = theme.bright_white
 -- theme.progressbar_shape = nil
-theme.progressbar_border_color = theme.black
+theme.progressbar_border_color = theme.background
 theme.progressbar_border_width = dpi(1)
 -- theme.progressbar_bar_shape = nil
 theme.progressbar_bar_border_width = dpi(0)
@@ -491,15 +492,15 @@ theme.tooltip_border_width = dpi(1)
 -- wibar
 -- theme.wibar_stretch = false
 theme.wibar_border_width = dpi(1)
-theme.wibar_border_color = theme.black
+theme.wibar_border_color = theme.background
 theme.wibar_ontop = false
 -- theme.wibar_cursor = nil
 -- theme.wibar_opacity = nil
 -- theme.wibar_type = nil
 -- theme.wibar_width = nil
-theme.wibar_bg = theme.bg_normal
+theme.wibar_bg = theme.background
 -- theme.wibar_bgimage = nil
-theme.wibar_fg = theme.fg_normal
+theme.wibar_fg = theme.foreground
 -- theme.wibar_shape = nil
 
 
