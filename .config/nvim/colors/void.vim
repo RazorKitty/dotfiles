@@ -153,7 +153,7 @@ hi DiffText        guifg=none   guibg=none   ctermfg=none   ctermbg=none    cter
 " --------------------------------
 hi Pmenu           guifg=none   guibg=none  ctermfg=7       ctermbg=0       cterm=none
 hi PmenuSel        guifg=none   guibg=none  ctermfg=15      ctermbg=8       cterm=none
-hi PmenuSbar       guifg=none   guibg=none  ctermfg=8       ctermbg=0       cterm=none
+hi PmenuSbar       guifg=none   guibg=none  ctermfg=8       ctermbg=8       cterm=none
 hi PmenuThumb      guifg=none   guibg=none  ctermfg=15      ctermbg=15      cterm=none 
 " --------------------------------
 " Spelling
