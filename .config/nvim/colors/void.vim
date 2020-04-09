@@ -115,7 +115,7 @@ hi Statement       guifg=none   guibg=none  ctermfg=6      ctermbg=none    cterm
 hi Conditional     guifg=none   guibg=none  ctermfg=3       ctermbg=none    cterm=none
 hi Repeat          guifg=none   guibg=none  ctermfg=6      ctermbg=none    cterm=none
 hi Label           guifg=none   guibg=none  ctermfg=12      ctermbg=none    cterm=none
-hi Operator        guifg=none   guibg=none  ctermfg=7       ctermbg=none    cterm=none
+hi Operator        guifg=none   guibg=none  ctermfg=3       ctermbg=none    cterm=none
 hi Keyword         guifg=none   guibg=none  ctermfg=10      ctermbg=none    cterm=none
 hi Exception       guifg=none   guibg=none  ctermfg=1       ctermbg=none    cterm=none
 hi Comment         guifg=none   guibg=none  ctermfg=4       ctermbg=none    cterm=none
