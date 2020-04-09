@@ -5,6 +5,7 @@ local background = require('wibox.container.background')
 
 local item = {}
 local item_mt = {}
+item.class = 'item'
 
 function item.set_focus(self, val)
     val = val and true
@@ -18,8 +19,8 @@ function item.get_focus(self)
     return self._private.focus or false
 end
 
-function item.execute(self)
-    return (type(self.executable) == 'function' and self.executable or function (s) end)(self)
+function item.execute(self, menu)
+    return (type(self.executable) == 'function' and self.executable or function (s, m) end)(self, menu)
 end
 
 function item.set_executable(self, exec)
@@ -49,6 +50,7 @@ local function new()
     local widget = wibox.widget {
         layout = background
     }
+    widget.class = item
     return gtable.crush(widget, item, true)
 end
 

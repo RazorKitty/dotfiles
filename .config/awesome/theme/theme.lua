@@ -72,7 +72,7 @@ theme.bg_minimize = theme.bg_normal
 theme.fg_minimize = theme.blue
 
 
-theme.bg_systray = theme.bright_black
+theme.bg_systray = theme.black
 
 theme.border_width = dpi(1)
 theme.border_normal = theme.black
@@ -213,7 +213,7 @@ theme.gap_single_client = true
 theme.menu_font = theme.font
 -- theme.menu_height = nil
 theme.menu_width = dpi(96)
-theme.menu_border_color = theme.black
+theme.menu_border_color = theme.background
 theme.menu_border_width = theme.border_width
 theme.menu_fg_focus = theme.fg_focus
 theme.menu_bg_focus = theme.bg_focus

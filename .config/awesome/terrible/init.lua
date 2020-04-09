@@ -1,5 +1,7 @@
+local container = require('terrible.container')
+local upower = require('terrible.upower')
+
 return {
-    utils = require('terrible.utils'),
-    container = require('terrible.container'),
-    upower =  require('terrible.upower')
+    container = container,
+    upower = upower
 }
