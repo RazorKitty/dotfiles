@@ -119,18 +119,6 @@ awful.rules.rules = {
         }
     },
     {
-        rule = {
-            class = 'Steam'
-        },
-        properties = {
-            new_tag = {
-                name = 'Steam',
-                layout = awful.layout.suit.tile,
-                volatile = true
-            }
-        }
-    },
-    {
         rule_any = {
             type = {
                 'normal',
