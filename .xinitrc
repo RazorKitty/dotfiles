@@ -37,6 +37,11 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
   unset f
 fi
 # start some nice programs
-# start services
-runsvdir /home/william/service &
-exec $STARTUP awesome $@
+pulseaudio --log-target=syslog &
+mpd --no-daemon &
+xbanish &
+which ckb-next && ckb-next --backgroud &
+which radeon-profile && radeon-profile &
+
+
+exec dbus-launch --exit-with-session awesome $@
