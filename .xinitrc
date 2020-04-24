@@ -40,7 +40,7 @@ fi
 pulseaudio --log-target=syslog &
 mpd --no-daemon &
 xbanish &
-which ckb-next && ckb-next --backgroud &
+which ckb-next && ckb-next --background &
 which radeon-profile && radeon-profile &
 
 
