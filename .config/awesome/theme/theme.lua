@@ -175,7 +175,7 @@ theme.layout_spiral = theme_dir..'layouts/spiral.png'
 theme.layout_dwindle = theme_dir..'layouts/dwindle.png'
 theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 
-theme = theme_assets.recolor_layout(theme, theme.bright_white)
+theme = theme_assets.recolor_layout(theme, theme.fg_focus)
 
 -- master
 theme.master_width_factor = 0.54
