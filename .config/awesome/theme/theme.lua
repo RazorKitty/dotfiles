@@ -60,7 +60,7 @@ theme.bg_normal = theme.black
 theme.fg_normal = theme.white
 
 theme.bg_focus = theme.bright_black
-theme.fg_focus = theme.bight_white
+theme.fg_focus = theme.bright_white
 
 theme.bg_important = theme.white
 theme.fg_important = theme.black
@@ -175,7 +175,7 @@ theme.layout_spiral = theme_dir..'layouts/spiral.png'
 theme.layout_dwindle = theme_dir..'layouts/dwindle.png'
 theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 
-theme = theme_assets.recolor_layout(theme, theme.fg_focus)
+theme = theme_assets.recolor_layout(theme, theme.fg_normal)
 
 -- master
 theme.master_width_factor = 0.54
