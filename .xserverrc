@@ -1,8 +1,1 @@
-#!/bin/sh
-#if [ -z "$TTY" ]; then
-#  exec /usr/bin/X -nolisten tcp "$@"
-#else
-#  exec /usr/bin/X -nolisten tcp "$@" -crt "$TTY"
-#fi
-
 exec /usr/bin/Xorg -nolisten tcp "$@"
