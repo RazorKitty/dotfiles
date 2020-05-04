@@ -571,4 +571,4 @@ c.fonts.hints = 'terminus'
 
 # Bindings for normal mode
 config.bind('M', 'hint --rapid links spawn umpv {hint-url}')
-config.bind('m', 'hint spawn umpv {hint-url}')
+config.bind('m', 'hint links spawn umpv {hint-url}')
