@@ -570,5 +570,5 @@ c.colors.webpage.bg = color15
 c.fonts.hints = 'terminus'
 
 # Bindings for normal mode
-config.bind('M', 'hint --rapid links spawn mpv {hint-url}')
-config.bind('m', 'spawn mpv {url}')
+config.bind('M', 'hint --rapid links spawn umpv {hint-url}')
+config.bind('m', 'hint spawn umpv {hint-url}')
