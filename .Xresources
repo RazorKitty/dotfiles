@@ -41,11 +41,15 @@ Xft.hintstyle:  hintslight
 *.color7:       #7d8c9a
 *.color15:      #b4c1c2
 
-*.font:         xft:terminus:size=8
-*.boldfont:     xft:terminus:size=8:style=bold
+!*.font:         xft:terminus:size=8
+!*.boldfont:     xft:terminus:size=8:style=bold
+XLock.font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.planfont: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.fontset: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.planfontset: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.messagefont: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 
-st.font:		-*-terminus-*-*-*-*-11-*-*-*-*-*-*-1
-!st.font:       xtf:terminus:size8
+st.font:		-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 st.bold_font:	0
 st.termname:	st-256color
 st.shell:		/bin/zsh
@@ -54,10 +58,3 @@ st.tabspaces:   4
 st.chscale:		1.0
 st.borderpx:    4
 
-Xautolock.time: 1
-Xautolock.locker: xlock -mode blank
-Xautolock.notify: 30
-Xautolock.notifier: notify-send -t 0 "Screen will lock in 30 seconds"
-Xautolock.corners: 0-0+
-Xautolock.cornerdelay: 5
-Xautolock.cornerredelay: 30
