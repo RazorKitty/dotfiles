@@ -45,8 +45,9 @@ local awful = require('awful')
               require('awful.autofocus')
 
 -- extras
-local mpd = require('mpd')
 local terrible = require('terrible')
+local autostart = require('terrible.xdg.autostart')
+autostart:start()
 
 -------------------------------------------------------------- Error handling --
 -- Check if awesome encountered an error during startup and fell back to
