@@ -24,13 +24,5 @@ if [ -f "$usermodmap" ]; then
 fi
 
 # start some nice programs
-xset -dpms &
-pulseaudio --log-target=syslog &
-mpd --no-daemon &
-xbanish &
-xss-lock 'xlock' &
-which ckb-next && ckb-next --background &
-which radeon-profile && radeon-profile &
-
-
+xdg-setttings set default-web-browser "qutebrowser.qutebrowser.desktop"
 exec dbus-launch --exit-with-session awesome $@
