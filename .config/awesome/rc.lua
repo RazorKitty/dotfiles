@@ -161,62 +161,56 @@ local panel_time_widget = wibox.widget {
     }
 }
 
-local upower_warning_level_colors = {
+local panel_upower_widget = upower:display_device_widget {
+    layout = wibox.container.background,
+    fg = beautiful.widget_normal_fg,
+    bg = beautiful.widget_normal_bg,
     {
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
+        layout = wibox.container.margin,
+        left = beautiful.widget_outer_margins,
+        right = beautiful.widget_outer_margins,
+        {
+            id = 'data_textbox_role',
+            widget = wibox.widget.textbox
+        }
     },
-    {
-        fg = beautiful.widget_focus_fg,
-        bg = beautiful.widget_focus_bg
-    },
-    {
-        fg = beautiful.widget_warning_fg,
-        bg = beautiful.widget_warning_bg,
-    },
-    {
-        fg = beautiful.widget_urgent_fg,
-        bg = beautiful.widget_urgent_bg
-    }
+    create_callback = function (self, device)
+        if device.kind_to_string(device.kind) ~= 'battery' then
+            return false
+        end
+        self.data_textbox = self:get_children_by_id('data_textbox_role')[1]
+        
+        self:update_callback(device)
+
+        return true
+    end,
+    update_callback = function (self, device)
+    
+        if device.state_to_string(device.state) == 'discharging' then
+            if device.percentage > 50 then
+                self.fg = beautiful.widget_focus_fg
+                self.bg = beautiful.widget_focus_bg
+            else
+                if device.percentage > 25 then
+                    self.fg = beautiful.widget_warning_fg
+                    self.bg = beautiful.widget_warning_bg
+                else
+                    self.fg = beautiful.widget_urgent_fg
+                    self.bg = beautiful.widget_urgent_bg
+                end
+            end
+        else
+            self.fg = beautiful.widget_normal_fg
+            self.bg = beautiful.widget_normal_bg
+        end
+
+        self.data_textbox.text = 'Bat:'..
+        format_time((device.time_to_empty > 0) and device.time_to_empty or device.time_to_full)..
+        ' '..
+        device.state_to_string(device.state)
+    end
 }
-
-
---local panel_upower_widget = upower:display_device_widget {
---    layout = wibox.container.background,
---    fg = beautiful.widget_normal_fg,
---    bg = beautiful.widget_normal_bg,
---    {
---        layout = wibox.container.margin,
---        left = beautiful.widget_outer_margins,
---        right = beautiful.widget_outer_margins,
---        {
---            id = 'data_textbox_role',
---            widget = wibox.widget.textbox
---        }
---    },
---    create_callback = function (self, device)
---        if device.kind_to_string(device.kind) ~= 'battery' then
---            return false
---        end
---        self.states = upower_warning_level_colors
---        self.fg = self.states[device.warning_level].fg
---        self.bg = self.states[device.warning_level].bg
---
---        self.data_textbox = self:get_children_by_id('data_textbox_role')[1]
---        self.data_textbox.text = 'Bat:'..
---            format_time((device.time_to_empty > 0) and device.time_to_empty or device.time_to_full)..
---            device.state_to_string(device.state)
---        
---            return true
---    end,
---    update_callback = function (self, device)
---        self.fg = self.states[device.warning_level].fg
---        self.bg = self.states[device.warning_level].bg
---        self.data_textbox.text = 'Bat:'..
---        format_time((device.time_to_empty > 0) and device.time_to_empty or device.time_to_full)..
---        device.state_to_string(device.state)
---    end
---} or upower.devices_widget {
+--or upower.devices_widget {
 --    container_template = {
 --        wibox.container.background,
 --        fg = beautiful.widget_normal_fg,
