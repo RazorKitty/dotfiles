@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=mpd
+Exec=mpd --no-daemon
+Terminal=false
+Type=Application
