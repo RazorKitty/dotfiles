@@ -3,10 +3,9 @@ local Gio = lgi.Gio
 local GLib = lgi.GLib
 local File = Gio.File
 
-local utils = require('terrible.utils')
-local desktop_entry = require('terrible.xdg.desktop_entry')
-local basedir = require('terrible.xdg.basedir')
-local utils = require('terrible.utils')
+local utils = require('xdg.utils')
+local desktop_entry = require('xdg.desktop_entry')
+local basedir = require('xdg.basedir')
 
 local gfilesystem = require('gears.filesystem')
 local spawn = require('awful.spawn')

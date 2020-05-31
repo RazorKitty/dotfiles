@@ -33,25 +33,41 @@ clientkeys = gears.table.join(
         end,
         {description = 'move to master', group = 'client'}),
 
---    awful.key({ settings.modkey, 'Shift' }, 'j', function (c)
---            
---        end,
---        {description = 'move client down a screen', group = 'client'}),
---
---    awful.key({ settings.modkey, 'Shift' }, 'k', function (c)
---            
---        end,
---        {description = 'move client up a screen',  group = 'client'}),
---        
---    awful.key({ settings.modkey, 'Shift' }, 'h', function (c)
---            
---        end,
---        {description = 'move client left a screen',  group = 'client'}),
---
---    awful.key({ settings.modkey, 'Shift' }, 'l', function (c)
---            
---         end,
---        {description = 'move client right a screen',  group = 'client'}),
+
+
+    awful.key({ settings.modkey, 'Shift' }, 'j', function (c)
+            local s = c.screen:get_next_in_direction('down')
+            if s then
+                c.screen = s
+            end
+        end,
+        {description = 'move client down a screen', group = 'client'}),
+
+    awful.key({ settings.modkey, 'Shift' }, 'k', function (c)
+            local s = c.screen:get_next_in_direction('up')
+            if s then
+                c.screen = s
+            end
+        end,
+        {description = 'move client up a screen',  group = 'client'}),
+        
+    awful.key({ settings.modkey, 'Shift' }, 'h', function (c)
+            local s = c.screen:get_next_in_direction('left')
+            if s then
+                c.screen = s
+            end
+        end,
+        {description = 'move client left a screen',  group = 'client'}),
+
+    awful.key({ settings.modkey, 'Shift' }, 'l', function (c)
+            local s = c.screen:get_next_in_direction('right')
+            if s then
+                c.screen = s
+            end
+         end,
+        {description = 'move client right a screen',  group = 'client'}),
+
+
 
     awful.key({ settings.modkey }, 'm', function (c)
                 -- The client currently has the input focus, so it cannot be

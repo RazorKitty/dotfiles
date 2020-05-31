@@ -6,7 +6,7 @@ local GLib = lgi.GLib
 local KeyFile = GLib.KeyFile
 local KeyFileFlags = GLib.KeyFileFlags
 
-local utils = require('terrible.utils')
+local utils = require('xdg.utils')
 
 local gfilesystem = require('gears.filesystem')
 

@@ -13,7 +13,6 @@ local awful = require('awful')
               require('awful.autofocus')
 
 -- extras
-local mpd = require('mpd')
 local terrible = require('terrible')
 local power = require('display.power')
 local settings = require('settings')
@@ -160,58 +159,6 @@ local text_date_widget = wibox.widget {
     }
 }
 
-local mpd_widget = mpd.widget {
-    template = {
-        id = 'status_state_role',
-        layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
-        update_mpd_widget = function (self, v)
-            if v == 'stop' then
-                self.visible = false
-            else
-                if v == 'pause' then
-                    self.fg = beautiful.widget_normal_fg
-                    self.bg = beautiful.widget_normal_bg
-                else
-                    self.fg = beautiful.widget_focus_fg
-                    self.bg = beautiful.widget_focus_bg
-                end
-                self.visible = true
-            end
-        end,
-        {
-            id = '_margin',
-            layout = wibox.container.margin,
-            left = 8,
-            right = 8,
-            {
-                id = '_layout',
-                layout = wibox.layout.fixed.horizontal,
-                spacing = 4,
-                {
-                    id = 'currentsong_title_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v
-                    end
-                },
-                {
-                    id = '_hiphen',
-                    widget = wibox.widget.textbox,
-                    text = '-'
-                },
-                {
-                    id = 'currentsong_artist_role',
-                    widget = wibox.widget.textbox,
-                    update_mpd_widget = function (self, v)
-                        self.text = v
-                    end
-                }
-            }
-        }
-    }
-}
 
 awful.screen.connect_for_each_screen(function(s)
     if beautiful.wallpaper then
@@ -316,7 +263,6 @@ awful.screen.connect_for_each_screen(function(s)
                 spacing = 0,
                 -- only display widgets on the primary screen
                 s == screen.primary and wibox.widget.systray(),
-                s == screen.primary and mpd_widget,
                 s == screen.primary and power.panel_widget,
                 text_date_widget,
                 {

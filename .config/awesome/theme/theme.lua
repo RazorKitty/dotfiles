@@ -98,23 +98,6 @@ local wallpaper_alt_fg = theme.white
 theme.awesome_icon = theme_assets.awesome_icon(dpi(96), theme.white, theme.black)
 
 -- generic widget themeing colors
-theme.widget_normal_fg = theme.fg_normal
-theme.widget_normal_bg = theme.bg_normal
-
-theme.widget_focus_fg = theme.fg_focus
-theme.widget_focus_bg = theme.bg_focus
-
-theme.widget_warning_fg = theme.black
-theme.widget_warning_bg = theme.yellow
-
-theme.widget_urgent_fg = theme.fg_urgent
-theme.widget_urgent_bg = theme.bg_urgent
-
-theme.widget_important_fg = theme.black
-theme.widget_important_bg = theme.blue
-
-theme.widget_online_fg = theme.black
-theme.widget_online_bg = theme.green
 
 -- calendar
 -- theme.calendar_style = nil
@@ -178,8 +161,8 @@ theme.layout_magnifier = theme_dir..'layouts/magnifier.png'
 theme = theme_assets.recolor_layout(theme, theme.fg_normal)
 
 -- master
-theme.master_width_factor = 0.54
--- theme.master_fill_policy = nil
+theme.master_width_factor = 0.5
+theme.master_fill_policy = 'expand'
 theme.master_count = 1
 
 -- column
@@ -263,11 +246,12 @@ theme.progressbar_margins = {
 theme.progressbar_paddings = dpi(0)
 
 -- prompt
-theme.prompt_fg_cursor = theme.bg_focus
-theme.prompt_bg_cursor = theme.fg_focus
+theme.prompt_fg_cursor = theme.fg_focus
+theme.prompt_bg_cursor = theme.bg_focus
+--theme.prompt_ul_cursor = theme.bg_focus
 -- theme.prompt_font = nil
-theme.prompt_fg = theme.fg_focus
-theme.prompt_bg = theme.bg_focus
+--theme.prompt_fg = theme.fg_focus
+--theme.prompt_bg = theme.bg_focus
 
 -- radialprogressbar
 -- theme.radialprogressbar_border_color = nil
@@ -504,6 +488,36 @@ theme.wibar_fg = theme.foreground
 -- theme.wibar_shape = nil
 
 
+theme.wibox_border_width = dpi(1)
+theme.wibox_border_color = theme.background
+theme.wibox_bg = theme.background
+theme.wibox_fg = theme.foreground
+
+theme.widget_group_marigns = dpi(1)
+theme.widget_group_normal_fg = theme.fg_normal
+theme.widget_group_normal_bg = theme.bg_normal
+
+theme.widget_outer_margins = dpi(8)
+
+theme.widget_inner_margins = dpi(4)
+
+theme.widget_normal_fg = theme.fg_normal
+theme.widget_normal_bg = theme.bg_normal
+
+theme.widget_focus_fg = theme.fg_focus
+theme.widget_focus_bg = theme.bg_focus
+
+theme.widget_warning_fg = theme.black
+theme.widget_warning_bg = theme.yellow
+
+theme.widget_urgent_fg = theme.fg_urgent
+theme.widget_urgent_bg = theme.bg_urgent
+
+theme.widget_important_fg = theme.black
+theme.widget_important_bg = theme.blue
+
+theme.widget_online_fg = theme.black
+theme.widget_online_bg = theme.green
 
 return theme
 

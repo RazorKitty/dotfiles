@@ -1,4 +1,4 @@
-local utils = require('terrible.utils')
+local utils = require('xdg.utils')
 
 return {
     data_home = (os.getenv('XDG_DATA_HOME') or os.getenv('HOME')..'.local/share'),

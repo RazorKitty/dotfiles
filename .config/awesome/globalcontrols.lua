@@ -17,22 +17,6 @@ local settings = require('settings')
 
 
 globalkeys = gears.table.join(
-    -- media
-    awful.key({}, 'XF86AudioMute', function ()
-        awful.spawn.with_shell('pactl set-sink-mute @DEFAULT_SINK@ toggle')
-    end,
-    {description = 'Toggle Mute', group='media'}),    
-
-    awful.key({}, 'XF86AudioLowerVolume', function ()
-        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ -1%')
-    end,
-    {description = 'Lower Volume', group='media'}),    
-
-    awful.key({}, 'XF86AudioRaiseVolume', function ()
-        awful.spawn.with_shell('pactl set-sink-volume @DEFAULT_SINK@ +1%')
-    end,
-    {description = 'Raise Volume', group='media'}),
-
     
     -- help
     awful.key({ settings.modkey }, 's',  hotkeys_popup.show_help,
@@ -63,12 +47,12 @@ globalkeys = gears.table.join(
     awful.key({ settings.modkey, 'Control' }, 'h', function ()
             awful.client.swap.global_bydirection('left')
         end,
-        {description = 'Swap wiith left side Client', group = 'layout'}),
+        {description = 'Swap with left side Client', group = 'layout'}),
 
     awful.key({ settings.modkey, 'Control' }, 'j', function ()
             awful.client.swap.global_bydirection('down')
         end,
-        {description = 'Swap wiith right side Client', group = 'layout'}),
+        {description = 'Swap with right side Client', group = 'layout'}),
 
     awful.key({ settings.modkey, 'Control' }, 'k', function ()
             awful.client.swap.global_bydirection('up')
@@ -111,7 +95,11 @@ globalkeys = gears.table.join(
         {description = 'select previous', group = 'layout'}),
 
 
+    -- screen
+
+
     -- tag
+
     awful.key({ settings.modkey }, 'p', awful.tag.viewprev,
               {description = 'view previous', group = 'tag'}),
 
@@ -122,11 +110,8 @@ globalkeys = gears.table.join(
               {description = 'go back', group = 'Tag'}),
 
 
-
-    -- screen
-
-
     -- client
+
     awful.key({ settings.modkey }, 'h', function ()
             awful.client.focus.global_bydirection('left')
         end,
