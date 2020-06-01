@@ -440,15 +440,8 @@ awful.screen.connect_for_each_screen(function (s)
     }
 
     s.panel:struts {
-        top = s.panel.height +  (beautiful.useless_gap)
+        top = s.panel.height + beautiful.useless_gap
     }
-
-    --s.panel:connect_signal('property::height', function (self, height)
-    --    self:struts {
-    --        top = self.height + (2 * beautiful.useless_gap)
-    --    }
-    --end)
-
 
     local f = awful.placement.top + awful.placement.maximize_horizontally
     f(s.panel, {
@@ -768,33 +761,30 @@ awful.rules.rules = {
             placement = awful.placement.no_overlap+awful.placement.no_offscreen
        }
     },
-    -- Floating clients.
+    -- MPV
     {
-        rule_any = {
-            class = {
-              'mpv',
-              'ncmpcpp'
-            },
+        rule = {
+            class = 'mpv',
         },
         properties = {
             floating = true,
             raise = true,
+            optop = true,
+            above = true,
+            focusable = false,
+            skip_taskbar = true,
+            keys = {},
             buttons = {},
-            sticky = true
+            sticky = true,
+            screen = screen.primary
         },
         callback = function (c)
-            local count = screen:count()
-
-            c.screen = (count > 2) and screen.primary:get_next_in_direction('up') or screen.primary
-            local f = awful.placement.scale + ((count > 2) and awful.placement.bottom_right or awful.placement.top_right)
-            f(c, {
-                offset = {
-                    x = (count > 2) and (-beautiful.useless_gap) or beautiful.useless_gap,
-                    y = (count > 2) and (-beautiful.useless_gap) or beautiful.useless_gap
-                },
-                --margins = beautiful.useless_gap,
-                to_percent = 0.33,
-                --direction = 'right'
+            (awful.placement.scale + awful.placement.next_to)(c, {
+                margins = beautiful.useless_gap,
+                to_percent = 0.2,
+                preferred_positions = 'bottom',
+                preferred_anchors = 'back',
+                geometry = screen.primary.panel
             })
 
         end
@@ -813,20 +803,6 @@ awful.rules.rules = {
         end
     },
     
-    {
-        rule_any = {
-            class = 'csgo_linux64'
-        },
-        properties = {
-            screen = screen.primary,
-            border_width = 0,
-            new_tag = {
-                name = 'Game',
-                layout = awful.layout.suit.tile,
-                volitile = true
-            }
-        }
-    },
     -- Add titlebars to normal clients and dialogs
     {
         rule_any = {
