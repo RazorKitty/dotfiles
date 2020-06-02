@@ -166,11 +166,12 @@ local panel_upower_widget = upower:display_device_widget {
     fg = beautiful.widget_normal_fg,
     bg = beautiful.widget_normal_bg,
     {
+        id = 'margin_widget',
         layout = wibox.container.margin,
         left = beautiful.widget_outer_margins,
         right = beautiful.widget_outer_margins,
         {
-            id = 'data_textbox_role',
+            id = 'data_textbox',
             widget = wibox.widget.textbox
         }
     },
@@ -178,14 +179,9 @@ local panel_upower_widget = upower:display_device_widget {
         if device.kind_to_string(device.kind) ~= 'battery' then
             return false
         end
-        self.data_textbox = self:get_children_by_id('data_textbox_role')[1]
-        
-        self:update_callback(device)
-
         return true
     end,
     update_callback = function (self, device)
-    
         if device.state_to_string(device.state) == 'discharging' then
             if device.percentage > 50 then
                 self.fg = beautiful.widget_focus_fg
@@ -204,7 +200,7 @@ local panel_upower_widget = upower:display_device_widget {
             self.bg = beautiful.widget_normal_bg
         end
 
-        self.data_textbox.text = 'Bat:'..
+        self.margin_widget.data_textbox.text = 'Bat:'..
         format_time((device.time_to_empty > 0) and device.time_to_empty or device.time_to_full)..
         ' '..
         device.state_to_string(device.state)
@@ -215,24 +211,18 @@ local panel_upower_widget = upower:display_device_widget {
         fg = beautiful.widget_normal_fg,
         bg = beautiful.widget_normal_bg,
         {
-            layout = wibox.container.margin,
-            left = 0, -- beautiful.widget_outer_margins,
-            right = 0, -- beautiful.widget_outer_margins,
-            {
-                id = 'layout_role',
-                layout = wibox.layout.fixed.horizontal
-            }
+            id = 'layout_widget',
+            layout = wibox.layout.fixed.horizontal
         },
         create_callback = function (self)
-            self.layout_role = self:get_children_by_id('layout_role')[1]
             self.devices = {}
         end,
         add_device_widget = function (self, device, widget)
             self.devices[device:get_object_path()] = widget
-            self.layout_role:add(widget)
+            self.layout_widget:add(widget)
         end,
         remove_device_widget = function (self, device_path)
-            self.layout_role:remove_widgets(self.devices[device_path])
+            self.layout_widget:remove_widgets(self.devices[device_path])
             self.devices[device_path] = nil
         end
     },
