@@ -216,8 +216,8 @@ local panel_upower_widget = upower:display_device_widget {
         bg = beautiful.widget_normal_bg,
         {
             layout = wibox.container.margin,
-            left = beautiful.widget_outer_margins,
-            right = beautiful.widget_outer_margins,
+            left = 0, -- beautiful.widget_outer_margins,
+            right = 0, -- beautiful.widget_outer_margins,
             {
                 id = 'layout_role',
                 layout = wibox.layout.fixed.horizontal
@@ -248,14 +248,13 @@ local panel_upower_widget = upower:display_device_widget {
             {
                 id = 'layout_widget',
                 layout = wibox.layout.fixed.horizontal,
-                spacing = 2,
                 {
                     id = 'device_kind',
                     widget = wibox.widget.textbox
                 },
                 {
-                    id = 'device_batery_level',
                     widget = wibox.widget.textbox,
+                    text = ':'
                 },
                 {
                     id = 'device_state',
@@ -268,8 +267,14 @@ local panel_upower_widget = upower:display_device_widget {
         end,
         update_callback = function (self, device)
             self.margin_widget.layout_widget.device_kind.text = device.kind_to_string(device.kind)
-            self.margin_widget.layout_widget.device_batery_level.text = device.level_to_string(device.battery_level)
             self.margin_widget.layout_widget.device_state.text = device.state_to_string(device.state)
+            if device.warning_level > 2 then
+                self.fg = beautiful.widget_urgent_fg
+                self.bg = beautiful.widget_urgent_bg
+            else
+                self.fg = beautiful.widget_normal_fg
+                self.bg = beautiful.widget_normal_bg
+            end
         end
     }
 }
