@@ -268,8 +268,8 @@ local panel_upower_widget = upower:display_device_widget {
         end,
         update_callback = function (self, device)
             self.margin_widget.layout_widget.device_kind.text = device.kind_to_string(device.kind)
-            self.margin_widget.layout_widget.device_batery_level = device.level_to_string(device.battery_level)
-            self.margin_widget.layout_widget.device_state = device.state_to_string(device.state)
+            self.margin_widget.layout_widget.device_batery_level.text = device.level_to_string(device.battery_level)
+            self.margin_widget.layout_widget.device_state.text = device.state_to_string(device.state)
         end
     }
 }
