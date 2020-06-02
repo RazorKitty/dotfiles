@@ -73,6 +73,7 @@ end
 
 function upower.devices_widget (self, args)
     local container_widget = wibox.widget(args.container_template)
+    container_widget:create_callback()
 
     for i, dev in ipairs(self.devices) do
         local device_widget = self:create_widget { template = args.device_template, device = dev }
