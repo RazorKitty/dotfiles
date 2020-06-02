@@ -211,7 +211,7 @@ local panel_upower_widget = upower:display_device_widget {
     end
 } or upower:devices_widget {
     container_template = {
-        wibox.container.background,
+        layout = wibox.container.background,
         fg = beautiful.widget_normal_fg,
         bg = beautiful.widget_normal_bg,
         {
