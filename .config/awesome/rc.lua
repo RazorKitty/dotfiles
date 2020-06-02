@@ -283,10 +283,6 @@ local panel_playerctl_widget = playerctl:players_widget {
             self.players = {}
         end,
         add_player_widget = function (self, player, widget)
-            naughty.notify {
-                text = 'here',
-                timeout = 0
-            }
             self.layout_widget:add(widget)
             self.players[player] = widget
         end,
