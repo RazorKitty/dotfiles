@@ -209,7 +209,7 @@ local panel_upower_widget = upower:display_device_widget {
         ' '..
         device.state_to_string(device.state)
     end
-} or upower.devices_widget {
+} or upower:devices_widget {
     container_template = {
         wibox.container.background,
         fg = beautiful.widget_normal_fg,
