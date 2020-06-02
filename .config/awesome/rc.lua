@@ -24,6 +24,7 @@ require('awful.hotkeys_popup.keys')
 
 local autostart = require('xdg.autostart')
 local upower = require('upower')
+local playerctl = require('playerctl')
 
 beautiful.init(os.getenv('HOME')..'/.config/awesome/theme/theme.lua')
 -- Error handling --------------------------------------------------------------
@@ -233,8 +234,8 @@ local panel_upower_widget = upower:display_device_widget {
         {
             id = 'margin_widget',
             layout = wibox.container.margin,
-            left = beautiful.widget_inner_margins,
-            right = beautiful.widget_inner_margins,
+            left = beautiful.widget_outer_margins,
+            right = beautiful.widget_outer_margins,
             {
                 id = 'layout_widget',
                 layout = wibox.layout.fixed.horizontal,
@@ -265,6 +266,63 @@ local panel_upower_widget = upower:display_device_widget {
                 self.fg = beautiful.widget_normal_fg
                 self.bg = beautiful.widget_normal_bg
             end
+        end
+    }
+}
+
+local panel_playerctl_widget = playerctl:players_widget {
+    container_template = {
+        layout = wibox.container.background,
+        fg = beautiful.widget_normal_fg,
+        bg = beautiful.widget_normal_bg,
+        {
+            id = 'layout_widget',
+            layout = wibox.layout.fixed.horizontal,
+        },
+        create_callback = function (self)
+            self.players = {}
+        end,
+        add_player_widget = function (self, player, widget)
+            naughty.notify {
+                text = 'here',
+                timeout = 0
+            }
+            self.layout_widget:add(widget)
+            self.players[player] = widget
+        end,
+        remove_player_widget = function (self, player)
+            self.layout_widget:remove_widgets(self.players[player])
+            self.players[player] = nil
+        end
+    },
+    player_template = {
+        layout = wibox.container.background,
+        fg = beautiful.widget_normal_fg,
+        bg = beautiful.widget_normal_bg,
+        {
+            id = 'margin_widget',
+            layout = wibox.container.margin,
+            left = beautiful.widget_outer_margins,
+            right = beautiful.widget_outer_margins,
+            {
+                id = 'layout_widget',
+                layout = wibox.layout.fixed.horizontal,
+                {
+                    id = 'name_widget',
+                    widget = wibox.widget.textbox
+                },
+                {
+                    id = 'status_widget',
+                    wibox.widget.textbox
+                }
+            }
+        },
+        create_callback = function (self, player)
+            return true
+        end,
+        update_callback = function (self, player)
+            self.margin_widget.layout_widget.name_widget.text = player.player_name
+            self.margin_widget.layout_widget.status_widget.text = player.playback_status
         end
     }
 }
@@ -405,6 +463,7 @@ awful.screen.connect_for_each_screen(function (s)
             bg = beautiful.widget_group_normal_bg,
             {
                 layout = wibox.layout.fixed.horizontal,
+                s == screen.primary and panel_playerctl_widget,
                 s == screen.primary and panel_upower_widget,
                 panel_time_widget,
                 s.layout_widget
