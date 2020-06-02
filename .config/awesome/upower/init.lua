@@ -17,10 +17,6 @@ upower = {
     client_signals = {
         on_device_added = callback_handler:new {
             function (self, device)
-                naughty.notify {
-                    text = 'device added',
-                    timeout = 0
-                }
                 table.insert(upower.devices, device)
                 upower.devices_lookup[device:get_object_path()] = device
                 upower.property_callbacks[device] = callback_handler:new()
@@ -29,10 +25,6 @@ upower = {
         },
         on_device_removed = callback_handler:new {
             function (self, dev_path)
-                naughty.notify {
-                    text = 'device removed',
-                    timeout = 0
-                }
                 upower.devices[upower.devices_lookup[dev_path]] = nil
                 upower.devices_lookup[dev_path] = nil
             end
@@ -63,6 +55,7 @@ end
 function upower.create_widget(self, args)
     local widget = wibox.widget(args.template)
     if widget:create_callback(args.device) then
+        widget:update_callback(args.device)
         self.property_callbacks[args.device]:add( function (...)
             widget:update_callback(...)
         end )
