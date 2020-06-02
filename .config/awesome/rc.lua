@@ -209,78 +209,70 @@ local panel_upower_widget = upower:display_device_widget {
         ' '..
         device.state_to_string(device.state)
     end
+} or upower.devices_widget {
+    container_template = {
+        wibox.container.background,
+        fg = beautiful.widget_normal_fg,
+        bg = beautiful.widget_normal_bg,
+        {
+            layout = wibox.container.margin,
+            left = beautiful.widget_outer_margins,
+            right = beautiful.widget_outer_margins,
+            {
+                id = 'layout_role',
+                layout = wibox.layout.fixed.horizontal
+            }
+        },
+        create_callback = function (self)
+            self.layout_role = self:get_children_by_id('layout_role')[1]
+            self.devices = {}
+        end,
+        add_device_widget = function (self, device, widget)
+            self.devices[device:get_object_path()] = widget
+            self.layout_role:add(widget)
+        end,
+        remove_device_widget = function (self, device_path)
+            self.layout_role:remove_widgets(self.devices[device_path])
+            self.devices[device_path] = nil
+        end
+    },
+    device_template = {
+        layout = wibox.container.background,
+        fg = beautiful.widget_normal_fg,
+        bg = beautiful.widget_normal_bg,
+        {
+            id = 'margin_widget',
+            layout = wibox.container.margin,
+            left = beautiful.widget_inner_margins,
+            right = beautiful.widget_inner_margins,
+            {
+                id = 'layout_widget',
+                layout = wibox.layout.fixed.horizontal,
+                spacing = 2,
+                {
+                    id = 'device_kind',
+                    widget = wibox.widget.textbox
+                },
+                {
+                    id = 'device_batery_level',
+                    widget = wibox.widget.textbox,
+                },
+                {
+                    id = 'device_state',
+                    widget = wibox.widget.textbox,
+                }
+            }
+        },
+        create_callback = function (self, device)
+            return true
+        end,
+        update_callback = function (self, device)
+            self.margin_widget.layout_wdget.device_kind.text = device.kind_to_string(device.kind)
+            self.margin_widget.layout_wdget.device_batery_level = device.level_to_string(device.battery_level)
+            self.margin_widget.layout_wdget.device_state = device.state_to_string(device.state)
+        end
+    }
 }
---or upower.devices_widget {
---    container_template = {
---        wibox.container.background,
---        fg = beautiful.widget_normal_fg,
---        bg = beautiful.widget_normal_bg,
---        {
---            layout = wibox.container.margin,
---            left = beautiful.widget_outer_margins,
---            right = beautiful.widget_outer_margins,
---            {
---                id = 'layout_role',
---                layout = wibox.layout.fixed.horizontal
---            }
---        },
---        create_callback = function (self)
---            self.layout_role = self:get_children_by_id('layout_role')[1]
---            self.devices = {}
---        end,
---        add_device_widget = function (self, device, widget)
---            self.devices[device:get_object_path()] = widget
---            self.layout_role:add(widget)
---        end,
---        remove_device_widget = function (self, device_path)
---            self.layout_role:remove_widgets(self.devices[device_path])
---            self.devices[device_path] = nil
---        end
---    }
---}
-
---local panel_upower_widget = upower:devices_widget {
---    container_template = {
---        layout = wibox.container.background,
---        fg = beautiful.widget_normal_fg,
---        bg = beautiful.widget_normal_bg,
---        {
---            layout = wibox.container.margin,
---            left = beautiful.widget_outer_margins_left,
---            right = beautiful.widget_outer_margins_right,
---            {
---                id = 'layout_role',
---                layout = wibox.layout.fixed.horizontal,
---            }
---        },
---        device_path_lookup = {},
---        add_device_widget = function (self, device, widget)
---            naughty.notify {
---                text = device:get_object_path(),
---                timeout = 0
---            }
---            self.device_path_lookup[device:get_object_path()] = widget
---            self:get_children_by_id('layout_role')[1]:add(widget)
---        end,
---        remove_device_widget = function (self, dev_path)
---            naughty.notify {
---                text = dev_path,
---                timeout = 0
---            }
---            self:get_children_by_id('layout_role')[1]:remove_widgets(self.device_path_lookup[dev_path])
---        end
---    },
---    device_template = {
---        widget = wibox.widget.textbox,
---        create_callback = function (self, dev)
---            self.text = dev.kind_to_string(dev.kind)..':'..dev.state_to_string(dev.state)
---            return true
---        end,
---        update_callback = function (self, dev)
---            self.text = dev.kind_to_string(dev.kind)..':'..dev.state_to_string(dev.state)
---        end
---    }
---}
 
 awful.screen.connect_for_each_screen(function (s)
     -- Wallpaper
@@ -360,8 +352,8 @@ awful.screen.connect_for_each_screen(function (s)
                 id = 'background_role',
                 {
                     layout = wibox.container.margin,
-                    left = beautiful.widget_inner_margins_left,
-                    right = beautiful.widget_inner_margins_right,
+                    left = beautiful.widget_inner_margins,
+                    right = beautiful.widget_inner_margins,
                     {
                         id = 'text_role',
                         widget = wibox.widget.textbox
@@ -385,8 +377,8 @@ awful.screen.connect_for_each_screen(function (s)
                 layout = wibox.container.background,
                 {
                     layout = wibox.container.margin,
-                    left = beautiful.widget_inner_margins_left,
-                    right = beautiful.widget_inner_margins_right,
+                    left = beautiful.widget_inner_margins,
+                    right = beautiful.widget_inner_margins,
                     {
                         id = 'text_role',
                         widget = wibox.widget.textbox,
