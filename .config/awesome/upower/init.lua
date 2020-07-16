@@ -1,5 +1,5 @@
 local table = table
-local callback_handler = require('upower.callback_handler')
+local callback_handler = require('callback_handler')
 
 local lgi = require('lgi')
 local UPowerGlib = lgi.UPowerGlib

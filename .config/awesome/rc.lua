@@ -22,9 +22,9 @@ local hotkeys_popup = require('awful.hotkeys_popup')
 -- when client with a matching name is opened:
 require('awful.hotkeys_popup.keys')
 
+local item = require('terrible.container.item')
 local autostart = require('xdg.autostart')
 local upower = require('upower')
-local playerctl = require('playerctl')
 
 beautiful.init(os.getenv('HOME')..'/.config/awesome/theme/theme.lua')
 -- Error handling --------------------------------------------------------------
@@ -152,8 +152,8 @@ awful.placement.centered(mouse, { parent = screen.primary })
 -- time widget
 local panel_time_widget = wibox.widget {
     layout = wibox.container.background,
-    bg = beautiful.widget_normal_bg,
-    fg = beautiful.widget_normal_fg,
+    bg = beautiful.widget_bg_normal,
+    fg = beautiful.widget_fg_normal,
     {
         layout = wibox.container.margin,
         left = beautiful.widget_outer_margins,
@@ -164,8 +164,8 @@ local panel_time_widget = wibox.widget {
 
 local panel_upower_widget = upower:display_device_widget {
     layout = wibox.container.background,
-    fg = beautiful.widget_normal_fg,
-    bg = beautiful.widget_normal_bg,
+    fg = beautiful.widget_fg_normal,
+    bg = beautiful.widget_bg_normal,
     {
         id = 'margin_widget',
         layout = wibox.container.margin,
@@ -185,20 +185,20 @@ local panel_upower_widget = upower:display_device_widget {
     update_callback = function (self, device)
         if device.state_to_string(device.state) == 'discharging' then
             if device.percentage > 50 then
-                self.fg = beautiful.widget_focus_fg
-                self.bg = beautiful.widget_focus_bg
+                self.fg = beautiful.widget_fg_focus
+                self.bg = beautiful.widget_bg_focus
             else
                 if device.percentage > 25 then
-                    self.fg = beautiful.widget_warning_fg
-                    self.bg = beautiful.widget_warning_bg
+                    self.fg = beautiful.widget_fg_warning
+                    self.bg = beautiful.widget_bg_warning
                 else
-                    self.fg = beautiful.widget_urgent_fg
-                    self.bg = beautiful.widget_urgent_bg
+                    self.fg = beautiful.widget_fg_urgent
+                    self.bg = beautiful.widget_bg_urgent
                 end
             end
         else
-            self.fg = beautiful.widget_normal_fg
-            self.bg = beautiful.widget_normal_bg
+            self.fg = beautiful.widget_fg_normal
+            self.bg = beautiful.widget_bg_normal
         end
 
         self.margin_widget.data_textbox.text = 'Bat:'..
@@ -209,8 +209,8 @@ local panel_upower_widget = upower:display_device_widget {
 } or upower:devices_widget {
     container_template = {
         layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
+        fg = beautiful.widget_fg_normal,
+        bg = beautiful.widget_bg_normal,
         {
             id = 'layout_widget',
             layout = wibox.layout.fixed.horizontal
@@ -229,8 +229,8 @@ local panel_upower_widget = upower:display_device_widget {
     },
     device_template = {
         layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
+        fg = beautiful.widget_fg_normal,
+        bg = beautiful.widget_bg_normal,
         {
             id = 'margin_widget',
             layout = wibox.container.margin,
@@ -260,67 +260,19 @@ local panel_upower_widget = upower:display_device_widget {
             self.margin_widget.layout_widget.device_kind.text = device.kind_to_string(device.kind)
             self.margin_widget.layout_widget.device_state.text = device.state_to_string(device.state)
             if device.warning_level > 2 then
-                self.fg = beautiful.widget_urgent_fg
-                self.bg = beautiful.widget_urgent_bg
+                self.fg = beautiful.widget_fg_urgent
+                self.bg = beautiful.widget_bg_urgent
             else
-                self.fg = beautiful.widget_normal_fg
-                self.bg = beautiful.widget_normal_bg
+                self.fg = beautiful.widget_fg_normal
+                self.bg = beautiful.widget_bg_normal
             end
         end
     }
 }
 
-local panel_playerctl_widget = playerctl:players_widget {
-    container_template = {
-        layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
-        {
-            id = 'layout_widget',
-            layout = wibox.layout.fixed.horizontal,
-        },
-        create_callback = function (self)
-            self.players = {}
-        end,
-        add_player_widget = function (self, player, widget)
-            self.layout_widget:add(widget)
-            self.players[player] = widget
-        end,
-        remove_player_widget = function (self, player)
-            self.layout_widget:remove_widgets(self.players[player])
-            self.players[player] = nil
-        end
-    },
-    player_template = {
-        layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
-        {
-            id = 'margin_widget',
-            layout = wibox.container.margin,
-            left = beautiful.widget_outer_margins,
-            right = beautiful.widget_outer_margins,
-            {
-                id = 'layout_widget',
-                layout = wibox.layout.fixed.horizontal,
-                {
-                    id = 'name_widget',
-                    widget = wibox.widget.textbox
-                },
-                {
-                    id = 'status_widget',
-                    wibox.widget.textbox
-                }
-            }
-        },
-        create_callback = function (self, player)
-            return true
-        end,
-        update_callback = function (self, player)
-            self.margin_widget.layout_widget.name_widget.text = player.player_name
-            self.margin_widget.layout_widget.status_widget.text = player.playback_status
-        end
-    }
+
+local panel_systray_widget = wibox.widget {
+
 }
 
 awful.screen.connect_for_each_screen(function (s)
@@ -347,8 +299,8 @@ awful.screen.connect_for_each_screen(function (s)
     
     s.prompt_widget = wibox.widget {
         layout = wibox.container.background,
-        fg = beautiful.widget_focus_fg,
-        bg = beautiful.widget_focus_bg,
+        fg = beautiful.widget_fg_focus,
+        bg = beautiful.widget_bg_focus,
         visible = false,
         {
             layout = wibox.container.margin,
@@ -363,8 +315,8 @@ awful.screen.connect_for_each_screen(function (s)
 
     s.layout_widget = wibox.widget {
         layout = wibox.container.background,
-        fg = beautiful.widget_normal_fg,
-        bg = beautiful.widget_normal_bg,
+        fg = beautiful.widget_fg_normal,
+        bg = beautiful.widget_bg_normal,
         {
             layout = wibox.container.margin,
             left = beautiful.widget_outer_margins,
@@ -441,12 +393,31 @@ awful.screen.connect_for_each_screen(function (s)
         layout = wibox.layout.align.horizontal,
         {
             layout = wibox.container.background,
-            fg = beautiful.widget_group_normal_fg,
-            bg = beautiful.widget_group_normal_bg,
+            fg = beautiful.widget_group_fg_normal,
+            bg = beautiful.widget_group_bg_normal,
             {
                 layout = wibox.layout.fixed.horizontal,
                 s.taglist_widget,
                 s.tasklist_widget,
+                --{
+                --    layout = item,
+                --    executable = function (self)
+                --        naughty.notify {
+                --            title = 'Yay',
+                --            text = 'You pressed me'
+                --        }
+                --        self.state = 'disabled'
+                --    end,
+                --    {
+                --        layout = wibox.container.margin,
+                --        left = beautiful.widget_outer_margins,
+                --        right = beautiful.widget_outer_margins,
+                --        {
+                --            widget = wibox.widget.textbox,
+                --            text = 'press me'
+                --        }
+                --    }
+                --},
                 s.prompt_widget
             }
         },
@@ -455,11 +426,16 @@ awful.screen.connect_for_each_screen(function (s)
         },
         {
             layout = wibox.container.background,
-            fg = beautiful.widget_group_normal_fg,
-            bg = beautiful.widget_group_normal_bg,
+            fg = beautiful.widget_group_fg_normal,
+            bg = beautiful.widget_group_bg_normal,
             {
                 layout = wibox.layout.fixed.horizontal,
-                s == screen.primary and panel_playerctl_widget,
+                s == screen.primary and wibox.widget {
+                    layout = wibox.container.margin,
+                    left = beautiful.widget_outer_margins,
+                    right = beautiful.widget_outer_margins,
+                    wibox.widget.systray()
+                },
                 s == screen.primary and panel_upower_widget,
                 panel_time_widget,
                 s.layout_widget
@@ -804,39 +780,48 @@ awful.rules.rules = {
        }
     },
     -- MPV
-    {
-        rule = {
-            class = 'mpv',
-        },
-        properties = {
-            floating = true,
-            raise = true,
-            optop = true,
-            above = true,
-            focusable = false,
-            skip_taskbar = true,
-            keys = {},
-            buttons = {},
-            sticky = true,
-            screen = screen.primary
-        },
-        callback = function (c)
-            (awful.placement.scale + awful.placement.next_to)(c, {
-                margins = beautiful.useless_gap,
-                to_percent = 0.2,
-                preferred_positions = 'bottom',
-                preferred_anchors = 'back',
-                geometry = screen.primary.panel
-            })
-
-        end
-    },
-    -- Discord
+    --{
+    --    rule = {
+    --        class = 'mpv',
+    --    },
+    --    properties = {
+    --        floating = true,
+    --        size_hints_honor = false,
+    --        --raise = true,
+    --        optop = true,
+    --        --above = true,
+    --        focusable = false,
+    --        skip_taskbar = true,
+    --        keys = {},
+    --        buttons = {},
+    --        sticky = true,
+    --        screen = screen.primary
+    --    },
+    --    callback = function (c)
+    --        local func = (awful.placement.scale + awful.placement.next_to)
+    --        local args = {
+    --            margins = beautiful.useless_gap,
+    --            to_percent = 0.3,
+    --            preferred_positions = 'bottom',
+    --            preferred_anchors = 'back',
+    --            geometry = screen.primary.panel
+    --        }
+    --        func(c, args)
+    --        c:connect_signal('property::size', function (c)
+    --            func(c, args)
+    --        end)
+    --    end
+    --},
+    -- Discord abd steam
     {   
         rule_any = {
             class = {
-                'discord'
+                'discord',
+                'Steam'
             }
+        },
+        properties = {
+            raise = false
         },
         callback = function (c)
             if screen.count() > 2 then

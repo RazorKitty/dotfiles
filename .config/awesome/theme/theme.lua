@@ -72,7 +72,7 @@ theme.bg_minimize = theme.bg_normal
 theme.fg_minimize = theme.blue
 
 
-theme.bg_systray = theme.black
+theme.bg_systray = theme.widget_bg_normal
 
 theme.border_width = dpi(1)
 theme.border_normal = theme.black
@@ -494,30 +494,44 @@ theme.wibox_bg = theme.background
 theme.wibox_fg = theme.foreground
 
 theme.widget_group_marigns = dpi(1)
-theme.widget_group_normal_fg = theme.fg_normal
-theme.widget_group_normal_bg = theme.bg_normal
+theme.widget_group_fg_normal = theme.fg_normal
+theme.widget_group_bg_normal = theme.bg_normal
 
 theme.widget_outer_margins = dpi(8)
 
 theme.widget_inner_margins = dpi(4)
 
-theme.widget_normal_fg = theme.fg_normal
-theme.widget_normal_bg = theme.bg_normal
+theme.widget_fg_normal = theme.fg_normal
+theme.widget_bg_normal = theme.bg_normal
 
-theme.widget_focus_fg = theme.fg_focus
-theme.widget_focus_bg = theme.bg_focus
+theme.widget_fg_focus = theme.fg_focus
+theme.widget_bg_focus = theme.bg_focus
 
-theme.widget_warning_fg = theme.black
-theme.widget_warning_bg = theme.yellow
+theme.widget_fg_warning = theme.black
+theme.widget_bg_warning = theme.yellow
 
-theme.widget_urgent_fg = theme.fg_urgent
-theme.widget_urgent_bg = theme.bg_urgent
+theme.widget_fg_urgent = theme.fg_urgent
+theme.widget_bg_urgent = theme.bg_urgent
 
-theme.widget_important_fg = theme.black
-theme.widget_important_bg = theme.blue
+theme.widget_fg_important = theme.black
+theme.widget_bg_important = theme.blue
 
-theme.widget_online_fg = theme.black
-theme.widget_online_bg = theme.green
+theme.widget_fg_online = theme.black
+theme.widget_bg_online = theme.green
+
+
+
+theme.item_fg_normal = theme.fg_normal
+theme.item_bg_normal = theme.bg_normal
+
+theme.item_fg_focus = theme.fg_focus
+theme.item_bg_focus = theme.bg_focus
+
+theme.item_fg_disabled = theme.fg_minimize
+theme.item_bg_disabled = theme.bg_minimize
+
+theme.item_fg_press = theme.bg_focus
+theme.item_bg_press = theme.fg_focus
 
 return theme
 

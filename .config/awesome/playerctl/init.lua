@@ -1,7 +1,7 @@
 local setmetatable = setmetatable
 local table = table
 
-local callback_handler = require('playerctl.callback_handler')
+local callback_handler = require('callback_handler')
 
 local lgi = require('lgi')
 local Playerctl = lgi.Playerctl
@@ -28,9 +28,8 @@ local playerctl = {
         on_player_vanished = callback_handler:new {
             function (self, player)
                 for idx,p in ipairs(playerctl.players) do
-                    if player == p then
-                        table.remove(playerctl.players, idx)
-                        return
+                    if player.player_name == p.player_name and player.player_instance == p.player_instance then
+                        playerctl.players[idx] = nil
                     end
                 end
             end
@@ -48,6 +47,9 @@ function playerctl.create_widget(self, args)
     local widget = wibox.widget(args.template)
     if widget:create_callback(args.player) then
         widget:update_callback(args.player)
+        if not self.property_callbacks[args.player] then
+            self.property_callbacks[args.player] = callback_handler:new()
+        end
         self.property_callbacks[args.player]:add( function (...)
             widget:update_callback(...)
         end )
@@ -59,7 +61,6 @@ function playerctl.players_widget(self, args)
     local container_widget = wibox.widget(args.container_template)
     container_widget:create_callback()
     for _,player in ipairs(self.players) do
-        -- this loop never runs
         local player_widget = self:create_widget { template = args.player_template, player = player }
         if player_widget then
             container_widget:add_player_widget(player, player_widget)
