@@ -49,7 +49,7 @@ nmap <Leader>wq :execute('wqa')<CR>
 
 " basic session support
 function! MakeSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
   if (filewritable(b:sessiondir) != 2)
     exe 'silent !mkdir -p ' b:sessiondir
     redraw!
@@ -59,7 +59,7 @@ function! MakeSession()
 endfunction
 
 function! LoadSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
   let b:sessionfile = b:sessiondir . "/session.vim"
   if (filereadable(b:sessionfile))
     exe 'source ' b:sessionfile
@@ -89,9 +89,6 @@ Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
-Plug 'phpactor/phpactor', {'for': 'php', 'do': 'composer install --no-dev -o'}
-Plug 'kristijanhusak/deoplete-phpactor'
-Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
 call plug#end()
 
 "suckless settings
@@ -187,19 +184,3 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['/usr/bin/clangd']
     \ }
 
-"phpcd
-"let g:deoplete#ignore_sources = get(g:, 'deoplete#ignore_sources', {})
-
-
-"phpactor
-"navigation
-au FileType php nmap <buffer> <silent> <Leader>f :call phpactor#FindReferences()<CR>
-au FileType php nmap <buffer> <silent> <Leader>h :call phpactor#Hover()<CR>
-au FileType php nmap <buffer> <silent> <Leader>d :call phpactor#GotoDefinition()<CR>
-au FileType php nmap <buffer> <silent> <Leader>j :call phpactor#Navigate()<CR>
-"
-""refactoring
-"
-"au FileType php nmap <buffer> <silent> <Leader>u :call phpactor#UseAdd()<CR>
-"au FileType php nmap <buffer> <silent> <Leader>t :call phpactor#Transform()<CR>
-"au FileType php nmap <buffer> <silent> <Leader>c :call phpactor#ContextMenu()<CR>
