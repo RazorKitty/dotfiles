@@ -41,14 +41,12 @@ Xft.hintstyle:  hintslight
 *.color7:       #7d8c9a
 *.color15:      #b4c1c2
 
-!*.font:         xft:terminus:size=8
-!*.boldfont:     xft:terminus:size=8:style=bold
-XLock.font: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-XLock.planfont: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-XLock.fontset: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-XLock.planfontset: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-XLock.messagefont: -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-XLock.mode: blank
+XLock.font:         -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.planfont:     -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.fontset:      -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.planfontset:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.messagefont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+XLock.mode:         blank
 
 st.font:		-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 st.bold_font:	0
