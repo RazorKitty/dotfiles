@@ -6,7 +6,7 @@
 local awesome = awesome
 local root = root
 local client = client
-local screeen = screen
+local screen = screen
 -- Standard awesome library
 local gears = require('gears')
 local awful = require('awful')
@@ -389,83 +389,67 @@ awful.screen.connect_for_each_screen(function (s)
         }
     }
 
-    s.panel_widget = wibox.widget {
-        layout = wibox.layout.align.horizontal,
-        {
-            layout = wibox.container.background,
-            fg = beautiful.widget_group_fg_normal,
-            bg = beautiful.widget_group_bg_normal,
+    s.panel = awful.wibox {
+        position = 'top',
+        screen = s,
+        widget = wibox.widget {
+            layout = wibox.layout.align.horizontal,
             {
-                layout = wibox.layout.fixed.horizontal,
-                s.taglist_widget,
-                s.tasklist_widget,
-                --{
-                --    layout = item,
-                --    executable = function (self)
-                --        naughty.notify {
-                --            title = 'Yay',
-                --            text = 'You pressed me'
-                --        }
-                --        self.state = 'disabled'
-                --    end,
-                --    {
-                --        layout = wibox.container.margin,
-                --        left = beautiful.widget_outer_margins,
-                --        right = beautiful.widget_outer_margins,
-                --        {
-                --            widget = wibox.widget.textbox,
-                --            text = 'press me'
-                --        }
-                --    }
-                --},
-                s.prompt_widget
-            }
-        },
-        {
-            layout = wibox.layout.fixed.horizontal
-        },
-        {
-            layout = wibox.container.background,
-            fg = beautiful.widget_group_fg_normal,
-            bg = beautiful.widget_group_bg_normal,
+                layout = wibox.container.background,
+                fg = beautiful.widget_group_fg_normal,
+                bg = beautiful.widget_group_bg_normal,
+                {
+                    id = 'left_aligned',
+                    layout = wibox.layout.fixed.horizontal,
+                    s.taglist_widget,
+                    s.tasklist_widget,
+                    --{
+                    --    layout = item,
+                    --    executable = function (self)
+                    --        naughty.notify {
+                    --            title = 'Yay',
+                    --            text = 'You pressed me'
+                    --        }
+                    --        self.state = 'disabled'
+                    --    end,
+                    --    {
+                    --        layout = wibox.container.margin,
+                    --        left = beautiful.widget_outer_margins,
+                    --        right = beautiful.widget_outer_margins,
+                    --        {
+                    --            widget = wibox.widget.textbox,
+                    --            text = 'press me'
+                    --        }
+                    --    }
+                    --},
+                    s.prompt_widget
+                }
+            },
             {
-                layout = wibox.layout.fixed.horizontal,
-                s == screen.primary and wibox.widget {
-                    layout = wibox.container.margin,
-                    left = beautiful.widget_outer_margins,
-                    right = beautiful.widget_outer_margins,
-                    wibox.widget.systray()
-                },
-                s == screen.primary and panel_upower_widget,
-                panel_time_widget,
-                s.layout_widget
+                id = 'center_aligned',
+                layout = wibox.layout.fixed.horizontal
+            },
+            {
+                layout = wibox.container.background,
+                fg = beautiful.widget_group_fg_normal,
+                bg = beautiful.widget_group_bg_normal,
+                {
+                    id = 'right_aligned',
+                    layout = wibox.layout.fixed.horizontal,
+                    s == screen.primary and wibox.widget {
+                        layout = wibox.container.margin,
+                        left = beautiful.widget_outer_margins,
+                        right = beautiful.widget_outer_margins,
+                        wibox.widget.systray()
+                    },
+                    s == screen.primary and panel_upower_widget,
+                    panel_time_widget,
+                    s.layout_widget
+                }
             }
         }
     }
 
-
-    s.panel = awful.popup {
-        border_width = beautiful.wibox_border_width,
-        border_color = beautiful.wibox_border_color,
-        bg = beautiful.wibox_bg,
-        fg = beautiful.wibox_fg,
-        ontop = false,
-        visible = true,
-        type = 'dock',
-        screen = s,
-        height = 16,
-        widget = s.panel_widget,
-    }
-
-    s.panel:struts {
-        top = s.panel.height + beautiful.useless_gap
-    }
-
-    local f = awful.placement.top + awful.placement.maximize_horizontally
-    f(s.panel, {
-        margins =  (beautiful.useless_gap),
-        attach = true,
-    })
 end)
 
 -- Mouse Bindings --------------------------------------------------------------

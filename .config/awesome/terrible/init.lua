@@ -1,7 +1,9 @@
-local container = require('terrible.container')
-local upower = require('terrible.upower')
-
+---------------------------------------------------------------------------
+--- Collection of terrible things
+--
+-- @author RazorKitty
+-- @classmod terrible
+---------------------------------------------------------------------------
 return {
-    container = container,
-    upower = upower
+    container = require('terrible.container')
 }
