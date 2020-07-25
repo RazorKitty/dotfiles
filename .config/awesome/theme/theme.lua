@@ -245,6 +245,8 @@ theme.progressbar_margins = {
 }
 theme.progressbar_paddings = dpi(0)
 
+theme.progressbar_width = dpi(64)
+
 -- prompt
 theme.prompt_fg_cursor = theme.fg_focus
 theme.prompt_bg_cursor = theme.bg_focus
@@ -487,11 +489,6 @@ theme.wibar_bg = theme.background
 theme.wibar_fg = theme.foreground
 -- theme.wibar_shape = nil
 
-
-theme.wibox_border_width = dpi(1)
-theme.wibox_border_color = theme.background
-theme.wibox_bg = theme.background
-theme.wibox_fg = theme.foreground
 
 theme.widget_group_marigns = dpi(1)
 theme.widget_group_fg_normal = theme.fg_normal
