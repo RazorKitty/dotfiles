@@ -70,7 +70,7 @@ hi IncSearch       guifg=none   guibg=none  ctermfg=15      ctermbg=none    cter
 " -----------------
 " - Prompt/Status -
 " -----------------
-hi StatusLine      guifg=none   guibg=none  ctermfg=7      ctermbg=8       cterm=none
+hi StatusLine      guifg=none   guibg=none  ctermfg=15      ctermbg=8       cterm=none
 hi StatusLineNC    guifg=none   guibg=none  ctermfg=7      ctermbg=0       cterm=none
 hi WildMenu        guifg=none   guibg=none  ctermfg=15      ctermbg=0    cterm=none
 hi Question        guifg=none   guibg=none  ctermfg=15      ctermbg=0    cterm=none

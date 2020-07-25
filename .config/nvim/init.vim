@@ -72,13 +72,6 @@ endfunction
 au VimEnter * nested :call LoadSession()
 au VimLeave * :call MakeSession()
 
-
-"statusline
-
-"set statusline=%3*\ %t\ %*%1*%=%0*%(\ %m%y\ %)
-"
-
-
 call plug#begin()
 Plug 'fabi1cazenave/suckless.vim'
 Plug 'fabi1cazenave/termopen.vim'
