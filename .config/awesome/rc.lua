@@ -320,7 +320,6 @@ awful.screen.connect_for_each_screen(function (s)
         {
             layout = wibox.container.margin,
             left = beautiful.widget_outer_margins,
-            right = beautiful.widget_outer_margins,
             awful.widget.layoutbox(s)
         }
     }
