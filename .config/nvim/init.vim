@@ -49,28 +49,40 @@ nmap <Leader>wq :execute('wqa')<CR>
 
 " basic session support
 function! MakeSession()
-  let b:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
+    if (len(argv()) > 0)
+        return
+    endif
+
+    let l:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
+    if (filewritable(l:sessiondir) != 2)
+        exe 'silent !mkdir -p ' l:sessiondir
+        redraw!
+    endif
+    let l:filename = l:sessiondir . '/session.vim'
+    exe "mksession! " . l:filename
 endfunction
 
 function! LoadSession()
-  let b:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
-  else
-    echo "No session loaded."
-  endif
+
+    if (len(argv()) > 0)
+        return
+    endif
+
+    let l:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
+    let l:sessionfile = l:sessiondir . "/session.vim"
+    if (filereadable(l:sessionfile))
+        exe 'source ' l:sessionfile
+    else
+        echo "No session loaded."
+    endif
 endfunction
 
 " Adding automatons for when entering or leaving Vim
 au VimEnter * nested :call LoadSession()
 au VimLeave * :call MakeSession()
+
+"nmap <silent> <Leader>s :call MakeSession()<CR>
+"nmap <silent> <Leader>S :call LoadSession()<CR>
 
 call plug#begin()
 Plug 'fabi1cazenave/suckless.vim'
@@ -82,6 +94,7 @@ Plug 'Raimondi/delimitMate' "auto closing tag insertion
 Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
+Plug 'racer-rust/vim-racer'
 call plug#end()
 
 "suckless settings
@@ -177,3 +190,15 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['/usr/bin/clangd']
     \ }
 
+"rust
+let g:racer_experimental_completer = 1
+let g:racer_insert_paren = 1
+augroup Racer
+    autocmd!
+    autocmd FileType rust nmap <buffer> gd         <Plug>(rust-def)
+    autocmd FileType rust nmap <buffer> gs         <Plug>(rust-def-split)
+    autocmd FileType rust nmap <buffer> gx         <Plug>(rust-def-vertical)
+    autocmd FileType rust nmap <buffer> gt         <Plug>(rust-def-tab)
+    autocmd FileType rust nmap <buffer> <leader>gd <Plug>(rust-doc)
+    autocmd FileType rust nmap <buffer> <leader>gD <Plug>(rust-doc-tab)
+augroup END
