@@ -43,9 +43,9 @@ nmap <silent> <M-T> :execute('tabclose')<CR>
 nmap <silent> <M-n> :execute('tabnext')<CR>
 nmap <silent> <M-p> :execute('tabprev')<CR>
 
-" add exit keys 
-nmap <Leader>q :execute('qa')<CR>
-nmap <Leader>wq :execute('wqa')<CR>
+" add save and quit custom key
+nmap <silent> <M-q> :execute('qa')<CR>
+nmap <silent> <M-x> :execute('wqa')<CR>
 
 " basic session support
 function! MakeSession()
