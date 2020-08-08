@@ -470,11 +470,21 @@ local global_key_bindings = gears.table.join(
     awful.key({ modkey }, 's', hotkeys_popup.show_help,
     { description = 'Show help', group = 'Awesome' }),
 
-    awful.key( {modkey}, 'z', function ()
-        local s = awful.screen.focused()
-        s.panel.visible = not s.panel.visible
+    awful.key({}, 'XF86AudioRaiseVolume', function ()
+        awful.spawn('pamixer -i 5')
     end,
-    {}),
+    { description = 'increase volume the default sink', group = 'MultiMedia' }),
+
+    awful.key({}, 'XF86AudioLowerVolume', function ()
+        awful.spawn('pamixer -d 5')
+    end,
+    { description = 'decrease volume the default sink', group = 'MultiMedia' }),
+
+    awful.key({}, 'XF86AudioMute', function ()
+        awful.spawn('pamixer -t')
+    end,
+    { description = 'toggle mute of default sink', group = 'MultiMedia' }),
+
 
     -- Launcher
     awful.key({ modkey }, 'Return', function ()
