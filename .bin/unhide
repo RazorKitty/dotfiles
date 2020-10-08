@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CURRENT_MONITOR="$(bspc query -M focused -m)"
+
+CURRENT_DESKTOP="$(bspc query -D focused -d)"
+
+STACK_FILE="${XDG_RUNTIME_DIR:-/tmp}/$CURRENT_MONITOR.$CURRENT_DESKTOP.hide.stack";
+
+WINDOW_ID="$(stack pop $STACK_FILE)";
+
+if [ ! -z "$WINDOW_ID" ]; then
+    bspc node "$WINDOW_ID" --flag hidden;
+fi
+

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+STEP_SIZE="${BACKLIGHT_STEP_SIZE:-5}";
+
+for CTRL_PATH in /sys/class/backlight/* ; do
+    CTRL="$(basename $CTRL_PATH)";
+    
+    if xbacklight -ctrl "$CTRL" -get >> /dev/null; then
+        CURRENT_LEVEL="$(xbacklight -ctrl $CTRL -get)";
+        case "$1" in
+            "+" )
+                expr "$CURRENT_LEVEL" '<' "$STEP_SIZE" >> /dev/null \
+                    && xbacklight -ctrl "$CTRL" -fps 60 -time 100 -set "$STEP_SIZE" \
+                    || xbacklight -ctrl "$CTRL" -fps 60 -time 100 -inc "$STEP_SIZE";
+                ;;
+            "-" )
+                expr "$CURRENT_LEVEL" '<=' "$STEP_SIZE" >> /dev/null \
+                    && xbacklight -ctrl "$CTRL" -fps 60 -time 100 -set 1 \
+                    || xbacklight -ctrl "$CTRL" -fps 60 -time 100 -dec "$STEP_SIZE";
+                ;;
+            [0-9]* )
+                xbacklight -ctrl "$CTRL" -set "$1";
+                ;;
+        esac
+    fi 
+done
+

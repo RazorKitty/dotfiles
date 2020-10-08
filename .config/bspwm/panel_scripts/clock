@@ -1,0 +1,9 @@
+#!/bin/sh
+
+PREFIX="%{F$WHITE}%{B$BLACK}%{O$PADDING}"
+SUFFIX="%{O$PADDING}%{F-}%{B-}"
+
+while true; do
+    echo "C$PREFIX$(date +'%H:%M %a %d/%m/%y')$SUFFIX" >> "$1";
+    sleep "$(expr 60 - $(date +%S))";
+done

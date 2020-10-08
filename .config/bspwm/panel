@@ -1,0 +1,23 @@
+#/bin/sh
+
+FIFO="$1"
+
+CLOCK_OUTPUT=''
+UPOWER_OUTPUT=''
+
+while read LINE; do
+    case $LINE in
+        C*)
+            CLOCK_OUTPUT="${LINE#?}"
+            ;;
+        P*)
+            UPOWER_OUTPUT="${LINE#?}"
+            ;;
+        D*)
+            ;;
+        *)
+            ;;
+    esac
+
+    echo "%{r}$CLOCK_OUTPUT$UPOWER_OUTPUT"
+done

@@ -1,0 +1,21 @@
+#!/bin/sh
+
+STEP_SIZE="${VOLUME_STEP_SIZE:-5}";
+
+case "$1" in
+    "+" )
+        pamixer -i "$STEP_SIZE";
+        ;;
+    "-" )
+        pamixer -d "$STEP_SIZE";
+        ;;
+    m|u|t )
+        pamixer --sink 0 -"$1";
+        ;;
+    [0-9]* )
+        pamixer --set-volume "$1";
+        ;;
+    * )
+        echo "unknown action"
+        ;;
+esac

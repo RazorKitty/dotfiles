@@ -1,0 +1,39 @@
+#!/bin/sh
+
+LOCK_FILE="${XDG_RUNTIME_DIR:-/tmp}/caffeine.lock"
+
+caffeinate() {
+    touch "$LOCK_FILE";
+    elogind-inhibit --what=sleep --who=caffeine --why="caffeine keeps us awake" --mode=block inotifywait -e delete_self "$LOCK_FILE" &
+}
+
+decaffeinate() {
+    rm -f "$LOCK_FILE";
+}
+
+case $1 in
+    "toggle" )
+        if [ ! -f "$LOCK_FILE" ]; then
+            caffeinate > /dev/null 2>&1
+        else
+            decaffeinate > /dev/null 2>&1
+        fi 
+        ;;
+    "on" )
+        if [ ! -f "$LOCK_FILE" ]; then
+            caffeinate > /dev/null 2>&1
+        fi 
+        ;;
+    "off" )
+        if [ -f "$LOCK_FILE" ]; then
+            decaffeinate > /dev/null 2>&1
+        fi
+        ;;
+    * )
+        if [ -f "$LOCK_FILE" ]; then
+            echo "Caffeinated"
+        else
+            echo "DeCaffeinated"
+        fi
+        ;;
+esac

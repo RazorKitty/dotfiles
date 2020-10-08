@@ -1,0 +1,31 @@
+#!/bin/sh
+
+push () {
+    echo "$1" >> "$2";
+}
+
+pop() {
+    if [ ! -f "$1" ]; then
+        exit 0
+    fi
+    LC_CTYPE=C; l=`tail -n "${2:-1}" "$1"; echo t`; l=${l%t}; truncate -s "-${#l}" "$1"; printf %s "$l";
+}
+
+empty() {
+    rm -f "$1";
+}
+
+peek() {
+    tail -n 1 "$1";
+}
+
+
+
+case "$1" in
+    push|pop|empty|peek )
+        "$1" "$2" "$3";
+        ;;
+    * )
+        echo "unknown action"
+        ;;
+esac

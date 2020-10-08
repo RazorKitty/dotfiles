@@ -1,0 +1,45 @@
+#!/bin/lua
+local io = io
+
+local function write_to_named_pipe(path, content)
+    local fifo = io.open(path, 'a');
+    fifo:write(content);
+    fifo:flush();
+    fifo:close();
+end
+
+local bg_normal     = '%{B'..os.getenv('BLACK')         ..'}'
+local bg_important  = '%{B'..os.getenv('YELLOW')        ..'}'
+local bg_urgent     = '%{B'..os.getenv('RED')           ..'}'
+local fg_normal     = '%{F'..os.getenv('WHITE')         ..'}'
+local fg_important  = '%{F'..os.getenv('BLACK')         ..'}'
+local fg_urgent     = '%{F'..os.getenv('BRIGHT_WHITE')  ..'}'
+local padding       = '%{O'..os.getenv('PADDING')       ..'}'
+
+local bg_reset = '%{F-}'
+local fg_reset = '%{B-}'
+
+local lgi = require('lgi')
+local GLib = lgi.GLib
+local UPowerGlib = lgi.UPowerGlib
+local Device = UPowerGlib.Device
+
+local client = UPowerGlib.Client()
+local display_device = client:get_display_device()
+
+if Device.kind_to_string(display_device.kind) == 'battery' then
+    display_device.on_notify = function (self, psec)
+        local fifo = io.open(arg[1], 'a')
+        fifo:write('P'.. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. self.percentage):sub(1,2) .. '% ' .. Device.state_to_string(self.state) .. padding .. fg_reset .. bg_reset ..'\n')
+    fifo:flush()
+    fifo:close()
+    end
+end
+
+local fifo = io.open(arg[1], 'a')
+fifo:write('P' .. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. display_device.percentage):sub(1,2) .. '% ' .. Device.state_to_string(display_device.state) .. padding ..  fg_reset .. bg_reset ..'\n')
+fifo:flush()
+fifo:close()
+
+local mainloop = GLib.MainLoop(nil, false)
+mainloop:run()

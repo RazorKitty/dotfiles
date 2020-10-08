@@ -1,0 +1,22 @@
+#!/bin/sh
+
+STEP_SIZE="${VOLUME_STEP_SIZE:-5}";
+
+case "$1" in
+    "+" )
+        pamixer --default-source -i "$STEP_SIZE";
+        ;;
+    "-" )
+        pamixer --default-source -d "$STEP_SIZE";
+        ;;
+    m|u|t )
+        pamixer --default-source -"$1";
+        ;;
+    [0-9]* )
+        pamixer --default-source --set-volume "$1";
+        ;;
+    * )
+        echo "Error: action unknown"
+        ;;
+esac
+
