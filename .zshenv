@@ -1,7 +1,7 @@
 if [ -r ~/.zprezto/runcoms/zenv ]; then
     source ./zprezto/runcoms/zenv
 fi
-#set sonme enviroment vars
+# set sonme enviroment vars
 
 xq () {
     xbps-query --regex -RS $@ || xbps-query --regex -Rs $@;

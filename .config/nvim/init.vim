@@ -4,6 +4,8 @@ set tabstop=4
 set expandtab
 set number
 set relativenumber
+" useful im termux
+set mouse=
 set showcmd
 set noequalalways
 "set cursorline
@@ -71,7 +73,20 @@ function! LoadSession()
     let l:sessiondir = $HOME . "/.cache/vim/sessions" . getcwd()
     let l:sessionfile = l:sessiondir . "/session.vim"
     if (filereadable(l:sessionfile))
+        " source the session
         exe 'source ' l:sessionfile
+        let [i, n; empty] = [1, bufnr('$')]
+        " enumerate all empty buffers with no changes
+        while i <= n
+            if bufexists(i) && bufname(i) == ''
+                call add(empty, i)
+            endif
+            let i += 1
+        endwhile
+        " delete all empty buffers
+        if len(empty) > 0
+            exe 'bdelete' join(empty)
+        endif
     else
         echo "No session loaded."
     endif
@@ -81,12 +96,10 @@ endfunction
 au VimEnter * nested :call LoadSession()
 au VimLeave * :call MakeSession()
 
-"nmap <silent> <Leader>s :call MakeSession()<CR>
-"nmap <silent> <Leader>S :call LoadSession()<CR>
-
 call plug#begin()
 Plug 'fabi1cazenave/suckless.vim'
 Plug 'fabi1cazenave/termopen.vim'
+Plug 'airblade/vim-gitgutter'
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' } "completion framework
 Plug 'Shougo/neoinclude.vim' "c include completion
 Plug 'neomake/neomake' "cmake runner
@@ -95,6 +108,10 @@ Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets' "snippets
 Plug 'zchee/deoplete-zsh' "zsh completion
 Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh'}
 Plug 'racer-rust/vim-racer'
+Plug 'timonv/vim-cargo'
+Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
+Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'kristijanhusak/deoplete-phpactor'
 call plug#end()
 
 "suckless settings
@@ -117,11 +134,10 @@ let g:suckless_mappings = {
 \  '<Leader>T[123456789]' : 'CopyWindowToTab([123456789])',
 \}
 
-
 "term open settings
 "open a terminal
 nmap <M-Return> :call TermOpen('','v')<CR>
-nmap <M-Backspace> :call TermOpenRanger('lf','v')<CR>
+nmap <M-Backspace> :call TermOpen('')<CR>
 nmap <Leader>l :call TermOpen('lua')<CR>
 nmap <Leader>L :call TermOpen('lua', 'v')<CR>
 "deoplete settings
@@ -146,7 +162,6 @@ let g:neomake_open_list = 2
 let b:delimitMate_matchpairs = "(:),[:],{:}"
 au FileType html,xml, let b:delimitMate_matchpairs = "(:),[:],{:},<:>"
 
-
 "set quote symbols
 let delimitMate_quotes = "\" ' `"
 au FileType vim let b:delimitMate_quotes = "' `"
@@ -159,15 +174,8 @@ let delimitMate_expand_cr = 2
 "same but for spaces
 let delimitMate_expand_space = 1
 
-"when entering a closing delimiter if one exists on the net line then we jump to it
-"let delimitMate_jump_expansion = 1
-
 "balance matching pairs
 let delimitMate_balance_matchpairs = 1
-
-"exclude these regions from delimitMates scope
-let delimitMate_excluded_regions = "Comment,String"
-
 
 "ultisnips settings
 
@@ -182,6 +190,7 @@ let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsListTrigger="<c-e>"
 
+
 "language server
 set hidden
 
@@ -190,7 +199,7 @@ let g:LanguageClient_serverCommands = {
     \ 'cpp': ['/usr/bin/clangd']
     \ }
 
-"rust
+"racer
 let g:racer_experimental_completer = 1
 let g:racer_insert_paren = 1
 augroup Racer

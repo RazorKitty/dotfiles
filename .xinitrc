@@ -23,6 +23,6 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-# start some nice programs
 xdg-setttings set default-web-browser "qutebrowser.qutebrowser.desktop"
-exec dbus-launch --exit-with-session awesome $@
+exec dbus-launch --exit-with-session bspwm $@
+#exec dbus-run-session bspwm $@

@@ -10,4 +10,7 @@ github https://github.com/
 awesome-doc https://awesomewm.org/doc/api/
 xy https://learnxinyminutes.com/
 rust-book https://doc.rust-lang.org/book/
-rust-book-position https://doc.rust-lang.org/book/ch08-03-hash-maps.html
+rust-book-position https://doc.rust-lang.org/book/ch09-02-recoverable-errors-with-result.html
+void-docs https://docs.voidlinux.org/
+sed https://www.grymoire.com/Unix/Sed.html
+bash https://tldp.org/LDP/abs/html/index.html

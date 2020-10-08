@@ -4,6 +4,7 @@ Xft.rgba:       rgb
 Xft.hinting:    true
 Xft.hintstyle:  hintslight
 
+*.font:		terminus:size=8
 ! special
 *.foreground:   #b4c1c2
 *.background:   #050b15
@@ -48,13 +49,43 @@ XLock.planfontset:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 XLock.messagefont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 XLock.mode:         blank
 
-st.font:		-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-st.bold_font:	0
-st.termname:	st-256color
-st.shell:		/bin/zsh
-st.bellvolume:	100
+!st.font:		-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
+!st.bold_font:	0
+!st.termname:	st-256color
+!st.shell:		/bin/zsh
+!st.bellvolume:	100
 st.tabspaces:   4
 st.chscale:		1.0
 st.borderpx:    4
+st.disablebold: 0
 
+dmenu.foreground: #7d8c9a
+dmenu.background: #0b1528
 
+dmenu.selforeground: #b4c1c2
+dmenu.selbackground: #101E39
+
+dmenu.outforeground: #0b1528
+dmenu.outbackground: #b4c1c2
+
+dmenu.promptforeground: #b4c1c2
+dmenu.promptbackground: #0b1528
+dmenu.prompt:
+
+dmenu.inputforeground: #b4c1c2
+dmenu.inputbackground: #0b1528
+
+dmenu.border_color: #7d8c9a
+dmenu.border_width: 1
+
+dmenu.censor: *
+
+dmenu.font: terminus:size=8
+
+dmenu.x: 0.5
+dmenu.y: 32
+dmenu.center_x: 1
+dmenu.center_y: 0
+
+dmenu.cols: 48
+dmenu.lines: 8
