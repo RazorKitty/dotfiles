@@ -14,10 +14,14 @@ super + shift + r
 # node
 #
 
-# focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
-	bspc node -{f,s} {west,south,north,east}
-#
+# focus the node in the given direction or monitor in direction
+super + {h,j,k,l}
+    DIR={west,south,north,east}; bspc node -f "$DIR" || bspc monitor -f "$DIR"
+
+# swap nodes or move to the next monitor
+super + shift + {h,j,k,l}
+    DIR={west,south,north,east}; bspc node -s "$DIR" --follow || bspc node --to-monitor "$DIR" --follow
+
 # expand a window by moving one of its side outward
 super + ctrl + {h,j,k,l}
 	bspc node -z {left -8 0,bottom 0 8,top 0 -8,right 8 0}
@@ -50,9 +54,11 @@ super + {_,shift + }w
 super + {p,n}
 	bspc desktop -f {prev,next}.local
 
-# focus or send to the given desktop
+ focus or send to the given desktop
 super + {_,shift + }{1-9}
-	bspc {desktop -f,node -d} '^{1-9}'
+	bspc {desktop -f,node -d} {1-9}.local
+
+
 
 #
 # preselect
