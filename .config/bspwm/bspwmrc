@@ -49,7 +49,7 @@ feh --bg-scale "$HOME/.config/bspwm/wallpaper.png" &
 # get monitors
 MONITORS="$(xrandr -q | awk -e '/[a-zA-Z0-9] connected/{print $1}')";
 for MONITOR in $MONITORS ; do
-    bspc monitor "$MONITOR" -d 1 2 3 4 5 6 7 8 9;
+    bspc monitor "$MONITOR" -d 1 2 3 4 5 6 7 8 9 &
 done
 
 # borders and gaps
