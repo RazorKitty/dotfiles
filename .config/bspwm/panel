@@ -5,6 +5,8 @@ FIFO="$1"
 CLOCK_OUTPUT=''
 UPOWER_OUTPUT=''
 
+MONITOR_COUNT="$(xrandr -q | grep ' connected' | wc -l)"
+
 while read LINE; do
     case $LINE in
         C*)
@@ -18,6 +20,14 @@ while read LINE; do
         *)
             ;;
     esac
-
-    echo "%{r}$CLOCK_OUTPUT$UPOWER_OUTPUT"
+    
+    OUT='';
+    I=0
+    while [ "$I" -lt "$MONITOR_COUNT" ]; do
+        OUT="$OUT%{S$I}%{r}$CLOCK_OUTPUT$UPOWER_OUTPUT"
+        I="$(expr $I + 1)"
+    done
+    
+    echo "$OUT"
+    #echo "%{r}$CLOCK_OUTPUT$UPOWER_OUTPUT"
 done

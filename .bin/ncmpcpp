@@ -1,0 +1,3 @@
+#!/bin/sh
+
+xst -n 'Music' -c 'Media' -e /bin/ncmpcpp

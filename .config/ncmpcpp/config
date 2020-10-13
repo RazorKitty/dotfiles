@@ -182,7 +182,7 @@ visualizer_color = 3,11,15
 ## Note: colors can be nested.
 ##
 #
-song_list_format = { {%t $R$3 %b $9}|{%f}}
+song_list_format = {{$8 %t $1  $R $3 %a $9}|{%f}}
 #
 song_status_format = {{%a{ "%b"{ (%y)}} - }{%t}}|{%f}
 #
@@ -196,9 +196,9 @@ current_item_prefix = $(white)$b$r
 #
 current_item_suffix = $/r$/b$(end)
 #
-#current_item_inactive_column_prefix = $(white)$r
+current_item_inactive_column_prefix = $(white)$r
 #
-#current_item_inactive_column_suffix = $/r$(end)
+current_item_inactive_column_suffix = $/r$(end)
 #
 now_playing_prefix = $b
 #

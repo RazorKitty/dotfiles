@@ -8,16 +8,43 @@ local function write_to_named_pipe(path, content)
     fifo:close();
 end
 
-local bg_normal     = '%{B'..os.getenv('BLACK')         ..'}'
-local bg_important  = '%{B'..os.getenv('YELLOW')        ..'}'
-local bg_urgent     = '%{B'..os.getenv('RED')           ..'}'
-local fg_normal     = '%{F'..os.getenv('WHITE')         ..'}'
-local fg_important  = '%{F'..os.getenv('BLACK')         ..'}'
-local fg_urgent     = '%{F'..os.getenv('BRIGHT_WHITE')  ..'}'
-local padding       = '%{O'..os.getenv('PADDING')       ..'}'
+local function set_color(fg,bg,content)
+    return '%{F'..fg..'}%{B'..bg..'}'..content..'%{F-}%{B-}'
+end
+
+local function set_padding(prefix, sufix, content)
+    return (prefix and '%{O'..prefix..'}' or '') ..content.. (sufix and '%{O'..sufix..'}' or '')
+end
+
+local padding = {
+    inner = os.getenv('INNER_PADDING'),
+    outer = os.getenv('OUTER_PADDING')
+}
+
+local colors = {
+    black   = os.getenv('BLACK'),
+    red     = os.getenv('RED'),
+    green   = os.getenv('GREEN'),
+    yellow  = os.getenv('YELLOW'),
+    blue    = os.getenv('BLUE'),
+    magenta = os.getenv('MAGENTA'),
+    cyan    = os.getenv('CYAN'),
+    white   = os.getenv('WHITE'),
+
+    bright_black   = os.getenv('BRIGHT_BLACK'),
+    bright_red     = os.getenv('BRIGHT_RED'),
+    bright_green   = os.getenv('BRIGHT_GREEN'),
+    bright_yellow  = os.getenv('BRIGHT_YELLOW'),
+    bright_blue    = os.getenv('BRIGHT_BLUE'),
+    bright_magenta = os.getenv('BRIGHT_MAGENTA'),
+    bright_cyan    = os.getenv('BRIGHT_CYAN'),
+    bright_white   = os.getenv('BRIGHT_WHITE'),
+}
 
 local bg_reset = '%{F-}'
 local fg_reset = '%{B-}'
+
+
 
 local lgi = require('lgi')
 local GLib = lgi.GLib
@@ -26,20 +53,116 @@ local Device = UPowerGlib.Device
 
 local client = UPowerGlib.Client()
 local display_device = client:get_display_device()
+local devices = {}
+
+local battery_bar_settings = {
+    prefix = '[',
+    sufix = ']',
+    segment = '=',
+    length = 10,
+    pivot = {  
+        unknown = '?',
+        charging = '>',
+        discharging = '<',
+        empty = '',
+        fully_charged = '=',
+        pending_charge = '>',
+        pending_discharge = '<'
+    },
+    segment_colors = {
+        unknown = {
+            fg = colors.white,
+            bg = colors.black
+        },
+        low = {
+            fg = colors.yellow,
+            bg = colors.black
+        },
+        critical = {
+            fg = colors.bright_red,
+            bg = colors.black
+        },
+        normal = {
+            fg = colors.green,
+            bg = colors.black
+        },
+        high = {
+            fg = colors.bright_green,
+            bg = colors.black
+        },
+        full = {
+            fg = colors.bright_white,
+            bg = colors.black
+        },
+    },
+    pivot_colors = {
+        unknown = {
+            fg = color.white,
+            bg = colors.black
+        },
+        charging = {
+            fg = colors.bright_green,
+            bg = colors.black
+        },
+        discharging = {
+            fg = colors.bright_white,
+            bg = colors.black
+        },
+        empty = {
+            fg = colors.bright_red,
+            bg = colors.black
+        },
+        fully_charged = {
+            fg = colors.bright_white,
+            bg = colors.black
+        },
+        pending_charge = {
+            fg = colors.green,
+            bg = colors.black
+        },
+        pending_discharge = {
+            fg = colors.white,
+            bg = colors.back
+        } 
+    }
+}
+
+local render_type = {
+    battery = function (device)
+        local number_of_segments = math.floor((device.percentage/100)*battery_bar_settings.length)
+        local number_of_spaces = number_of_segments - 1;
+        local state = Device.state_to_string(device.state)
+        local battery_level = Device.level_to_string(device.battery_level)
+        
+        local segments = set_color(battery_bar_settings.segment_colors[battery_level].fg,
+                                   battery_bar_settings.segment_colors[battery_level].bg,
+                                   string.rep(battery_bar_settings.segment))
+        
+        local pivot = set_color(battery_bar_settings.pivot_colors[state].fg,
+                                battery_bar_settings.pivot_colors[state].bg,
+                                battery_bar_settings.pivot[state])
+        
+        return 
+    end,
+    mouse = function (device)
+
+    end
+}
+
+local function render_device(device)
+    return render_types[Device.kind_to_string[device.kind]](device)
+end
 
 if Device.kind_to_string(display_device.kind) == 'battery' then
     display_device.on_notify = function (self, psec)
-        local fifo = io.open(arg[1], 'a')
-        fifo:write('P'.. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. self.percentage):sub(1,2) .. '% ' .. Device.state_to_string(self.state) .. padding .. fg_reset .. bg_reset ..'\n')
-    fifo:flush()
-    fifo:close()
+        write_to_named_pipe('P'.. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. self.percentage):sub(1,2) .. '% ' .. Device.state_to_string(self.state) .. padding .. fg_reset .. bg_reset ..'\n', args[1])
     end
+
+    write_to_named_pipe('P' .. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. display_device.percentage):sub(1,2) .. '% ' .. Device.state_to_string(display_device.state) .. padding ..  fg_reset .. bg_reset ..'\n', args[1])
+else
+
 end
 
-local fifo = io.open(arg[1], 'a')
-fifo:write('P' .. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. display_device.percentage):sub(1,2) .. '% ' .. Device.state_to_string(display_device.state) .. padding ..  fg_reset .. bg_reset ..'\n')
-fifo:flush()
-fifo:close()
 
 local mainloop = GLib.MainLoop(nil, false)
 mainloop:run()

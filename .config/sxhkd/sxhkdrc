@@ -20,7 +20,7 @@ super + {h,j,k,l}
 
 # swap nodes or move to the next monitor
 super + shift + {h,j,k,l}
-    DIR={west,south,north,east}; bspc node -s "$DIR" --follow || bspc node --to-monitor "$DIR" --follow
+    DIR={west,south,north,east}; bspc node -s "$DIR".local --follow || bspc node --to-monitor "$DIR" --follow
 
 # expand a window by moving one of its side outward
 super + ctrl + {h,j,k,l}
@@ -35,8 +35,8 @@ super + {Left,Down,Up,Right}
 	bspc node -v {-8 0,0 8,0 -8,8 0}
 
 # set the window state
-super + {t,shift + t,s,f}
-	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+super + {t,s,f}
+	bspc node -t '~'{tiled,pseudo_tiled,fullscreen}
 
 # set the node flags
 super + ctrl + {m,x,y,z}
@@ -108,4 +108,7 @@ XF86MonBrightness{Up,Down}
     backlight {+,-}
 
 
+# mdeia
+XF86Audio{Stop,Prev,Play,Next}
+    playerctl {stop,previous,play-pause,next}
 
