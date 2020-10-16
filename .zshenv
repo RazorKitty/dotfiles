@@ -11,10 +11,6 @@ lscp () {
     scp $@; /bin/echo -e "\a";
 }
 
-dotfiles() {
-    git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME $@;
-}
-
 nvim () {
          if [ $# -eq '1' ] && [ -d "$1" ]; then
             (
