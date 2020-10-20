@@ -1,0 +1,28 @@
+#!/bin/sh
+
+LOCK_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+
+PREFIX="%{F$BRIGHT_WHITE}%{B$RED}%{O$PADDING}"
+SUFFIX="%{O$PADDING}%{F-}%{B-}"
+
+if [ -e "$LOCK_DIR/caffeine.lock" ]; then
+    echo c"$PREFIX"Caffeinated"$SUFFIX" >> "$1";
+else
+    echo c"" > "$1";
+fi
+
+
+
+inotifywait -m -e create,delete "$LOCK_DIR" | while read FILE_PATH FILE_EVENT FILE_NAME; do
+    if [ $FILE_NAME = 'caffeine.lock' ]; then
+        case $FILE_EVENT in
+            CREATE )
+                echo c"$PREFIX"Caffeinated"$SUFFIX" > "$1";
+                ;;
+            DELETE )
+                echo c"" > "$1";
+                ;;
+        esac
+    fi
+done
+

@@ -1,0 +1,24 @@
+#/bin/sh
+
+CLOCK_OUTPUT=''
+UPOWER_OUTPUT=''
+
+while read LINE; do
+    case $LINE in
+        c*)
+            CAFFEINE_OUTPUT="${LINE#?}"
+            ;;
+        C*)
+            CLOCK_OUTPUT="${LINE#?}"
+            ;;
+        P*)
+            UPOWER_OUTPUT="${LINE#?}"
+            ;;
+        D*)
+            ;;
+        *)
+            ;;
+    esac
+
+    echo "%{r}$CAFFEINE_OUTPUT$UPOWER_OUTPUT$CLOCK_OUTPUT"
+done

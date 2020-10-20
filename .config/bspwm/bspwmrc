@@ -38,7 +38,7 @@ export BLACK RED GREEN YELLOW BLUE MAGENTA CYAN WHITE
 export BRIGHT_BLACK BRIGHT_RED BRIGHT_GREEN BRIGHT_YELLOW BRIGHT_BLUE BRIGHT_MAGENTA BRIGHT_CYAN BRIGHT_WHITE
 export PADDING=6
 
-PANEL_HEIGHT=16;
+export PANEL_HEIGHT=16;
 
 ## one offs
 xsetroot -cursor_name left_ptr &
@@ -81,20 +81,26 @@ bscp rule -a music state=floating
 
 ## panel
 
+list_descendants ()
+{
+  local children=$(ps -o pid= --ppid "$1")
 
-PANEL_FIFO="$XDG_RUNTIME_DIR/panel.fifo"
-[ ! -f "$PANEL_FIFO" ] && mkfifo "$PANEL_FIFO"
+  for pid in $children
+  do
+    list_descendants "$pid"
+  done
 
-# pkill tail
-# 
-#tail -f "$PANEL_FIFO" | .config/bspwm/panel | lemonbar -f  "-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*" -F "$FOREGROUND"  -B "$BACKGROUND" -g "x$PANEL_HEIGHT" &
-#pgrep clock || .config/bspwm/panel_scripts/clock "$PANEL_FIFO" &
-#pgrep upower || .config/bspwm/panel_scripts/upower "$PANEL_FIFO" &
+  echo "$children"
+}
+
+
+pgrep -f 'panel start bar' || panel start bar &
+pgrep -f 'panel start service clock' || panel start service clock &
+
 
 optional_service() {
     which "$1" && $@
 }
-
 
 ## services
 pgrep xcompmgr || xcompmgr -ncf -D 5 &
@@ -108,4 +114,3 @@ pgrep Discord || Discord &
 pgrep steam || optional_service steam &
 pgrep -x ckb-next || optional_service ckb-next -b &
 
-notify-send "$(date)"
