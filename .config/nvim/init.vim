@@ -96,6 +96,12 @@ endfunction
 au VimEnter * nested :call LoadSession()
 au VimLeave * :call MakeSession()
 
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
 call plug#begin()
 Plug 'fabi1cazenave/suckless.vim'
 Plug 'fabi1cazenave/termopen.vim'
@@ -110,7 +116,7 @@ Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh
 Plug 'racer-rust/vim-racer'
 Plug 'timonv/vim-cargo'
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-Plug 'phpactor/phpactor' ,  {'do': 'composer install', 'for': 'php'}
+Plug 'phpactor/phpactor' ,  { 'for': 'php' 'do': 'composer install'}
 Plug 'kristijanhusak/deoplete-phpactor'
 call plug#end()
 
