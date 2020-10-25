@@ -116,8 +116,9 @@ Plug 'autozimu/LanguageClient-neovim', {'branch': 'next', 'do': 'bash install.sh
 Plug 'racer-rust/vim-racer'
 Plug 'timonv/vim-cargo'
 Plug 'lvht/phpcd.vim', { 'for': 'php', 'do': 'composer install' }
-Plug 'phpactor/phpactor' ,  { 'for': 'php' 'do': 'composer install'}
+Plug 'phpactor/phpactor' ,  { 'for': 'php', 'do': 'composer install'}
 Plug 'kristijanhusak/deoplete-phpactor'
+Plug 'deoplete-plugins/deoplete-jedi'
 call plug#end()
 
 "suckless settings
