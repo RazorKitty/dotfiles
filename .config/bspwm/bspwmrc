@@ -96,6 +96,7 @@ list_descendants ()
 
 pgrep -f 'panel start bar' || panel start bar &
 pgrep -f 'panel start service clock' || panel start service clock &
+pgrep -f 'panel start service caffeine' || panel start service caffeine &
 
 
 optional_service() {
