@@ -49,8 +49,8 @@ XLock.planfontset:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 XLock.messagefont:  -*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
 XLock.mode:         blank
 
-!st.font:		-*-terminus-*-*-*-*-*-*-*-*-*-*-*-*
-!st.bold_font:	0
+!st.font:		-*-terminus-*-*-*-*-14-*-*-*-*-*-*-*
+st.bold_font:	1
 !st.termname:	st-256color
 !st.shell:		/bin/zsh
 !st.bellvolume:	100

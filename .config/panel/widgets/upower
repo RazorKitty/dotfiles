@@ -1,5 +1,35 @@
 #!/bin/lua
 local io = io
+local math = math
+
+
+local padding           = os.getenv('PADDING')
+
+local black             = os.getenv('BLACK')
+local red               = os.getenv('RED')
+local green             = os.getenv('GREEN')
+local yellow            = os.getenv('YELLOW')
+local blue              = os.getenv('BLUE')
+local magenta           = os.getenv('MAGENTA')
+local cyan              = os.getenv('CYAN')
+local white             = os.getenv('WHITE')
+local bright_black      = os.getenv('BRIGHT_BLACK')
+local bright_red        = os.getenv('BRIGHT_RED')
+local bright_green      = os.getenv('BRIGHT_GREEN')
+local bright_yellow     = os.getenv('BRIGHT_YELLOW')
+local bright_blue       = os.getenv('BRIGHT_BLUE')
+local bright_magenta    = os.getenv('BRIGHT_MAGENTA')
+local bright_cyan       = os.getenv('BRIGHT_CYAN')
+local bright_white      = os.getenv('BRIGHT_WHITE')
+
+local bg_reset = '%{F-}'
+local fg_reset = '%{B-}'
+
+local function color(fg, bg, content, reset)
+    return (fg and '%{F'..fg'}' or '')..(bg and '%{B'..bg..'}' or '')..content..(reset and (fg and '%{F-}' or '')..(bg and '%{B-}' or ''))
+end
+
+    
 
 local function write_to_named_pipe(path, content)
     local fifo = io.open(path, 'a');
@@ -8,16 +38,9 @@ local function write_to_named_pipe(path, content)
     fifo:close();
 end
 
-local bg_normal     = '%{B'..os.getenv('BLACK')         ..'}'
-local bg_important  = '%{B'..os.getenv('YELLOW')        ..'}'
-local bg_urgent     = '%{B'..os.getenv('RED')           ..'}'
-local fg_normal     = '%{F'..os.getenv('WHITE')         ..'}'
-local fg_important  = '%{F'..os.getenv('BLACK')         ..'}'
-local fg_urgent     = '%{F'..os.getenv('BRIGHT_WHITE')  ..'}'
-local padding       = '%{O'..os.getenv('PADDING')       ..'}'
+local function draw_widget(state)
 
-local bg_reset = '%{F-}'
-local fg_reset = '%{B-}'
+end
 
 local lgi = require('lgi')
 local GLib = lgi.GLib

@@ -113,5 +113,5 @@ pgrep mpDris2 || mpDris2 &
 pgrep xss-lock || xss-lock lock &
 pgrep Discord || Discord &
 pgrep steam || optional_service steam &
-pgrep -x ckb-next || optional_service ckb-next -b &
+pgrep ckb-next || optional_service ckb-next -b &
 

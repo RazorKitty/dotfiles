@@ -26,4 +26,9 @@ case $COMMAND in
         ;;
     stop )
         ;;
+    restart )
+        ;;
+    * )
+        usage
+        ;;
 esac

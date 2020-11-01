@@ -1,4 +1,3 @@
-lua file:///usr/share/doc/lua/contents.html#contents
 yt https://www.youtube.com/
 fb https://www.facebook.com/
 msgr https://www.messenger.com/t/2938272152871848
@@ -15,3 +14,4 @@ void-docs https://docs.voidlinux.org/
 sed https://www.grymoire.com/Unix/Sed.html
 bash https://tldp.org/LDP/abs/html/index.html
 python https://docs.python.org/3/reference/index.html#reference-index
+lua https://www.lua.org/manual/5.3/
