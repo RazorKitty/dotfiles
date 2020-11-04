@@ -51,8 +51,8 @@ super + {_,shift + }w
 #
 
 # focus the next/previous desktop in the current monitor
-super + {p,n}
-	bspc desktop -f {prev,next}.local
+super + {_,shift +}{p,n}
+	bspc {desktop -f,node -d} {prev,next}.local
 
  focus or send to the given desktop
 super + {_,shift + }{1-9}
