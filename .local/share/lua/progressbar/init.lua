@@ -22,15 +22,23 @@ local progressbar = {
     pivot_bg = lemonaid.color.black,
     reverse = false,
     percentage = 0,
-    colorless = false,
+    color = false,
     __mt = {}
 }
 
 function progressbar.render(self)
-    local level = self.segment:rep(math.floor(self.length * (self.percentage < 1 and self.percentage or 1)) -1)
-    local filler = self.fill:rep((self.length - 1) - (math.floor(self.length * self.percentage)))
+    local level = self.segment:rep(
+        math.floor(
+            self.length * (
+                (self.percentage < 1)
+                    and self.percentage
+                    or 1
+            )
+        ) - 1
+    )
+    local filler = self.fill:rep((self.length -1) - #level)
     
-    if self.colorless then
+    if not self.color then
         local left = self.reverse and filler or level
         local right = self.reverse and level or filler
         return self.wrap_left..left..self.pivot..right..self.wrap_right
