@@ -10,7 +10,6 @@
 
 import os
 
-
 # read colours from environment
 background = os.getenv('BACKGROUND', '#050b15')
 foreground = os.getenv('FOREGROUND', '#b4c1c2') 
@@ -610,7 +609,7 @@ c.colors.webpage.bg = bright_white
 
 # Font used for the hints.
 # Type: Font
-c.fonts.hints = 'terminus'
+c.fonts.default_family = 'terminus'
 
 # Bindings for normal mode
 config.bind('M', 'hint --rapid links spawn umpv {hint-url}')
