@@ -27,15 +27,7 @@ local progressbar = {
 }
 
 function progressbar.render(self)
-    local level = self.segment:rep(
-        math.floor(
-            self.length * (
-                (self.percentage < 1)
-                    and self.percentage
-                    or 1
-            )
-        ) - 1
-    )
+    local level = self.segment:rep(math.floor(self.length * ((self.percentage < 1) and self.percentage or 1)) - 1)
     local filler = self.fill:rep((self.length -1) - #level)
     
     if not self.color then
@@ -45,11 +37,17 @@ function progressbar.render(self)
     end
     
     local wrap_left = markup.color(self.wrap_fg, self.wrap_bg, self.wrap_left)
-    local wrap_right = markup.color(self.wrap_fg, self.wrap_bg, self.wrap_right)
+    local wrap_right = markup.color(self.wrap_fg, self.wrap_bg, self.wrap_right, true)
     
+    local level = markup.color(self.segment_fg, self.segment_bg, level)
+    local filler = markup.color(self.fill_fg, fill_bg, self.fill)
 
+    local pivot = markup.color(self.pivot_fg, self.pivot_bg, self.pivot)
 
+    local left = self.reverse and filler or level
+    local right = self.reverse and level or filler
 
+    return wrap_left..left..pivot..right..wrap_right
 end
 
 function progressbar.new(self, object)

@@ -31,11 +31,11 @@ function lemonaid.markup.bg(color)
 end
 
 function lemonaid.markup.color_fg(color, content, close)
-    return lemonaid.markup.fg(color)..content..(close and fg() or '')
+    return lemonaid.markup.fg(color)..content..(close and lemonaid.markup.fg() or '')
 end
 
 function lemonaid.markup.color_bg(color, content, close)
-    return lemonaid.markup.bg(color)..content..(close and bg() or '')
+    return lemonaid.markup.bg(color)..content..(close and lemonaid.markup.bg() or '')
 end
 
 function lemonaid.markup.color(fg, bg, content, close)
