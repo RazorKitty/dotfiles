@@ -11,6 +11,14 @@ decaffeinate() {
     rm -f "$LOCK_FILE";
 }
 
+check_caffine() {
+    if [ -f "$LOCK_FILE" ]; then
+        echo "Caffeinated"
+    else
+        echo "DeCaffeinated"
+    fi
+}
+
 case $1 in
     "toggle" )
         if [ ! -f "$LOCK_FILE" ]; then
@@ -18,6 +26,7 @@ case $1 in
         else
             decaffeinate > /dev/null 2>&1
         fi 
+        check_caffine
         ;;
     "on" )
         if [ ! -f "$LOCK_FILE" ]; then
@@ -30,10 +39,6 @@ case $1 in
         fi
         ;;
     * )
-        if [ -f "$LOCK_FILE" ]; then
-            echo "Caffeinated"
-        else
-            echo "DeCaffeinated"
-        fi
+        check_caffine
         ;;
 esac
