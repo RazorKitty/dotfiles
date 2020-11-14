@@ -77,7 +77,7 @@ bpsc config pointer_follows_monitor true
 # rules
 bspc rule -a discord desktop='^9' focus=off
 bspc rule -a Steam desktop='^8' focus=off
-bscp rule -a music state=floating
+bscp rule -a mpv desktop='^7' focus=off
 
 ## panel
 

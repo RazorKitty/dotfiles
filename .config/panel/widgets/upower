@@ -2,67 +2,56 @@
 local io = io
 local math = math
 
-
-local padding           = os.getenv('PADDING')
-
-local black             = os.getenv('BLACK')
-local red               = os.getenv('RED')
-local green             = os.getenv('GREEN')
-local yellow            = os.getenv('YELLOW')
-local blue              = os.getenv('BLUE')
-local magenta           = os.getenv('MAGENTA')
-local cyan              = os.getenv('CYAN')
-local white             = os.getenv('WHITE')
-local bright_black      = os.getenv('BRIGHT_BLACK')
-local bright_red        = os.getenv('BRIGHT_RED')
-local bright_green      = os.getenv('BRIGHT_GREEN')
-local bright_yellow     = os.getenv('BRIGHT_YELLOW')
-local bright_blue       = os.getenv('BRIGHT_BLUE')
-local bright_magenta    = os.getenv('BRIGHT_MAGENTA')
-local bright_cyan       = os.getenv('BRIGHT_CYAN')
-local bright_white      = os.getenv('BRIGHT_WHITE')
-
-local bg_reset = '%{F-}'
-local fg_reset = '%{B-}'
-
-local function color(fg, bg, content, reset)
-    return (fg and '%{F'..fg'}' or '')..(bg and '%{B'..bg..'}' or '')..content..(reset and (fg and '%{F-}' or '')..(bg and '%{B-}' or ''))
-end
-
-    
-
-local function write_to_named_pipe(path, content)
-    local fifo = io.open(path, 'a');
-    fifo:write(content);
-    fifo:flush();
-    fifo:close();
-end
-
-local function draw_widget(state)
-
-end
+local lemonaid = require('lemonaid')
 
 local lgi = require('lgi')
+
 local GLib = lgi.GLib
 local UPowerGlib = lgi.UPowerGlib
 local Device = UPowerGlib.Device
 
-local client = UPowerGlib.Client()
-local display_device = client:get_display_device()
 
-if Device.kind_to_string(display_device.kind) == 'battery' then
-    display_device.on_notify = function (self, psec)
-        local fifo = io.open(arg[1], 'a')
-        fifo:write('P'.. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. self.percentage):sub(1,2) .. '% ' .. Device.state_to_string(self.state) .. padding .. fg_reset .. bg_reset ..'\n')
-    fifo:flush()
-    fifo:close()
+local fifo = io.open(args[1], 'a')
+fifo:setvbuff('line')
+
+local render_on_kind = {
+    battery = function (device)
+        
+    end,
+    [line-power] = function (device)
+        
+    end,
+    mouse = function (device)
+        
     end
-end
+}
 
-local fifo = io.open(arg[1], 'a')
-fifo:write('P' .. fg_normal .. bg_normal .. padding .. 'Bat:' .. ('' .. display_device.percentage):sub(1,2) .. '% ' .. Device.state_to_string(display_device.state) .. padding ..  fg_reset .. bg_reset ..'\n')
-fifo:flush()
-fifo:close()
+
+local upower = {
+    devices = {},
+    devices_lookup = {},
+    render_widget = function (self)
+        local line = ''
+        if self.display_device.kind == 0 then
+            for _,device in ipairs(self.devices) do
+                line = line .. render_on_kind(device)
+            end
+        else
+            line = render_on_kind(self.display_device)
+        end
+        fifo.write(line..'\n')
+    end
+}
+
+upower.client = UPowerGlib.Client {
+    
+}
+
+upower.display_device = upower.client:get_display_device {
+
+}
+
+
 
 local mainloop = GLib.MainLoop(nil, false)
 mainloop:run()

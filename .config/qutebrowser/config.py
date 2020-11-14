@@ -605,7 +605,24 @@ c.colors.tabs.pinned.even.bg = black
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 # Type: QtColor
-c.colors.webpage.bg = bright_white
+c.colors.webpage.bg = black
+#c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
+#c.colors.webpage.darkmode.contrast = 0.5
+c.colors.webpage.darkmode.enabled = True
+#c.colors.webpage.darkmode.grayscale.all
+#c.colors.webpage.darkmode.greyscale.images
+c.colors.webpage.darkmode.policy.images = 'never'
+#c.colors.webpage.darkmode.policy.page = 'always'
+#c.colors.webpage.darkmode.threshold.background = 100
+#c.colors.webpage.darkmode.threshold.text
+c.colors.webpage.prefers_color_scheme_dark = True
+
+c.colors.contextmenu.disabled.bg = black
+c.colors.contextmenu.disabled.fg = blue
+c.colors.contextmenu.menu.bg = black
+c.colors.contextmenu.menu.fg = white
+c.colors.contextmenu.selected.bg = bright_black
+c.colors.contextmenu.selected.fg = bright_white
 
 # Font used for the hints.
 # Type: Font

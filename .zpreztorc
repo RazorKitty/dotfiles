@@ -176,7 +176,7 @@ zstyle ':prezto:module:prompt' theme 'minimal'
 #
 # Set syntax highlighting styles.
 # zstyle ':prezto:module:syntax-highlighting' styles \
-#   'builtin' 'bg=blue' \
+#   'builtin' 'fg=blue' \
 #   'command' 'bg=blue' \
 #   'function' 'bg=blue'
 #

@@ -3,13 +3,16 @@ local setmetatable = setmetatable
 local color = require('lemonaid.color')
 local markup = require('lemonaid.markup')
 
+local desktop = require('lemonaid.desktop')
+
 local monitor = {
     bg_focus = color.black,
     fg_focus = color.white,
     bg_normal = color.black,
     fg_normal = color.white,
     focus = false,
-    name = ''
+    name = 'monitor',
+    desktop_settings = {}
 }
 
 function monitor.new(self, obj)
@@ -18,7 +21,27 @@ function monitor.new(self, obj)
     return setmetatable(obj, self)
 end
 
-function monitor.render(self)
+function monitor.render_desktops(self)
+    local desktops = ''
+    for _,desktop in ipairs(self.desktops) do
+        desktops = desktops .. desktop:render()
+    end
+    return desktops
+end
+
+function monitor.render_node_state(self)
+    
+end
+
+function monitor.render_node_flags(self)
+    
+end
+
+function monitor.render_desktop_layout(self)
+    
+end
+
+function monitor.render(self, display_order)
     local fg
     local bg
 
@@ -29,15 +52,53 @@ function monitor.render(self)
         fg = self.fg_normal
         bg = self.bg_normal
     end
+ 
+    local line = ''
+    for _, part in ipairs(display_order) do
+        if self['render_'..part] then
+            line = line .. self['render_'..part](self)
+        end
+    end
+end
 
-    local desktops = ''
+function monitor.state(self, state)
+    -- buffer
+    local parts = {}
 
-    for _,desktop in ipairs(self.desktops) do
-        desktops = desktops .. desktop:render()
+    -- split string
+    for part in state:gmatch('[^:]+') do
+        table.insert(parts, part)
     end
 
+    -- set focus, name, flags, state, and layout
+    self.focus = parts[1]:match('M') and true or false
+    self.name = parts[1]:match('[W]?[Mm]([%g]*)')
+    table.remove(parts, 1)
 
+    self.node_flags = parts[#parts]:match('[G]([%g])')
+    -- pop!
+    table.remove(parts)
 
+    self.node_state = parts[#parts]:match('[T]([%g])')
+    -- pop!
+    table.remove(parts)
 
+    self.desktop_layout = parts[#parts]:match('[L]([%g])')
+    -- pop!
+    table.remove(parts)
 
+    -- update or create desktops
+    for i,part in ipairs(parts) do
+        if self.desktops[i] then
+            self.desktops[i]:state(part)
+        else
+            self.desktops[i] = desktop(self.desktop_settings)
+        end
+    end
+    
+    -- remove extra desktops
+    while #self.desktops > #parts do
+        -- pop!
+        table.remove(self.desktops)
+    end    
 end
