@@ -17,6 +17,7 @@ local monitor = {
 
 function monitor.new(self, obj)
     obj = obj or {}
+    obj.desktops = obj.desktops or {}
     self.__index = self
     return setmetatable(obj, self)
 end
@@ -30,18 +31,18 @@ function monitor.render_desktops(self)
 end
 
 function monitor.render_node_state(self)
-    
+    return ''
 end
 
 function monitor.render_node_flags(self)
-    
+    return ''
 end
 
 function monitor.render_desktop_layout(self)
-    
+    return ''
 end
 
-function monitor.render(self, display_order)
+function monitor.render(self, display)
     local fg
     local bg
 
@@ -54,11 +55,14 @@ function monitor.render(self, display_order)
     end
  
     local line = ''
-    for _, part in ipairs(display_order) do
+
+    for _, part in ipairs(display) do
         if self['render_'..part] then
             line = line .. self['render_'..part](self)
         end
     end
+
+    return markup.color(fg, bg, line, true)
 end
 
 function monitor.state(self, state)
@@ -89,11 +93,10 @@ function monitor.state(self, state)
 
     -- update or create desktops
     for i,part in ipairs(parts) do
-        if self.desktops[i] then
-            self.desktops[i]:state(part)
-        else
-            self.desktops[i] = desktop(self.desktop_settings)
+        if not self.desktops[i] then
+            self.desktops[i] = desktop:new(self.desktop_settings)
         end
+        self.desktops[i]:state(part)
     end
     
     -- remove extra desktops
@@ -102,3 +105,5 @@ function monitor.state(self, state)
         table.remove(self.desktops)
     end    
 end
+
+return monitor
