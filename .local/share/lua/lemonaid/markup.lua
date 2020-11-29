@@ -24,11 +24,11 @@ function markup.color(fg, bg, content, close)
 end
 
 function markup.pad_left(width, content)
-    return '%{P'..width..'}'..content
+    return '%{O'..width..'}'..content
 end
 
 function markup.pad_right(width, content)
-    return content..'%{P'..width..'}'
+    return content..'%{O'..width..'}'
 end
 
 function markup.pad(width, content, alt_width)

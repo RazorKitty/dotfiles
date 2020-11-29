@@ -56,7 +56,7 @@ super + {_,shift +}{p,n}
 
  focus or send to the given desktop
 super + {_,shift + }{1-9}
-	bspc {desktop -f,node -d} {1-9}.local
+	bspc {desktop -f,node -d} '^'{1-9}.local
 
 
 

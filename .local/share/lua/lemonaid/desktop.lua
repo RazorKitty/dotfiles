@@ -4,26 +4,26 @@ local color = require('lemonaid.color')
 local markup = require('lemonaid.markup')
 
 local desktop = {
-    bg_focused_occupied = color.bright_black,
-    fg_focused_occupied = color.bright_white,
+    bg_focused_occupied   = color.bright_black,
+    fg_focused_occupied   = color.bright_white,
 
-    bg_focused_free = color.bright_black,
-    fg_focused_free = color.bright_white,
+    bg_focused_free       = color.bright_black,
+    fg_focused_free       = color.bright_white,
 
-    bg_focused_urgent = color.bright_black,
-    fg_focused_urgent = color.bright_white,
+    bg_focused_urgent     = color.bright_black,
+    fg_focused_urgent     = color.bright_white,
 
     bg_unfocused_occupied = color.black,
     fg_unfocused_occupied = color.bright_white,
 
-    bg_unfocused_free = color.black,
-    fg_unfocused_free = color.white,
+    bg_unfocused_free     = color.black,
+    fg_unfocused_free     = color.white,
 
-    bg_unfocused_urgent = color.red,
-    fg_unfocused_urgent = color.bright_white,
+    bg_unfocused_urgent   = color.red,
+    fg_unfocused_urgent   = color.bright_white,
 
     pad = 4,
-
+    index = 1,
     desktop_state = 'f',
     focus = false,
     name = 'desktop'
@@ -35,31 +35,42 @@ function desktop.new(self, obj)
     return setmetatable(obj, self)
 end
 
-local desktop_state_loopup = {
+function desktop.render_name(self)
+    return self.name
+end
+
+function desktop.render_index(self)
+    return self.index ..':'
+end
+
+local desktop_state_lookup = {
     f = 'free',
     o = 'occupied',
     u = 'urgent'
 }
 
-function desktop.render(self)
-    local fg
-    local bg
+function desktop.render(self, display)
 
-    if self.desktop_state == self.desktop_state:upper() then
-        fg = self['fg_focused_'..desktop_state_loopup[self.desktop_state:lower()]]
-        bg = self['bg_focused_'..desktop_state_loopup[self.desktop_state:lower()]]
-    else
-        fg = self['fg_unfocused_'..desktop_state_loopup[self.desktop_state:lower()]]
-        bg = self['bg_unfocused_'..desktop_state_loopup[self.desktop_state:lower()]]
+    local focus = self.desktop_state == self.desktop_state:upper() and '_focused_' or '_unfocused_'
+    local desktop_state = desktop_state_lookup[self.desktop_state:lower()]
+
+
+    local fg = self['fg'..focus..desktop_state]
+    local bg = self['bg'..focus..desktop_state]
+
+    local line = ''
+
+    for _, key in ipairs(display) do
+        line = line .. self['render_'..key.name](self, key.args)
     end
 
-    return markup.color(fg, bg, markup.pad(self.pad, self.name) ,true)
+    return markup.color(fg, bg, markup.pad(self.pad, line), true)
 
 end
 
 function desktop.state(self, state)
     self.name = state:match('^[OoFfUu]([%g ]+)$')
-    self.desktop_state = state:match('^[OoFfUu]*')
+    self.desktop_state = state:match('^([OoFfUu])*?')
 end
 
 return desktop

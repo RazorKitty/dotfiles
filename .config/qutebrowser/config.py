@@ -608,7 +608,7 @@ c.colors.tabs.pinned.even.bg = black
 c.colors.webpage.bg = black
 #c.colors.webpage.darkmode.algorithm = 'lightness-hsl'
 #c.colors.webpage.darkmode.contrast = 0.5
-c.colors.webpage.darkmode.enabled = True
+c.colors.webpage.darkmode.enabled = False
 #c.colors.webpage.darkmode.grayscale.all
 #c.colors.webpage.darkmode.greyscale.images
 c.colors.webpage.darkmode.policy.images = 'never'
