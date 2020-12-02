@@ -100,18 +100,18 @@ pgrep -f 'panel start service caffeine' || panel start service caffeine &
 
 
 optional_service() {
-    which "$1" && $@
+    which "$1" >> /dev/null && $@
 }
 
 ## services
-pgrep xcompmgr || xcompmgr -ncf -D 5 &
-pgrep xbanish || xbanish &
-pgrep sxhkd || sxhkd -t 1 &
-pgrep start-pulseaudio-x11 || start-pulseaudio-x11 &
-pgrep mpd || mpd &
-pgrep mpDris2 || mpDris2 &
-pgrep xss-lock || xss-lock lock &
-pgrep Discord || Discord &
-pgrep steam || optional_service steam &
-pgrep ckb-next || optional_service ckb-next -b &
+pgrep -x xcompmgr || xcompmgr -ncf -D 5 &
+pgrep -x xbanish || xbanish &
+pgrep -x sxhkd || sxhkd -t 1 &
+pgrep -x start-pulseaudio-x11 || start-pulseaudio-x11 &
+pgrep -x mpd || mpd &
+pgrep -x mpDris2 || mpDris2 &
+pgrep -x xss-lock || xss-lock lock &
+pgrep -x Discord || Discord &
+pgrep -x steam || optional_service steam &
+pgrep -x ckb-next || optional_service ckb-next -b &
 

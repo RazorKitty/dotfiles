@@ -24,5 +24,5 @@ if [ -f "$usermodmap" ]; then
 fi
 
 xdg-setttings set default-web-browser "qutebrowser.qutebrowser.desktop"
-exec dbus-launch --exit-with-session bspwm $@
+exec dbus-run-session -- bspwm $@
 #exec dbus-run-session bspwm $@
