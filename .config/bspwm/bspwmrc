@@ -111,7 +111,7 @@ pgrep -x start-pulseaudio-x11 || start-pulseaudio-x11 &
 pgrep -x mpd || mpd &
 pgrep -x mpDris2 || mpDris2 &
 pgrep -x xss-lock || xss-lock lock &
-pgrep -x Discord || Discord &
-pgrep -x steam || optional_service steam &
+pgrep -x Discord || Discord --start-minimized &
+pgrep -x steam || optional_service steam -silent &
 pgrep -x ckb-next || optional_service ckb-next -b &
 
