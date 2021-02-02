@@ -1,7 +1,0 @@
-#!/bin/sh
-
-WINDOW_ID="$(bspc query -N focused -n)";
-
-if [ ! -z "$WINDOW_ID" ]; then
-    bspc node "$WINDOW_ID" --close;
-fi
