@@ -37,7 +37,7 @@ local monitor = {
         bg_unfocused_urgent   = color.red,
         fg_unfocused_urgent   = color.bright_white,
 
-        pad = 4,
+        padding = 4
     }
 }
 
@@ -153,7 +153,8 @@ function monitor.state(self, state)
                 bg_unfocused_urgent   = self.desktop_settings.bg_unfocused_urgent,
                 fg_unfocused_urgent   = self.desktop_settings.fg_unfocused_urgent,
 
-                index = i
+                index = i,
+                padding = self.desktop_settings.padding
             }
         end
         self.desktops[i]:state(part)

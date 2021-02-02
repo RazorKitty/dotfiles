@@ -51,7 +51,7 @@ XLock.mode:         blank
 
 !st.font:		-*-terminus-*-*-*-*-14-*-*-*-*-*-*-*
 st.bold_font:	1
-!st.termname:	st-256color
+!st.termname:	xst-256color
 !st.shell:		/bin/zsh
 !st.bellvolume:	100
 st.tabspaces:   4

@@ -20,8 +20,8 @@ local valid_states = {
 -- this looks complicated and odd but it generates the getters and setters for the state colors fg and bg 
 -- people say we should avoid magic like this and to 'make your life easy' or 'dont be clever'
 -- but whats the point in having these language features or spending 3 years at 9k p/y on a degree to not use them?
--- fuck you ben, im using them
--- plus it saves wrting out basically the same two functions 3 times each
+-- fuck you ben, with love, im using them
+-- plus it saves wrting out basically the same 2 functions 3 times each
 
 for state in pairs(valid_states) do
     for _,prop in ipairs { 'fg', 'bg' } do

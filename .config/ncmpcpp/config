@@ -48,7 +48,8 @@ mpd_music_dir = ~/Music
 ## }
 ##
 #
-visualizer_fifo_path = /tmp/mpd.fifo
+#visualizer_fifo_path = /tmp/mpd.fifo
+visualizer_data_source = /tmp/mpd.fifo
 #
 ##
 ## Note: Below parameter is needed for ncmpcpp to determine which output
@@ -70,7 +71,7 @@ visualizer_in_stereo = yes
 ## that sane values start with >=10.
 ##
 #
-visualizer_sync_interval = 15
+#visualizer_sync_interval = 15
 #
 ##
 ## Note: To enable spectrum frequency visualization you need to compile ncmpcpp

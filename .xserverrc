@@ -1,1 +1,1 @@
-exec /usr/bin/Xorg -nolisten tcp "$@"
+exec /usr/bin/Xorg -nolisten tcp "$@" vt7

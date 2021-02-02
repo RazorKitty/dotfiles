@@ -1,5 +1,0 @@
-[Desktop Entry]
-Name=xss-lock
-Exec=xss-lock xlock
-Terminal=false
-Type=Application

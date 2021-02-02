@@ -22,7 +22,7 @@ local desktop = {
     bg_unfocused_urgent   = color.red,
     fg_unfocused_urgent   = color.bright_white,
 
-    pad = 4,
+    padding = 4,
     index = 1,
     desktop_state = 'f',
     focus = false,
@@ -60,11 +60,11 @@ function desktop.render(self, display)
 
     local line = ''
 
-    for _, key in ipairs(display) do
-        line = line .. self['render_'..key.name](self, key.args)
+    for _, name in ipairs(display) do
+        line = line .. self['render_'..name](self)
     end
 
-    return markup.color(fg, bg, markup.pad(self.pad, line), true)
+    return markup.color(fg, bg, markup.pad(self.padding, line), true)
 
 end
 
