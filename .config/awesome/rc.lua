@@ -17,8 +17,8 @@ require("awful.hotkeys_popup.keys")
 -- Extras
 local lgi = require('lgi')
 local upower = require('upower')
-local networkmanager = require('networkmanager')
-local playerctl = require('playerctl')
+--local networkmanager = require('networkmanager')
+--local playerctl = require('playerctl')
 
 
 -- {{{ Error handling
@@ -171,41 +171,41 @@ local system_tray = wibox.widget {
 }
 
 -- MPRIS player
-local players_widget = playerctl:players_widget {
-    container_template = {
-        on_init = function (self)
-            self.players = {}
-        end,
-        on_player_appeared = function (self, player, player_widget)
-            self.players[player] = player_widget
-            self:add(player_widget)
-        end,
-        on_player_vanished = function (self, player)
-            self:remove_widgets(self.players[player])
-            self.players[player] = nil
-        end,
-        layout = wibox.layout.fixed.horizontal
-    },
-    player_template = widget_templates.playerctl.player
-}
-
--- network
-local network_widget = networkmanager:primary_connection_widget {
-    container_template = {
-        on_init = function (self)
-            
-        end,
-        on_primary_connection = function (self, primary_connection, primary_connection_widget)
-            self.widget = primary_connection_widget
-        end,
-        layout = wibox.container.background,
-        bg = beautiful.network.background.bg,
-        fg = beautiful.network.background.fg,
-    },
-    active_connection_templates = widget_templates.networkmanager.active_connection,
-    device_templates = widget_templates.networkmanager.device,
-    access_point_template = widget_templates.networkmanager.access_point
-}
+--local players_widget = playerctl:players_widget {
+--    container_template = {
+--        on_init = function (self)
+--            self.players = {}
+--        end,
+--        on_player_appeared = function (self, player, player_widget)
+--            self.players[player] = player_widget
+--            self:add(player_widget)
+--        end,
+--        on_player_vanished = function (self, player)
+--            self:remove_widgets(self.players[player])
+--            self.players[player] = nil
+--        end,
+--        layout = wibox.layout.fixed.horizontal
+--    },
+--    player_template = widget_templates.playerctl.player
+--}
+--
+---- network
+--local network_widget = networkmanager:primary_connection_widget {
+--    container_template = {
+--        on_init = function (self)
+--            
+--        end,
+--        on_primary_connection = function (self, primary_connection, primary_connection_widget)
+--            self.widget = primary_connection_widget
+--        end,
+--        layout = wibox.container.background,
+--        bg = beautiful.network.background.bg,
+--        fg = beautiful.network.background.fg,
+--    },
+--    active_connection_templates = widget_templates.networkmanager.active_connection,
+--    device_templates = widget_templates.networkmanager.device,
+--    access_point_template = widget_templates.networkmanager.access_point
+--}
 
 -- Power
 local power_widget = upower:display_device_widget(widget_templates.upower.display_device) or upower:devices_widget {
@@ -215,7 +215,7 @@ local power_widget = upower:display_device_widget(widget_templates.upower.displa
             self.devices_container_widget = self:get_children_by_id('devices_container_layout')[1]
         end,
         add_device_widget = function (self, dev, widget)
-            self.devices[dev.native_path] = widget
+            self.devices[dev:get_object_path()] = widget
             self.devices_container_widget:add(widget)
         end,
         remove_device_widget = function (self, dev_path)
@@ -230,7 +230,7 @@ local power_widget = upower:display_device_widget(widget_templates.upower.displa
             layout = wibox.layout.fixed.horizontal
         }
     },
-    device_templates = widget_templates.upower.device
+    device_templates = widget_templates.upower.devices
 }
 
 -- Datetime

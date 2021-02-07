@@ -52,12 +52,12 @@ for idx,device in ipairs(upower.client:get_devices()) do
 end
 
 
-function upower.create_device_widget(self, args)
-    if not args.device_templates[Device.kind_to_string(args.device.kind)] then
+function upower.device_widget(self, args)
+    if not args.device_templates[Device.kind_to_string(args.device.kind):gsub('-', '_')] then
         return nil
     end
 
-    local widget = wibox.widget(args.device_templates[Device.kind_to_string(args.device.kind)])
+    local widget = wibox.widget(args.device_templates[Device.kind_to_string(args.device.kind):gsub('-', '_')])
 
     widget:on_init(args.device)
 
@@ -89,7 +89,7 @@ function upower.client_widget (self, template)
 end
 
 function upower.display_device_widget (self, device_templates)
-    return self:create_device_widget { device_templates = device_templates, device = self.display_device }
+    return self:device_widget { device_templates = device_templates, device = self.display_device }
 end
 
 function upower.devices_widget (self, args)
@@ -97,14 +97,14 @@ function upower.devices_widget (self, args)
     container_widget:on_init()
 
     for i, dev in ipairs(self.devices) do
-        local device_widget = self:create_device_widget { device_templates = args.device_templates, device = dev }
+        local device_widget = self:device_widget { device_templates = args.device_templates, device = dev }
         if device_widget then
             container_widget:add_device_widget(dev, device_widget)
         end
     end
 
     self.client_signals.on_device_added:add( function (c, dev)
-        local device_widget = self:create_device_widget { device_templates = args.device_templates, device = dev }
+        local device_widget = self:device_widget { device_templates = args.device_templates, device = dev }
         if device_widget then
             container_widget:add_device_widget(dev, device_widget)
         end

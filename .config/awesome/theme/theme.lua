@@ -247,6 +247,32 @@ theme.power =  {
         },
         paddings = dpi(1),
         width = dpi(64)
+    },
+    checkbox = {
+        border_width = dpi(1),
+        bg = theme.bg_normal,
+        border_color = theme.fg_normal,
+        check_border_color = theme.fg_normal,
+        check_border_width = dpi(1),
+        check_color = theme.fg_normal,
+        shape = nil,
+        check_shape = nil,
+        paddings = dpi(1),
+        color = theme.fg_normal,
+        height = nil,
+        width = nil,
+        opacity = nil
+    },
+    checkbox_margins = {
+        left = dpi(0),
+        right = dpi(0),
+        top = dpi(4),
+        bottom = dpi(4)
+    },
+    warning_level = {
+        theme.fg_normal,
+        theme.fg_focus,
+        theme.bright_red
     }
 }
 
@@ -257,7 +283,7 @@ theme.layoutbox = {
     },
     margin = {
         left = dpi(8),
-        right = dpi(8),
+        right = dpi(8)
     }
 }
 
