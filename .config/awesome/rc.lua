@@ -886,6 +886,7 @@ awful.rules.rules = {
                 layout = awful.layout.suit.tile,
                 volatile = true
             },
+            skip_taskbar = true,
             screen = screen.primary,
             floating = false,
             fullscreen = false
@@ -901,6 +902,7 @@ awful.rules.rules = {
                 layout = awful.layout.suit.tile,
                 volatile = true
             },
+            skip_taskbar = true,
             screen = screen.primary,
             floating = false,
             fullscreen = false
@@ -917,6 +919,7 @@ awful.rules.rules = {
                 layout = awful.layout.suit.tile,
                 volatile = true
             },
+            skip_taskbar = true,
             screen = screen.primary:get_next_in_direction('up')
         }
     },
@@ -931,6 +934,7 @@ awful.rules.rules = {
                 layout = awful.layout.suit.tile,
                 volatile = true
             },
+            skip_taskbar = true,
             screen = screen.primary:get_next_in_direction('up')
         }
     },
@@ -945,6 +949,7 @@ awful.rules.rules = {
                 layout = awful.layout.suit.tile,
                 volatile = true
             },
+            skip_taskbar = true,
             screen = screen.primary:get_next_in_direction('up')
         }
     },
