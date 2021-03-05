@@ -39,6 +39,7 @@ white = os.getenv('WHITE', '#7d8c9a')
 bright_white = os.getenv('BRIGHT_WHITE', '#b4c1c2')
 
 
+config.load_autoconfig(False)
 ## special
 #foreground = '#b4c1c2'
 #background = '#050b15'
@@ -193,7 +194,8 @@ c.content.headers.referer = 'same-domain'
 
 # Enable host blocking.
 # Type: Bool
-c.content.host_blocking.enabled = True
+#c.content.host_blocking.enabled = True
+c.content.blocking.enabled = True
 
 # Enable JavaScript.
 # Type: Bool

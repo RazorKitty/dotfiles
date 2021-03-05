@@ -595,7 +595,7 @@ globalkeys = gears.table.join(
 
     awful.key({ modkey, 'Shift' }, 'q',
               function ()
-                  awful.spawn('loginctl session-lock')
+                  awful.spawn('loginctl lock-session')
               end,
               { description = 'lock session', group = 'awesome' }),
 
@@ -651,9 +651,7 @@ globalkeys = gears.table.join(
                   local c = awful.client.restore()
                   -- Focus restored client
                   if c then
-                    c:emit_signal(
-                        'request::activate', 'key.unminimize', { raise = true }
-                    )
+                    c:emit_signal('request::activate', 'key.unminimize', { raise = true })
                   end
               end,
               { description = 'restore minimized', group = 'client' }),
@@ -699,9 +697,9 @@ clientkeys = gears.table.join(
               end,
               { description = 'close', group = 'client' }),
 
-    --awful.key({ modkey, 'Control' }, 'space',
-    --          awful.client.floating.toggle,
-    --          { description = 'toggle floating', group = 'client' }),
+    awful.key({ modkey, 'Control' }, 'space',
+              awful.client.floating.toggle,
+              { description = 'toggle floating', group = 'client' }),
 
     --awful.key({ modkey, 'Control' }, 'Return',
     --          function (c)
@@ -877,6 +875,37 @@ awful.rules.rules = {
             floating = true
         }
     },
+    -- CS:GO
+    {
+        rule = {
+            class = 'csgo_linux64'
+        },
+        properties = {
+            new_tag = {
+                name = 'CS:GO',
+                layout = awful.layout.suit.tile,
+                volatile = true
+            },
+            screen = screen.primary,
+            floating = false,
+            fullscreen = false
+        }
+    },
+    {
+        rule = {
+            class = 'steam_app_233860'
+        },
+        properties = {
+            new_tag = {
+                name = 'Kenshi',
+                layout = awful.layout.suit.tile,
+                volatile = true
+            },
+            screen = screen.primary,
+            floating = false,
+            fullscreen = false
+        }
+    },
     -- Discord
     {
         rule = {
@@ -931,6 +960,7 @@ awful.rules.rules = {
             ontop = true,
             above = true,
             focus = false,
+            size_hints_honor = false,
             skip_taskbar = true,
             placement = function (c, args)
                 local p = awful.placement.scale + awful.placement[awful.screen.primary and 'top_right' or 'bottom_right']
@@ -938,9 +968,9 @@ awful.rules.rules = {
                     honor_workarea = true,
                     honor_padding = true,
                     --offset = beautiful.useless_gap,
-                    margins = beautiful.useless_gap * 4,
+                    margins = beautiful.useless_gap * 2,
                     to_percent = 0.33,
-                    direction = 'top'
+                    --direction = 'top'
                     --parent = c.screen,
 
                 })
