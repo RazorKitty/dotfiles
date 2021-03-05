@@ -875,6 +875,21 @@ awful.rules.rules = {
             floating = true
         }
     },
+    -- Steam
+    {
+        rule = {
+            class = 'Steam'
+        },
+        properties = {
+            new_tag = {
+                name = 'Steam',
+                layout = awful.layout.suit.tile,
+                volatile = true
+            },
+            skip_taskbar = true,
+            screen = screen.primary:get_next_in_direction('up')
+        }
+    },
     -- CS:GO
     {
         rule = {
