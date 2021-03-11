@@ -35,7 +35,7 @@ fi
 export $(dbus-launch)
 
 ## services
-service xss-lock xlock &
+service xss-lock lock &
 service xbanish &
 service start-pulseaudio-x11 &
 service mpd --no-daemon &
@@ -43,6 +43,9 @@ service mpDris2 &
 optional_service Discord --start-minimized &
 optional_service steam -silent &
 optional_service ckb-next -b &
+
+# work
+optional_service slack -s &
 
 xdg-settings set default-web-browser "qutebrowser.qutebrowser.desktop"
 exec  awesome

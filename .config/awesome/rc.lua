@@ -349,17 +349,17 @@ awful.screen.connect_for_each_screen(function(s)
     awful.tag({ '1', '2', '3', '4', '5', '6', '7', '8', '9' }, s, awful.layout.layouts[1])
 
     -- Create a promptbox for each screen
-    s.mypromptbox = awful.widget.prompt()
+    s.promptbox = awful.widget.prompt()
     -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     local layoutbox = awful.widget.layoutbox(s)
 
 
-    layoutbox:buttons(gears.table.join(
-                           awful.button({ }, 1, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 3, function () awful.layout.inc(-1) end),
-                           awful.button({ }, 4, function () awful.layout.inc( 1) end),
-                           awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+    layoutbox:buttons(gears.table.join(awful.button({ }, 1, function () awful.layout.inc( 1) end),
+                                       awful.button({ }, 3, function () awful.layout.inc(-1) end),
+                                       awful.button({ }, 4, function () awful.layout.inc( 1) end),
+                                       awful.button({ }, 5, function () awful.layout.inc(-1) end)))
+
 
     -- Create a taglist widget
     s.taglist = awful.widget.taglist {
@@ -407,7 +407,7 @@ awful.screen.connect_for_each_screen(function(s)
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
             s.taglist,
-            s.mypromptbox,
+            s.promptbox,
             s.tasklist,
         },
         { -- Middle widget
@@ -659,7 +659,7 @@ globalkeys = gears.table.join(
     -- Prompt
     awful.key({ modkey }, 'r',
               function ()
-                  awful.screen.focused().mypromptbox:run()
+                  awful.screen.focused().promptbox:run()
               end,
               { description = 'run prompt', group = 'launcher' })
 
@@ -667,7 +667,7 @@ globalkeys = gears.table.join(
     --          function ()
     --              awful.prompt.run {
     --                prompt       = 'Run Lua code: ',
-    --                textbox      = awful.screen.focused().mypromptbox.widget,
+    --                textbox      = awful.screen.focused().promptbox.widget,
     --                exe_callback = awful.util.eval,
     --                history_path = awful.util.get_cache_dir() .. '/history_eval'
     --              }
@@ -983,7 +983,7 @@ awful.rules.rules = {
             size_hints_honor = false,
             skip_taskbar = true,
             placement = function (c, args)
-                local p = awful.placement.scale + awful.placement[awful.screen.primary and 'top_right' or 'bottom_right']
+                local p = awful.placement.scale + awful.placement[screen.primary ~= screen.primary:get_next_in_direction('up') and 'top_right' or 'bottom_right']
                 p(c, {
                     honor_workarea = true,
                     honor_padding = true,
